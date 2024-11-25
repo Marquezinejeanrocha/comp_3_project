@@ -48,6 +48,21 @@ def execute_game(player):
     # creating an enemy group
     enemies = pygame.sprite.Group()
 
+    #reading the map file and creating sprite groups of walls
+    wall_group = pygame.sprite.Group()
+    lines = []
+    with open("maps/mapa.txt", 'r') as file:
+        for line in file:
+            if line.strip() == "":
+                break
+            lines.append(line)
+    #adding a position to each tile and adding each tile to the sprite group
+    for row, tiles in enumerate(lines):
+        for col, tile in enumerate(tiles):
+            if tile == "#":
+                wall = Wall(col, row)
+                wall_group.add(wall)
+
     # before starting our main loop, setup the enemy cooldown
     enemy_cooldown = 0
 
@@ -59,6 +74,9 @@ def execute_game(player):
 
         # setting up the background
         screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
+
+        #showing the walls on the screen
+         wall_group.draw(screen)
 
         # handling events:
         for event in pygame.event.get():
