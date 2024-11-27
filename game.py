@@ -4,6 +4,7 @@ import pygame
 from player import Player
 from enemy import Enemy
 from shed import shed
+from wall import Wall
 
 def game_loop():
     #creatting the player for the game
@@ -66,6 +67,21 @@ def execute_game(player, player2):
     # before starting our main loop, setup the enemy cooldown
     enemy_cooldown = 0
 
+    # reading the map file and creating sprite groups of walls
+    wall_group = pygame.sprite.Group()
+    lines = []
+    with open("maps/mapa.txt", 'r') as file:
+        for line in file:
+            if line.strip() == "":
+                break
+            lines.append(line)
+    # adding a position to each tile and adding each tile to the sprite group
+    for row, tiles in enumerate(lines):
+        for col, tile in enumerate(tiles):
+            if tile == "#":
+                wall = Wall(col, row)
+                wall_group.add(wall)
+
     # MAIN GAME LOOP
     running = True
     while running:
@@ -75,6 +91,8 @@ def execute_game(player, player2):
         # setting up the background
         screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
 
+        # Showing the walls on the screen
+        wall_group.draw(screen)
         # handling events:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
