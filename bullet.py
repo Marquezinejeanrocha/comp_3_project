@@ -1,7 +1,7 @@
 from config import *
 import math
 import pygame
-
+ 
 # everything that moves has to be a child of sprite
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y, direction):

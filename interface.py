@@ -4,7 +4,7 @@ from config import *  # importing colors and the like
 from game import *
 from utils import under_construction
 
-def interface():
+def interface(): 
  
     # initiating pygame
     pygame.init() # calling pygame

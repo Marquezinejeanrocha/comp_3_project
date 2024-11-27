@@ -3,7 +3,7 @@ import pygame
 from config import dark_red, deep_black, resolution, white
 from game import dark_red, deep_black, pygame, resolution, white
 
- 
+  
 
 # Function to draw a stick figure with a construction hat
 def draw_stick_figure_with_hat(screen, x, y):
