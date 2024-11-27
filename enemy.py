@@ -1,7 +1,8 @@
 from config import *
 import pygame
 import random
-import math 
+import math
+from bullet import Bullet
  
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
@@ -26,6 +27,8 @@ class Enemy(pygame.sprite.Sprite):
         # setting the health bar
         self.health = 10
 
+        self.bullet_cooldown = 0
+
     def update(self, player):
 
         # determining the direction of the movement based on the player location
@@ -41,3 +44,17 @@ class Enemy(pygame.sprite.Sprite):
 
         self.rect.x = int(self.rect.x)
         self.rect.y = int(self.rect.y)
+
+    def shoot(self, bullets: pygame.sprite.Group, player):
+        # If you're shooting
+        direction = math.atan2(
+            player.rect.y - self.rect.y, player.rect.x - self.rect.x
+        )
+        if self.bullet_cooldown <= 0:
+            bullet = Bullet(
+                self.rect.center[0], self.rect.center[1], direction
+            )
+            bullets.add(bullet)
+            self.bullet_cooldown = fps # Frames until the next shot
+        # If you're not
+        self.bullet_cooldown -= 1

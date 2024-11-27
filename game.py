@@ -61,6 +61,9 @@ def execute_game(player, player2):
     # creating an empty bullet group that will be given as input to the player.shoot() method
     bullets = pygame.sprite.Group()
 
+    # creating an empty bullet group that will be given as input to the enemy.shoot() method
+    enemy_bullets = pygame.sprite.Group()
+
     # creating an enemy group
     enemies = pygame.sprite.Group()
 
@@ -102,6 +105,8 @@ def execute_game(player, player2):
         player.shoot(bullets)
         player2.shoot(bullets)
 
+        # Checking for collisions between enemies and bullets
+
         # spawning enemies every two seconds
         if enemy_cooldown <= 0:
             # todo: creating more types of enemies
@@ -116,11 +121,15 @@ def execute_game(player, player2):
         # updating the enemy cooldown. Isso é para que o inimigo não espawne de forma continua e fique espawnando de 1 em 1 segundo. Ele atualiza em cada interacao do loop, ou seja, a cada frame.
         enemy_cooldown -= 1
 
+        for i in enemies:
+            i.shoot(enemy_bullets, player)
+
         # updating positions and visuals
         player_group.update()
 
         # updating the bullets group
         bullets.update()
+        enemy_bullets.update()
         enemies.update(player)
         enemies.update(player2)
 
@@ -136,6 +145,9 @@ def execute_game(player, player2):
         for bullet in bullets:
             bullet.draw(screen)
 
+        for bullet in enemy_bullets:
+            bullet.draw(screen)
+
         # checking for collisions between player bullets and enemies
         for bullet in bullets:
             # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
@@ -148,6 +160,13 @@ def execute_game(player, player2):
 
                 if enemy.health <= 0:
                     enemy.kill()
+        for bullet in enemy_bullets:
+            collided_enemies = pygame.sprite.spritecollide(bullet, player_group, False)
+            for enemy in collided_enemies:
+                enemy.health -= 5  # Decrease health by 5, for example
+                bullet.kill()  # Destroy the bullet
+                if enemy.health <= 0:
+                    enemy.kill()  # Destroy the enemy
 
         # updates the whole screen since the frame was last drawn
         pygame.display.flip()
