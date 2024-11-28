@@ -21,6 +21,7 @@ def interface():
     rules_text = corbelfont.render("rules", True, white)
     options_text = corbelfont.render("options", True, white)
     credits_text = corbelfont.render("credits", True, white)
+    shop_text = corbelfont.render("shop", True, white)
     title_text = comicsansfont.render("Computation III - Project", True, glowing_light_red)
 
     # main interface loop (will run until the user quits)
@@ -50,6 +51,12 @@ def interface():
                 if 90 <= mouse[0] <= 630 and 240 <= mouse[1] <= 300:
                     wilderness_explorer()
 
+
+            # shop button
+            if ev.type == pygame.MOUSEBUTTONDOWN:
+                if (580//2) <= mouse[0] <= (580//2)+140 and 400 <= mouse[1] <= 460:
+                    shop()
+
             # options button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 90 <= mouse[0] <= 230 and 600 <= mouse[1] <= 660:
@@ -67,6 +74,11 @@ def interface():
         pygame.draw.rect(screen, dark_red, [90, 240, 540, 60])
         wilderness_rect = wilderness_text.get_rect(center=(90 + 540 // 2, 240 + 60 // 2)) # text centered in the button
         screen.blit(wilderness_text, wilderness_rect)
+
+        # shop button
+        pygame.draw.rect(screen, grey, [580//2, 400, 140, 60])
+        shop_rect = shop_text.get_rect(center=((580//2) + 140 // 2, 400 + 60 // 2))  # text centered in the button
+        screen.blit(shop_text, shop_rect)
 
         # rules button
         pygame.draw.rect(screen, grey, [90, 480, 140, 60])
@@ -144,6 +156,10 @@ def credits_():
 
 
 def rules_():
+    print("Displaying rules...")
+
+
+def shop():
     print("Displaying rules...")
 
 

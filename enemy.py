@@ -3,7 +3,8 @@ import pygame
 import random
 import math
 from bullet import Bullet
- 
+import sounds as se
+
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -55,6 +56,7 @@ class Enemy(pygame.sprite.Sprite):
                 self.rect.center[0], self.rect.center[1], direction
             )
             bullets.add(bullet)
+            se.bullet_sound.play()
             self.bullet_cooldown = fps # Frames until the next shot
         # If you're not
         self.bullet_cooldown -= 1

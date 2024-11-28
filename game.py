@@ -5,7 +5,6 @@ from player import Player
 from enemy import Enemy
 from shed import shed
 from wall import Wall
-
 def game_loop():
     #creatting the player for the game
     controls_player1 = {
