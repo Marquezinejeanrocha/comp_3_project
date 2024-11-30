@@ -15,7 +15,7 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x - self.radius, y - self.radius, self.radius * 2, self.radius * 2)
         self.speed = 7  # todo: change the speed when catching a powerup
 
-    def update(self):
+    def update(self, wall_group):
 
         # updating the bullets position based in the speed and direction
         # (x, y) --> (cos, sin)
@@ -24,6 +24,10 @@ class Bullet(pygame.sprite.Sprite):
 
         # killing the bullet if it goes off-screen
         if self.rect.x < 0 or self.rect.x > width or self.rect.y < 0 or self.rect.y > height:
+            self.kill()
+
+        wall_collision= pygame.sprite.spritecollide(self, wall_group, False)
+        if wall_collision:
             self.kill()
 
     def draw(self, screen):

@@ -27,9 +27,12 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.health = 100
         self.bullet_cooldown = 0
 
-    def update(self):
+    def update(self, wall_group):
         # getting the keys input
         keys = pygame.key.get_pressed()
+        # Store the original position before movement
+        original_x = self.rect.x
+        original_y = self.rect.y
 
         # checking which keys where pressed and moving the player accordingly
         # independent movements, independent ifs
@@ -41,6 +44,13 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             self.rect.x -= self.speed
         if keys[self.controls['right']] and self.rect.right < width:
             self.rect.x += self.speed
+
+        # Check for wall collisions after movement
+        wall_collision = pygame.sprite.spritecollide(self, wall_group, False)
+        if wall_collision:
+            # If collision detected, revert to the original position
+            self.rect.x = original_x
+            self.rect.y = original_y
 
     def shoot(self, bullets):
         """

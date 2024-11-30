@@ -20,7 +20,7 @@ def game_loop():
         'left': pygame.K_LEFT,
         'right': pygame.K_RIGHT
     }
-    player = Player(cute_purple, (width // 2, height // 2), controls_player1) 
+    player = Player(cute_purple, ((width // 2) +50, height // 2), controls_player1)
     player2 = Player(greenish, (width // 4, height // 2), controls_player2)
 
     #by default, I started the player in the main area
@@ -124,15 +124,15 @@ def execute_game(player, player2):
             i.shoot(enemy_bullets, player)
 
         # updating positions and visuals
-        player_group.update()
+        player_group.update(wall_group)
 
         # updating the bullets group
-        bullets.update()
-        enemy_bullets.update()
+        bullets.update(wall_group)
+        enemy_bullets.update(wall_group)
         enemies.update(player)
         enemies.update(player2)
 
-        #checking if the player moved off-screen from thwe right to the the next area
+        #checking if the player moved off-screen from thwe right to the next area
         if player.rect.right >= width and player2.rect.right >= width:
             return "shed"
 
@@ -159,13 +159,15 @@ def execute_game(player, player2):
 
                 if enemy.health <= 0:
                     enemy.kill()
+        # checking for collisions between enemy bullets and player
         for bullet in enemy_bullets:
-            collided_enemies = pygame.sprite.spritecollide(bullet, player_group, False)
-            for enemy in collided_enemies:
-                enemy.health -= 5  # Decrease health by 5, for example
+            collided_player = pygame.sprite.spritecollide(bullet, player_group, False)
+            for player in collided_player:
+                player.health -= 5  # Decrease health by 5, for example
                 bullet.kill()  # Destroy the bullet
-                if enemy.health <= 0:
-                    enemy.kill()  # Destroy the enemy
+                if player.health <= 0:
+                    player.kill()  # Destroy the player
+
 
         # updates the whole screen since the frame was last drawn
         pygame.display.flip()
