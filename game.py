@@ -167,6 +167,8 @@ def execute_game(player, player2):
                 bullet.kill()  # Destroy the bullet
                 if player.health <= 0:
                     player.kill()  # Destroy the player
+                    player.isalive = False
+
 
 
         # updates the whole screen since the frame was last drawn

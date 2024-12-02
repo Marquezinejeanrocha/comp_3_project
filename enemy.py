@@ -23,7 +23,7 @@ class Enemy(pygame.sprite.Sprite):
         # todo: different enemies have different speeds
 
         # setting a random initial speed for the enemy
-        self.speed = random.randint(1,4)
+        self.speed = random.randint(1,3)
 
         # setting the health bar
         self.health = 10
