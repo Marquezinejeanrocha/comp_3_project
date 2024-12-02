@@ -13,13 +13,13 @@ def game_loop():
     #endless game loop 
     while True:
         if current_state == "main":
-            current_state = execute_game(player, player2)
+            current_state = execute_game(player1, player2)
         elif current_state == "shed":
-            current_state = shed(player, player2)
+            current_state = shed(player1, player2)
 
 
  
-def execute_game(player, player2):
+def execute_game(player1, player2):
 
     # SETUP
     # setting up the background
@@ -35,20 +35,24 @@ def execute_game(player, player2):
     pygame.display.set_caption("Endless Wilderness Explorer")
 
     # creating an empty group for the player
-    player_group = pygame.sprite.Group()
+    player1_group = pygame.sprite.Group()
+    player2_group = pygame.sprite.Group()
 
     # adding the player to the group
-    player_group.add(player)
-    player_group.add(player2)
+    player1_group.add(player1)
+    player2_group.add(player2)
 
     # creating an empty bullet group that will be given as input to the player.shoot() method
-    bullets = pygame.sprite.Group()
+    bullets1 = pygame.sprite.Group()
+    bullets2 = pygame.sprite.Group()
 
     # creating an empty bullet group that will be given as input to the enemy.shoot() method
-    enemy_bullets = pygame.sprite.Group()
+    enemies1_bullets = pygame.sprite.Group()
+    enemies2_bullets = pygame.sprite.Group()
 
     # creating an enemy group
-    enemies = pygame.sprite.Group()
+    enemies1 = pygame.sprite.Group()
+    enemies2 = pygame.sprite.Group()
 
     # before starting our main loop, setup the enemy cooldown
     enemy_cooldown = 0
@@ -85,18 +89,20 @@ def execute_game(player, player2):
                 pygame.quit()
 
         # automatically shoot bullets from the player
-        player.shoot(bullets)
-        player2.shoot(bullets)
+        player1.shoot(bullets1)
+        player2.shoot(bullets2)
 
         # Checking for collisions between enemies and bullets
 
         # spawning enemies every two seconds
         if enemy_cooldown <= 0:
             # todo: creating more types of enemies
-            enemy = Enemy()
-
+            enemy1 = Enemy()
+            enemy2 = Enemy()
             # adding the enemy to the group
-            enemies.add(enemy)
+            enemies1.add(enemy1)
+            enemies2.add(enemy2)
+
 
             # in bullets, we use fps to spawn every second. Here we double that, to spawn every two seconds
             enemy_cooldown = fps * 2 #  o inimigo vai espawnar em 2 seconds
@@ -104,37 +110,51 @@ def execute_game(player, player2):
         # updating the enemy cooldown. Isso é para que o inimigo não espawne de forma continua e fique espawnando de 1 em 1 segundo. Ele atualiza em cada interacao do loop, ou seja, a cada frame.
         enemy_cooldown -= 1
 
-        for i in enemies:
-            i.shoot(enemy_bullets, player)
+        for i in enemies1:
+            i.shoot(enemies1_bullets, player1)
+        for i in enemies2:
+            i.shoot(enemies2_bullets, player2)
 
         # updating positions and visuals
-        player_group.update(wall_group)
+        player1_group.update(wall_group)
+        player2_group.update(wall_group)
 
         # updating the bullets group
-        bullets.update(wall_group)
-        enemy_bullets.update(wall_group)
-        enemies.update(player)
-        enemies.update(player2)
+        bullets1.update(wall_group)
+        bullets2.update(wall_group)
+
+        enemies1_bullets.update(wall_group)
+        enemies2_bullets.update(wall_group)
+        enemies1.update(player1)
+        enemies2.update(player2)
 
         #checking if the player moved off-screen from thwe right to the next area
-        if player.rect.right >= width and player2.rect.right >= width:
+        if player1.rect.right >= width and player2.rect.right >= width:
             return "shed"
 
         # drawing the player and enemies sprites on the screen
-        player_group.draw(screen)
-        enemies.draw(screen)
+        player1_group.draw(screen)
+        player2_group.draw(screen)
+
+        enemies1.draw(screen)
+        enemies2.draw(screen)
 
         # drawing the bullet sprites
-        for bullet in bullets:
+        for bullet in bullets1:
+            bullet.draw(screen)
+        for bullet in bullets2:
             bullet.draw(screen)
 
-        for bullet in enemy_bullets:
+        for bullet in enemies1_bullets:
+            bullet.draw(screen)
+
+        for bullet in enemies2_bullets:
             bullet.draw(screen)
 
         # checking for collisions between player bullets and enemies
-        for bullet in bullets:
+        for bullet in bullets1:
             # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
-            collided_enemies = pygame.sprite.spritecollide(bullet, enemies, False) # Retorna uma lista com os inimigos que foram intersectados com uma bullet, ou seja, os inimigos que foram atingidos. False means not kill upon impact
+            collided_enemies = pygame.sprite.spritecollide(bullet, enemies1, False) # Retorna uma lista com os inimigos que foram intersectados com uma bullet, ou seja, os inimigos que foram atingidos. False means not kill upon impact
             for enemy in collided_enemies:
                 enemy.health -= 5
 
@@ -143,14 +163,35 @@ def execute_game(player, player2):
 
                 if enemy.health <= 0:
                     enemy.kill()
+        for bullet in bullets2:
+            # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
+            collided_enemies = pygame.sprite.spritecollide(bullet, enemies2, False) # Retorna uma lista com os inimigos que foram intersectados com uma bullet, ou seja, os inimigos que foram atingidos. False means not kill upon impact
+            for enemy in collided_enemies:
+                enemy.health -= 5
+
+                # removing the bullet from the screen after hitting the player
+                bullet.kill()
+
+                if enemy.health <= 0:
+                    enemy.kill()
+
         # checking for collisions between enemy bullets and player
-        for bullet in enemy_bullets:
-            collided_player = pygame.sprite.spritecollide(bullet, player_group, False)
+        for bullet in enemies1_bullets:
+            collided_player = pygame.sprite.spritecollide(bullet, player1_group, False)
             for player in collided_player:
                 player.health -= 5  # Decrease health by 5, for example
                 bullet.kill()  # Destroy the bullet
                 if player.health <= 0:
                     player.kill()  # Destroy the player
+        for bullet in enemies2_bullets:
+            collided_player = pygame.sprite.spritecollide(bullet, player2_group, False)
+            for player in collided_player:
+                player.health -= 5  # Decrease health by 5, for example
+                bullet.kill()  # Destroy the bullet
+                if player.health <= 0:
+                    player.kill()  # Destroy the player
+                    player.isalive = False
+
 
 
         # updates the whole screen since the frame was last drawn
