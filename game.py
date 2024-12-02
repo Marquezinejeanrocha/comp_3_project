@@ -13,9 +13,9 @@ def game_loop():
     #endless game loop 
     while True:
         if current_state == "main":
-            current_state = execute_game(player1, player2)
+            current_state = execute_game(player, player2)
         elif current_state == "shed":
-            current_state = shed(player1, player2)
+            current_state = shed(player, player2)
 
 
  
