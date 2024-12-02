@@ -5,6 +5,23 @@ from player import *
 from enemy import Enemy
 from shed import shed
 from wall import Wall
+
+#creatting the player for the game
+controls_player1 = {
+    'up': pygame.K_w,
+    'down': pygame.K_s,
+    'left': pygame.K_a,
+    'right': pygame.K_d
+}
+
+controls_player2 = {
+    'up': pygame.K_UP,
+    'down': pygame.K_DOWN,
+    'left': pygame.K_LEFT,
+    'right': pygame.K_RIGHT
+}
+player = Player(cute_purple, ((width // 2) +50, height // 2), controls_player1)
+player2 = Player(greenish, (width // 4, height // 2), controls_player2)
 def game_loop():
 
     #by default, I started the player in the main area
