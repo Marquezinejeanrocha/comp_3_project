@@ -26,6 +26,9 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.speed = 5
         self.health = 100
         self.bullet_cooldown = 0
+        self.weapon_power = 1
+        self.coins = 100
+        self.shield = 0
 
     def update(self, wall_group):
         # getting the keys input
@@ -73,3 +76,20 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             self.bullet_cooldown = fps
 
         self.bullet_cooldown -= 1
+
+#creatting the player for the game
+controls_player1 = {
+    'up': pygame.K_w,
+    'down': pygame.K_s,
+    'left': pygame.K_a,
+    'right': pygame.K_d
+}
+
+controls_player2 = {
+    'up': pygame.K_UP,
+    'down': pygame.K_DOWN,
+    'left': pygame.K_LEFT,
+    'right': pygame.K_RIGHT
+}
+player = Player(cute_purple, ((width // 2) +50, height // 2), controls_player1)
+player2 = Player(greenish, (width // 4, height // 2), controls_player2)

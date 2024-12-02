@@ -3,6 +3,7 @@ from utils import *  # no need to import pygame because the import is in utils
 from config import *  # importing colors and the like
 from game import *
 from utils import under_construction
+from store import shop
 
 def interface(): 
  
@@ -158,9 +159,6 @@ def credits_():
 def rules_():
     print("Displaying rules...")
 
-
-def shop():
-    print("Displaying rules...")
 
 
 def wilderness_explorer():
