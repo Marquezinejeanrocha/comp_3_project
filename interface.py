@@ -66,7 +66,7 @@ def interface():
             # rules button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 90 <= mouse[0] <= 230 and 480 <= mouse[1] <= 540:
-                    under_construction()
+                    rules_()
 
         # filling the screen
         screen.fill(deep_black)
@@ -157,7 +157,52 @@ def credits_():
 
 
 def rules_():
-    print("Displaying rules...")
+    # SETUP
+    # setting up the background
+    background = pygame.image.load("ui/background.png")
+    background = pygame.transform.scale(background, (width, height))  # para que o background ocupe toda a tela
+    back = pygame.image.load("ui/back.png")
+    rules = pygame.image.load("ui/rules.png")
+
+    # Initial back button size
+    back_width, back_height = back.get_width(), back.get_height()
+    back_hover_size = (int(back_width * 1.2), int(back_height * 1.2))
+
+    # screen setup:
+    screen = pygame.display.set_mode(resolution)
+
+    # main loop to detect user input and display the credits
+    while True:
+        screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
+        screen.blit(rules,(100,100)) # putting rules img on the screen
+
+        # getting the position of the users mouse
+        mouse = pygame.mouse.get_pos()
+
+        # looking for mouse hover on top of back button
+        if 10 <= mouse[0] <= 10 + back_width and 10 <= mouse[1] <= 10 + back_height:
+            # scaling the original back button
+            back_hover = pygame.transform.scale(back, back_hover_size)
+            screen.blit(back_hover, (10 - (back_hover_size[0] - back_width) // 2,
+                                     10 - (back_hover_size[1] - back_height) // 2))
+        else:
+            # if not hovering, then show the original back button
+            screen.blit(back, (10, 10))
+
+        for ev in pygame.event.get():
+
+            # allow the user to quit on (x)
+            if ev.type == pygame.QUIT:
+                pygame.quit()
+
+            # checking if the user clicked the back button
+            if ev.type == pygame.MOUSEBUTTONDOWN:
+                if 10 <= mouse[0] <= 100 and 10 <= mouse[1] <= 50:
+                    interface()
+
+        # pygame.draw.rect(screen, dark_red, [0, 0, 90, 30])
+        # updating the display
+        pygame.display.update()
 
 
 

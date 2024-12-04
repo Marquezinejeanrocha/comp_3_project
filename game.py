@@ -40,7 +40,7 @@ def execute_game(player1, player2):
 
     # SETUP
     # setting up the background
-    background = pygame.image.load("images/stardew_valley.jpg")
+    background = pygame.image.load("ui/background.png")
     background = pygame.transform.scale(background, (width, height)) #para que o background ocupe toda a tela
 
     # using the clock to control the time frame
@@ -100,6 +100,11 @@ def execute_game(player1, player2):
 
         # Showing the walls on the screen
         wall_group.draw(screen)
+
+        #health bar for players
+        pygame.draw.rect(screen, dark_red, [50, 0, player1.health, 30])
+        pygame.draw.rect(screen, dark_red, [720 -50 - player2.health, 0, player2.health, 30])
+
         # handling events:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
