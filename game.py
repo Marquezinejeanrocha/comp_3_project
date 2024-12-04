@@ -1,3 +1,4 @@
+from chest import Chest
 from config import *
 import math
 import pygame
@@ -5,6 +6,7 @@ from player import *
 from enemy import Enemy
 from shed import shed
 from wall import Wall
+from chest import Chest
 
 #creatting the player for the game
 controls_player1 = {
@@ -20,8 +22,8 @@ controls_player2 = {
     'left': pygame.K_LEFT,
     'right': pygame.K_RIGHT
 }
-player = Player(cute_purple, ((width // 2) +50, height // 2), controls_player1)
-player2 = Player(greenish, (width // 4, height // 2), controls_player2)
+player = Player(cute_purple, (110,106), controls_player1)
+player2 = Player(greenish, (612,601), controls_player2)
 def game_loop():
 
     #by default, I started the player in the main area
@@ -76,6 +78,7 @@ def execute_game(player1, player2):
 
     # reading the map file and creating sprite groups of walls
     wall_group = pygame.sprite.Group()
+    chest_group = pygame.sprite.Group()
     lines = []
     with open("maps/mapa.txt", 'r') as file:
         for line in file:
@@ -88,6 +91,9 @@ def execute_game(player1, player2):
             if tile == "#":
                 wall = Wall(col, row)
                 wall_group.add(wall)
+            if tile == "*":
+                chest = Chest(col, row)
+                chest_group.add(chest)
 
     # MAIN GAME LOOP
     running = True
@@ -100,15 +106,20 @@ def execute_game(player1, player2):
 
         # Showing the walls on the screen
         wall_group.draw(screen)
-
+        # Drawing the chest
+        chest_group.draw(screen)
         #health bar for players
         pygame.draw.rect(screen, dark_red, [50, 0, player1.health, 30])
         pygame.draw.rect(screen, dark_red, [720 -50 - player2.health, 0, player2.health, 30])
 
+        mouse= pygame.mouse.get_pos()
         # handling events:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                print(mouse[0], mouse[1])
+
 
         # automatically shoot bullets from the player
         player1.shoot(bullets1)
@@ -213,6 +224,15 @@ def execute_game(player1, player2):
                 if player.health <= 0:
                     player.kill()  # Destroy the player
                     player.isalive = False
+
+        for bullet in bullets1:
+            collided_chest= pygame.sprite.spritecollide(bullet, chest_group, False)
+            for chest in collided_chest:
+                chest.life -= 10
+                bullet.kill()
+                if chest.life <= 0:
+                    chest.dead()
+
 
 
 
