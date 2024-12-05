@@ -1,9 +1,13 @@
+from geopy.distance import distance
+
 from config import *
 import pygame
 import random
 import math
 from bullet import Bullet
 import sounds as se
+from player import Player
+
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
@@ -29,6 +33,7 @@ class Enemy(pygame.sprite.Sprite):
         self.health = 10
 
         self.bullet_cooldown = 0
+        self.exploding_counter = 3 * fps
 
     def update(self, player):
 
@@ -38,7 +43,17 @@ class Enemy(pygame.sprite.Sprite):
 
         # getting the direction in radius
         direction = math.atan2(dy, dx)
+        distance = math.sqrt((self.rect.x - player.rect.x) ** 2 + (self.rect.y - player.rect.y) ** 2)
 
+        if distance <= 2:
+            while self.exploding_counter>0:
+                self.exploding_counter -= 1
+            if self.exploding_counter==0:
+                self.explode(self,player)
+        else:
+            self.move(direction)
+
+    def move(self, direction):
         # moving the enemy towards the player --> like bullet
         self.rect.x += self.speed * math.cos(direction)
         self.rect.y += self.speed * math.sin(direction)
@@ -58,5 +73,10 @@ class Enemy(pygame.sprite.Sprite):
             bullets.add(bullet)
             se.bullet_sound.play()
             self.bullet_cooldown = fps # Frames until the next shot
-        # If you're not
         self.bullet_cooldown -= 1
+
+    def explode(self,player: Player):
+        distance = math.sqrt((self.rect.x - player.rect.x)**2 + (self.rect.y - player.rect.y)**2)
+        self.kill()
+        if distance<=2:
+            player.health -= 10
