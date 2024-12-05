@@ -1,4 +1,3 @@
-from geopy.distance import distance
 
 from config import *
 import pygame
@@ -24,15 +23,12 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x = random.randint(0, width - enemy_size[0]) #para o inimigo nao espawnar fora da tela
         self.rect.y = random.randint(0, height - enemy_size[-1])
 
-        # todo: different enemies have different speeds
-
         # setting a random initial speed for the enemy
         self.speed = random.randint(1,3)
 
         # setting the health bar
         self.health = 10
 
-        self.bullet_cooldown = 0
         self.exploding_counter = 3 * fps
 
     def update(self, player):
@@ -49,7 +45,7 @@ class Enemy(pygame.sprite.Sprite):
             while self.exploding_counter>0:
                 self.exploding_counter -= 1
             if self.exploding_counter==0:
-                self.explode(self,player)
+                self.explode(player)
         else:
             self.move(direction)
 
@@ -75,8 +71,8 @@ class Enemy(pygame.sprite.Sprite):
             self.bullet_cooldown = fps # Frames until the next shot
         self.bullet_cooldown -= 1
 
-    def explode(self,player: Player):
+    def explode(self,player):
         distance = math.sqrt((self.rect.x - player.rect.x)**2 + (self.rect.y - player.rect.y)**2)
         self.kill()
         if distance<=2:
-            player.health -= 10
+            player.take_damage(10)

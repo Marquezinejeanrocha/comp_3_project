@@ -79,3 +79,15 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             self.bullet_cooldown = fps
 
         self.bullet_cooldown -= 1
+
+    def take_damage(self, damage):
+        if self.shield > 0 and damage < self.shield:
+            self.shield -= damage
+        elif 0 < self.shield < damage:
+            damage -= self.shield
+            self.shield = 0
+            self.health -= damage
+        elif self.health <= 0:
+            self.kill()
+        elif self. health > 0:
+            self.health -= damage

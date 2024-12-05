@@ -65,10 +65,6 @@ def execute_game(player1, player2):
     bullets1 = pygame.sprite.Group()
     bullets2 = pygame.sprite.Group()
 
-    # creating an empty bullet group that will be given as input to the enemy.shoot() method
-    enemies1_bullets = pygame.sprite.Group()
-    enemies2_bullets = pygame.sprite.Group()
-
     # creating an enemy group
     enemies1 = pygame.sprite.Group()
     enemies2 = pygame.sprite.Group()
@@ -117,6 +113,7 @@ def execute_game(player1, player2):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+            #get coordinates in screen
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print(mouse[0], mouse[1])
 
@@ -143,11 +140,6 @@ def execute_game(player1, player2):
         # updating the enemy cooldown. Isso é para que o inimigo não espawne de forma continua e fique espawnando de 1 em 1 segundo. Ele atualiza em cada interacao do loop, ou seja, a cada frame.
         enemy_cooldown -= 1
 
-        for i in enemies1:
-            i.shoot(enemies1_bullets, player1)
-        for i in enemies2:
-            i.shoot(enemies2_bullets, player2)
-
         # updating positions and visuals
         player1_group.update(wall_group)
         player2_group.update(wall_group)
@@ -156,8 +148,6 @@ def execute_game(player1, player2):
         bullets1.update(wall_group)
         bullets2.update(wall_group)
 
-        enemies1_bullets.update(wall_group)
-        enemies2_bullets.update(wall_group)
         enemies1.update(player1)
         enemies2.update(player2)
 
@@ -178,11 +168,6 @@ def execute_game(player1, player2):
         for bullet in bullets2:
             bullet.draw(screen)
 
-        for bullet in enemies1_bullets:
-            bullet.draw(screen)
-
-        for bullet in enemies2_bullets:
-            bullet.draw(screen)
 
         # checking for collisions between player bullets and enemies
         for bullet in bullets1:
@@ -208,34 +193,15 @@ def execute_game(player1, player2):
                 if enemy.health <= 0:
                     enemy.kill()
 
-        # checking for collisions between enemy bullets and player
-        for bullet in enemies1_bullets:
-            collided_player = pygame.sprite.spritecollide(bullet, player1_group, False)
-            for player in collided_player:
-                player.health -= 5  # Decrease health by 5, for example
-                bullet.kill()  # Destroy the bullet
-                if player.health <= 0:
-                    player.kill()  # Destroy the player
-        for bullet in enemies2_bullets:
-            collided_player = pygame.sprite.spritecollide(bullet, player2_group, False)
-            for player in collided_player:
-                player.health -= 5  # Decrease health by 5, for example
-                bullet.kill()  # Destroy the bullet
-                if player.health <= 0:
-                    player.kill()  # Destroy the player
-                    player.isalive = False
-
+        # checking for collisions between player bullets and chest
         for bullet in bullets1:
             collided_chest= pygame.sprite.spritecollide(bullet, chest_group, False)
             for chest in collided_chest:
                 chest.life -= 10
                 bullet.kill()
                 if chest.life <= 0:
+                    #change the image of chest for a broken one
                     chest.dead()
-
-
-
-
         # updates the whole screen since the frame was last drawn
         pygame.display.flip()
     # the main while loop was terminated
