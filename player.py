@@ -7,7 +7,7 @@ from bullet import Bullet
 # making a player a child of the Sprite class
 class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
-    def __init__(self, color, location,  controls, isalive=True):
+    def __init__(self, color, location,  controls):
         # calling the mother classes init aka Sprite
         super().__init__()
 
@@ -29,7 +29,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.weapon_power = 1
         self.coins = 100
         self.shield = 0
-        self.isalive = isalive
 
     def update(self, wall_group):
         # getting the keys input
@@ -61,8 +60,9 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         bullets --> pygame group where I will add bullets
         """
         # todo: different weapons have different cooldowns
-        if not self.isalive:
+        if self.health <= 0:
             return
+
         # cooldown ==> how many frames I need to wait until I can shoot again
         if self.bullet_cooldown <= 0:
             # defining the directions in which the bullets will fly
