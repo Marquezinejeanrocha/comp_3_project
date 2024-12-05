@@ -4,6 +4,9 @@ import random
 import math
 from bullet import Bullet
 import sounds as se
+from player import Player
+import time
+
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
@@ -38,7 +41,23 @@ class Enemy(pygame.sprite.Sprite):
 
         # getting the direction in radius
         direction = math.atan2(dy, dx)
+        #calculate the distance between the enemy and the player
+        distance = math.sqrt((self.rect.x - player.rect.x) ** 2 + (self.rect.y - player.rect.y) ** 2)
 
+        #The countdown for exploding, if you need commentary to understand this then give up coding
+        explode_countdown = 3
+
+        if distance >= 2:
+            while explode_countdown > 0:
+                time.sleep(1)
+                explode_countdown -=1
+                if explode_countdown <= 0:
+                    self.explode(player)
+
+        else:
+            self.move(direction)
+
+    def move(self, direction):
         # moving the enemy towards the player --> like bullet
         self.rect.x += self.speed * math.cos(direction)
         self.rect.y += self.speed * math.sin(direction)
@@ -46,17 +65,12 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x = int(self.rect.x)
         self.rect.y = int(self.rect.y)
 
-    def shoot(self, bullets: pygame.sprite.Group, player):
-        # If you're shooting
-        direction = math.atan2(
-            player.rect.y - self.rect.y, player.rect.x - self.rect.x
-        )
-        if self.bullet_cooldown <= 0:
-            bullet = Bullet(
-                self.rect.center[0], self.rect.center[1], direction
-            )
-            bullets.add(bullet)
-            se.bullet_sound.play()
-            self.bullet_cooldown = fps # Frames until the next shot
-        # If you're not
-        self.bullet_cooldown -= 1
+
+
+
+    def explode(self,player: Player):
+        distance= math.sqrt((self.rect.x - player.rect.x) ** 2 + (self.rect.y - player.rect.y) ** 2)
+        self.kill()
+        if distance <= 1:
+            player.health -= 10
+
