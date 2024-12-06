@@ -55,30 +55,32 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             self.rect.x = original_x
             self.rect.y = original_y
 
-    def shoot(self, bullets):
+    def shoot(self, bullets, key):
         """
         bullets --> pygame group where I will add bullets
         """
         # todo: different weapons have different cooldowns
         if self.health <= 0:
             return
-
         # cooldown ==> how many frames I need to wait until I can shoot again
-        if self.bullet_cooldown <= 0:
-            # defining the directions in which the bullets will fly
-            # these 4 directions, are in order, right, left, up and down
-            for angle in [0, math.pi, math.pi / 2, 3*math.pi / 2]:
-                # Creating a bullet for each angle
-                # I will use self.rect.centerx to make the x position of the bullet the same as the
-                # x position of the player, thus making the bullet come out of them
-                # finally, the direction of the bullet is the angle
-                bullet = Bullet(self.rect.centerx, self.rect.centery, angle)
-                bullets.add(bullet)
-
-            # resetting the cooldown
-            self.bullet_cooldown = fps
-
-        self.bullet_cooldown -= 1
+        keys = pygame.key.get_pressed()
+        if key == 'space' and keys[pygame.K_SPACE]:
+            if self.bullet_cooldown <= 0:
+                # these 4 directions, are in order, right, left, up and down
+                for angle in [0, math.pi, math.pi / 2, 3 * math.pi / 2]:
+                    bullet = Bullet(self.rect.centerx, self.rect.centery, angle)
+                    bullets.add(bullet)
+                # resetting the cooldown
+                self.bullet_cooldown = fps
+            self.bullet_cooldown -= 5
+        if key == 'enter' and keys[pygame.K_RETURN]:
+            if self.bullet_cooldown <= 0:
+                for angle in [0, math.pi, math.pi / 2, 3 * math.pi / 2]:
+                    bullet = Bullet(self.rect.centerx, self.rect.centery, angle)
+                    bullets.add(bullet)
+                # resetting the cooldown
+                self.bullet_cooldown = fps
+            self.bullet_cooldown -= 5
 
     def take_damage(self, damage):
         if self.shield > 0 and damage < self.shield:

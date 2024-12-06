@@ -119,8 +119,8 @@ def execute_game(player1, player2):
 
 
         # automatically shoot bullets from the player
-        player1.shoot(bullets1)
-        player2.shoot(bullets2)
+        player1.shoot(bullets1, 'space')
+        player2.shoot(bullets2, 'enter')
 
         # Checking for collisions between enemies and bullets
 
