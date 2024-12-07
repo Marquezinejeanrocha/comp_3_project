@@ -107,12 +107,19 @@ def execute_game(player1, player2):
         #health bar for players
         pygame.draw.rect(screen, dark_red, [50, 0, player1.health, 30])
         pygame.draw.rect(screen, dark_red, [720 -50 - player2.health, 0, player2.health, 30])
+        pygame.draw.rect(screen, yellow, [700, 0, 20, 20])
 
         mouse= pygame.mouse.get_pos()
+        keys = pygame.key.get_pressed()
         # handling events:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN or keys[pygame.K_RETURN]:
+                if 700 <= mouse[0] < 720 and 0 <= mouse[1] < 20:
+                    pause()
+
             #get coordinates in screen
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print(mouse[0], mouse[1])
@@ -135,9 +142,11 @@ def execute_game(player1, player2):
 
 
             # in bullets, we use fps to spawn every second. Here we double that, to spawn every two seconds
-            enemy_cooldown = fps * 2 #  o inimigo vai espawnar em 2 seconds
+            #  o inimigo vai espawnar em 2 seconds
+            enemy_cooldown = fps * 2
 
-        # updating the enemy cooldown. Isso é para que o inimigo não espawne de forma continua e fique espawnando de 1 em 1 segundo. Ele atualiza em cada interacao do loop, ou seja, a cada frame.
+        # updating the enemy cooldown. Isso é para que o inimigo não espawne de forma continua e fique espawnando de 1 em 1 segundo.
+        # Ele atualiza em cada interacao do loop, ou seja, a cada frame.
         enemy_cooldown -= 1
 
         # updating positions and visuals
@@ -172,7 +181,9 @@ def execute_game(player1, player2):
         # checking for collisions between player bullets and enemies
         for bullet in bullets1:
             # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
-            collided_enemies = pygame.sprite.spritecollide(bullet, enemies1, False) # Retorna uma lista com os inimigos que foram intersectados com uma bullet, ou seja, os inimigos que foram atingidos. False means not kill upon impact
+            # Retorna uma lista com os inimigos que foram intersectados com uma bullet, ou seja, os inimigos que foram atingidos.
+            # False means not kill upon impact
+            collided_enemies = pygame.sprite.spritecollide(bullet, enemies1, False)
             for enemy in collided_enemies:
                 enemy.health -= 5
 
@@ -183,7 +194,9 @@ def execute_game(player1, player2):
                     enemy.kill()
         for bullet in bullets2:
             # todo: one type of bullet might be strong enough to kill on impact and the value of dokill will be True
-            collided_enemies = pygame.sprite.spritecollide(bullet, enemies2, False) # Retorna uma lista com os inimigos que foram intersectados com uma bullet, ou seja, os inimigos que foram atingidos. False means not kill upon impact
+            # Retorna uma lista com os inimigos que foram intersectados com uma bullet, ou seja, os inimigos que foram atingidos.
+            # False means not kill upon impact
+            collided_enemies = pygame.sprite.spritecollide(bullet, enemies2, False)
             for enemy in collided_enemies:
                 enemy.health -= 5
 
@@ -203,6 +216,55 @@ def execute_game(player1, player2):
                     #change the image of chest for a broken one
                     chest.dead()
         # updates the whole screen since the frame was last drawn
+        # handling events:
         pygame.display.flip()
     # the main while loop was terminated
     pygame.quit()
+
+
+def pause():
+    screen = pygame.display.set_mode(resolution)
+
+    # in order to print something we need to first create a font, create the text and then blit
+
+    # creating the fonts:
+    corbelfont = pygame.font.SysFont("Corbel", 50)
+    comicsansfont = pygame.font.SysFont("Comic Sans MS", 25)
+
+    # creating the rendered texts for the credits
+    pause_text = comicsansfont.render("PAUSED", True, white)
+
+    # main loop to detect user input and display the credits
+    pause = True
+    while pause:
+        # getting the position of the users mouse
+        mouse = pygame.mouse.get_pos()
+
+        for ev in pygame.event.get():
+
+            # allow the user to quit on (x)
+            if ev.type == pygame.QUIT:
+                pygame.quit()
+
+            # checking if the user clicked the back button
+            if ev.type == pygame.MOUSEBUTTONDOWN:
+                if 450 <= mouse[0] <= 590 and 600 <= mouse[1] <= 660:
+                    pause = False
+
+        # display my screen
+        # we can fill the screen with an image instead of deep_black
+        screen.fill(deep_black)
+
+        # displaying our texts
+        screen.blit(pause_text, (720//2,720//2))
+
+
+        # drawing and displaying the back button
+        pygame.draw.rect(screen, dark_red, [450, 600, 140, 60])
+        back_text = corbelfont.render("back", True, white)
+        back_rect = back_text.get_rect(center=(450 + 140 // 2, 600 + 60 // 2))
+        screen.blit(back_text, back_rect)
+
+        # updating the display
+        pygame.display.update()
+
