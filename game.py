@@ -33,6 +33,8 @@ def game_loop():
     while True:
         if current_state == "main":
             current_state = execute_game(player, player2)
+            if current_state == "exit":
+                return
         elif current_state == "shed":
             current_state = shed(player, player2)
 
@@ -50,6 +52,12 @@ def execute_game(player1, player2):
 
     # screen setup:
     screen = pygame.display.set_mode(resolution)
+
+    #pause button
+    pause = pygame.image.load("ui/pause.png")
+    pause_w, pause_h = pause.get_width(), pause.get_height()
+    pause_hover_size = (pause_w * 1.2, pause_h * 1.2)
+    pause_hover = pygame.transform.scale(pause, pause_hover_size)
 
     pygame.display.set_caption("Endless Wilderness Explorer")
 
@@ -107,23 +115,33 @@ def execute_game(player1, player2):
         #health bar for players
         pygame.draw.rect(screen, dark_red, [50, 0, player1.health, 30])
         pygame.draw.rect(screen, dark_red, [720 -50 - player2.health, 0, player2.health, 30])
-        pygame.draw.rect(screen, yellow, [700, 0, 20, 20])
 
         mouse= pygame.mouse.get_pos()
         keys = pygame.key.get_pressed()
+        if 675 <= mouse[0] <= 675 + pause_w and -5<= mouse[1] <= -5 + pause_h:
+            # scaling the original back button
+            screen.blit(pause_hover, (675 - (pause_hover_size[0] - pause_w) // 2,
+                                     -5 - (pause_hover_size[1] - pause_h) // 2))
+        else:
+            # if not hovering, then show the original play button
+
+            screen.blit(pause, (675,-5))
         # handling events:
+        cont = ""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN or keys[pygame.K_RETURN]:
-                if 700 <= mouse[0] < 720 and 0 <= mouse[1] < 20:
-                    pause()
+                if 675 <= mouse[0] <= 675 + pause_w and -5 <= mouse[1] <= -5 + pause_h:
+                    cont = pause_()
 
             #get coordinates in screen
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print(mouse[0], mouse[1])
 
+        if cont == "exit":
+            return "exit"
 
         # automatically shoot bullets from the player
         player1.shoot(bullets1, 'space')
@@ -148,7 +166,6 @@ def execute_game(player1, player2):
         # updating the enemy cooldown. Isso é para que o inimigo não espawne de forma continua e fique espawnando de 1 em 1 segundo.
         # Ele atualiza em cada interacao do loop, ou seja, a cada frame.
         enemy_cooldown -= 1
-
         # updating positions and visuals
         player1_group.update(wall_group)
         player2_group.update(wall_group)
@@ -222,7 +239,7 @@ def execute_game(player1, player2):
     pygame.quit()
 
 
-def pause():
+def pause_():
     screen = pygame.display.set_mode(resolution)
 
     # in order to print something we need to first create a font, create the text and then blit
@@ -233,10 +250,11 @@ def pause():
 
     # creating the rendered texts for the credits
     pause_text = comicsansfont.render("PAUSED", True, white)
+    exit_text = comicsansfont.render("exit", True, white)
 
     # main loop to detect user input and display the credits
-    pause = True
-    while pause:
+    # pause = True
+    while True:
         # getting the position of the users mouse
         mouse = pygame.mouse.get_pos()
 
@@ -249,7 +267,11 @@ def pause():
             # checking if the user clicked the back button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 450 <= mouse[0] <= 590 and 600 <= mouse[1] <= 660:
-                    pause = False
+                    return
+
+            if ev.type == pygame.MOUSEBUTTONDOWN:
+                if 450 <= mouse[0] <= 590 and 500 <= mouse[1] <= 560:
+                    return 'exit'
 
         # display my screen
         # we can fill the screen with an image instead of deep_black
@@ -261,9 +283,16 @@ def pause():
 
         # drawing and displaying the back button
         pygame.draw.rect(screen, dark_red, [450, 600, 140, 60])
+        pygame.draw.rect(screen, dark_red, [450, 500, 140, 60])
+
+
         back_text = corbelfont.render("back", True, white)
+        exit_text = corbelfont.render("exit", True, white)
+
         back_rect = back_text.get_rect(center=(450 + 140 // 2, 600 + 60 // 2))
+        exit_rect = exit_text.get_rect(center = (450 + 140 //2, 500 + 60 // 2))
         screen.blit(back_text, back_rect)
+        screen.blit(exit_text, exit_rect)
 
         # updating the display
         pygame.display.update()
