@@ -24,6 +24,7 @@ controls_player2 = {
 }
 player = Player(cute_purple, (110,106), controls_player1)
 player2 = Player(greenish, (612,601), controls_player2)
+
 def game_loop():
 
     #by default, I started the player in the main area
@@ -39,7 +40,6 @@ def game_loop():
             current_state = shed(player, player2)
 
 
- 
 def execute_game(player1, player2):
 
     # SETUP
@@ -177,6 +177,16 @@ def execute_game(player1, player2):
         enemies1.update(player1)
         enemies2.update(player2)
 
+        # Verificando se o jogador está no canto inferior esquerdo da tela
+        if (370 <= player1.rect.x <= 430 and 600 <= player1.rect.y <= 660):
+            player1.hospital()
+        if (430 <= player2.rect.x <= 490 and 600 <= player2.rect.y <= 660):
+            player2.hospital()
+        
+        # Drawing rectangles to signal the coordinates
+        pygame.draw.rect(screen, (255, 0, 0), (370, 600, 60, 60), 2)  # Player 1 hospital area
+        pygame.draw.rect(screen, (0, 255, 0), (430, 600, 60, 60), 2)  # Player 2 hospital area
+
         #checking if the player moved off-screen from thwe right to the next area
         if player1.rect.right >= width and player2.rect.right >= width:
             return "shed"
@@ -296,4 +306,3 @@ def pause_():
 
         # updating the display
         pygame.display.update()
-
