@@ -179,9 +179,9 @@ def execute_game(player1, player2):
 
         # Verificando se o jogador está no canto inferior esquerdo da tela
         if (370 <= player1.rect.x <= 430 and 600 <= player1.rect.y <= 660):
-            player1.hospital()
+            player1.hospital(delta_time = clock.get_time() / 1000)
         if (430 <= player2.rect.x <= 490 and 600 <= player2.rect.y <= 660):
-            player2.hospital()
+            player2.hospital(delta_time = clock.get_time() / 1000)
         
         # Drawing rectangles to signal the coordinates
         pygame.draw.rect(screen, (255, 0, 0), (370, 600, 60, 60), 2)  # Player 1 hospital area

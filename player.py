@@ -94,6 +94,13 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
 
         
-    def hospital(self):
-        self.health = 100
+    def hospital(self , delta_time):
+        # Recupera 20% da saúde por segundo, sem ultrapassar 100
+        heal_rate = 20  # Porcentagem de cura por segundo
+        self.health += heal_rate * delta_time
+        if self.health > 100:
+            self.health = 100
 
+
+
+  
