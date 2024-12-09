@@ -10,99 +10,138 @@ def interface():
     # initiating pygame
     pygame.init() # calling pygame
     # creating the screen at the set resolution
-    screen = pygame.display.set_mode(resolution) # show the user something
+    # show the user something
+    screen = pygame.display.set_mode(resolution)
 
-    # setting the fonts
-    corbelfont = pygame.font.SysFont("Corbel", 50)
-    comicsansfont = pygame.font.SysFont("Comic Sans MS", 50)
+    # filling the screen
+    # setting up the background
+    background = pygame.image.load("ui/background.png")
+    # para que o background ocupe toda a tela
+    background = pygame.transform.scale(background, (width, height))
+    game = pygame.image.load("ui/CHEST BUSTER.png")
 
-    # render the text (will be used in the game button)
-    wilderness_text = corbelfont.render("Wilderness Explorer", True, white)
-    quit_text = corbelfont.render("quit", True, white)
-    rules_text = corbelfont.render("rules", True, white)
-    options_text = corbelfont.render("options", True, white)
-    credits_text = corbelfont.render("credits", True, white)
-    shop_text = corbelfont.render("shop", True, white)
-    title_text = comicsansfont.render("Computation III - Project", True, glowing_light_red)
+    img_scale = 1.3
 
-    # main interface loop (will run until the user quits)
+    play = pygame.image.load("ui/play.png")
+    play_w, play_h = play.get_width(), play.get_height()
+    play_hover_size = (play_w * 1.2, play_h*1.2)
+    play_hover = pygame.transform.scale(play, play_hover_size)
+
+    shops = pygame.image.load("ui/shop.png")
+    shop_w, shop_h = shops.get_width(), shops.get_height()
+    shop_hover_size = (int(shop_w * 1.2), int(shop_h * 1.2))
+    shop_hover = pygame.transform.scale(shops, shop_hover_size)
+
+    credit = pygame.image.load("ui/credit.png")
+    credit_w, credit_h = credit.get_width(), credit.get_height()
+    credit_hover_size = (int(credit_w * 1.2), int(credit_h * 1.2))
+    credit_hover = pygame.transform.scale(credit, credit_hover_size)
+
+    option = pygame.image.load("ui/option.png")
+    option_w, option_h = option.get_width(), option.get_height()
+    option_hover_size = (int(option_w * 1.2), int(option_h * 1.2))
+    option_hover = pygame.transform.scale(option, option_hover_size)
+
+    rules = pygame.image.load("ui/rule_btn.png")
+    rules_w, rules_h = rules.get_width(), rules.get_height()
+    rules_hover_size = (int(rules_w * 1.2), int(rules_h * 1.2))
+    rules_hover = pygame.transform.scale(rules, rules_hover_size)
+
+    back = pygame.image.load("ui/back.png")
+    back_w, back_h = back.get_width(), back.get_height()
+    back_hover_size = (int(back_w * 1.2), int(back_h * 1.2))
+    back_hover = pygame.transform.scale(back, back_hover_size)
+
+    quit = pygame.image.load("ui/quit.png")
+    quit_w, quit_h = quit.get_width(), quit.get_height()
+    quit_hover_size = (int(quit_w * 1.2), int(quit_h * 1.2))
+    quit_hover = pygame.transform.scale(quit, quit_hover_size)
     while True:
-        # event detection (future work)
+
+        # 0,0 will fill the entire screen
+        screen.blit(background, (0, 0))
+        screen.blit(game, (160,120))
+        mouse = pygame.mouse.get_pos()
+
+        if 280 <= mouse[0] <= 280 + play_w and 275 <= mouse[1] <= 275 + play_h:
+            # scaling the original back button
+            screen.blit(play_hover, (280 - (play_hover_size[0] - play_w) // 2,
+                                     275 - (play_hover_size[1] - play_h) // 2))
+        else:
+            # if not hovering, then show the original play button
+
+            screen.blit(play, (280,275))
+
+        # Shop button with hover effect
+        if 105 <= mouse[0] <= 105 + shop_w and 420 <= mouse[1] <= 420 + shop_h:
+            screen.blit(shop_hover, (105 - (shop_hover_size[0] - shop_w) // 2,
+                                     420 - (shop_hover_size[1] - shop_h) // 2))
+        else:
+            screen.blit(shops, (105, 420))
+
+        # Credit button with hover effect
+        if 105 <= mouse[0] <= 105 + credit_w and 520 <= mouse[1] <= 520 + credit_h:
+            screen.blit(credit_hover, (105 - (credit_hover_size[0] - credit_w) // 2,
+                                       520 - (credit_hover_size[1] - credit_h) // 2))
+        else:
+            screen.blit(credit, (105, 520))
+
+        # Option button with hover effect
+        if 505 <= mouse[0] <= 505 + option_w and 420 <= mouse[1] <= 420 + option_h:
+            screen.blit(option_hover, (505 - (option_hover_size[0] - option_w) // 2,
+                                       420 - (option_hover_size[1] - option_h) // 2))
+        else:
+            screen.blit(option, (505, 420))
+
+        # Rules button with hover effect
+        if 505 <= mouse[0] <= 505 + rules_w and 520 <= mouse[1] <= 520 + rules_h:
+            screen.blit(rules_hover, (505 - (rules_hover_size[0] - rules_w) // 2,
+                                      520 - (rules_hover_size[1] - rules_h) // 2))
+        else:
+            screen.blit(rules, (505, 520))
+
+        # Quit button with hover effect
+        if 280 <= mouse[0] <= 280 + quit_w and 600 <= mouse[1] <= 600 + quit_h:
+            screen.blit(quit_hover, (280 - (quit_hover_size[0] - quit_w) // 2,
+                                     600 - (quit_hover_size[1] - quit_h) // 2))
+        else:
+            screen.blit(quit, (280, 600))
+
+
         for ev in pygame.event.get():
 
             # getting the mouse position (future need)
             mouse = pygame.mouse.get_pos()
-
+            if ev.type == pygame.MOUSEBUTTONDOWN:
+                print(mouse[0], mouse[1])
             # seeing if the user hits the red x button
             if ev.type == pygame.QUIT:
                 pygame.quit()
 
-            # quit button
             if ev.type == pygame.MOUSEBUTTONDOWN:
-                if 450 <= mouse[0] <= 590 and 600 <= mouse[1] <= 660:
+                # Quit button
+                if 280 <= mouse[0] <= 280 + quit_w and 600 <= mouse[1] <= 600 + quit_h:
                     pygame.quit()
 
-            # credits button
-            if ev.type == pygame.MOUSEBUTTONDOWN:
-                if 450 <= mouse[0] < 590 and 480 <= mouse[1] < 540:
+                # Credits button
+                if 105 <= mouse[0] <= 105 + credit_w and 520 <= mouse[1] <= 520 + credit_h:
                     credits_()
 
-            # wilderness game button
-            if ev.type == pygame.MOUSEBUTTONDOWN:
-                if 90 <= mouse[0] <= 630 and 240 <= mouse[1] <= 300:
+                # Wilderness game button (Play button)
+                if 280 <= mouse[0] <= 280 + play_w and 275 <= mouse[1] <= 275 + play_h:
                     wilderness_explorer()
 
-
-            # shop button
-            if ev.type == pygame.MOUSEBUTTONDOWN:
-                if (580//2) <= mouse[0] <= (580//2)+140 and 400 <= mouse[1] <= 460:
+                # Shop button
+                if 105 <= mouse[0] <= 105 + shop_w and 420 <= mouse[1] <= 420 + shop_h:
                     shop()
 
-            # options button
-            if ev.type == pygame.MOUSEBUTTONDOWN:
-                if 90 <= mouse[0] <= 230 and 600 <= mouse[1] <= 660:
+                # Options button
+                if 505 <= mouse[0] <= 505 + option_w and 420 <= mouse[1] <= 420 + option_h:
                     under_construction()
 
-            # rules button
-            if ev.type == pygame.MOUSEBUTTONDOWN:
-                if 90 <= mouse[0] <= 230 and 480 <= mouse[1] <= 540:
+                # Rules button
+                if 505 <= mouse[0] <= 505 + rules_w and 520 <= mouse[1] <= 520 + rules_h:
                     rules_()
-
-        # filling the screen
-        screen.fill(deep_black)
-
-        # wilderness explorer button
-        pygame.draw.rect(screen, dark_red, [90, 240, 540, 60])
-        wilderness_rect = wilderness_text.get_rect(center=(90 + 540 // 2, 240 + 60 // 2)) # text centered in the button
-        screen.blit(wilderness_text, wilderness_rect)
-
-        # shop button
-        pygame.draw.rect(screen, grey, [580//2, 400, 140, 60])
-        shop_rect = shop_text.get_rect(center=((580//2) + 140 // 2, 400 + 60 // 2))  # text centered in the button
-        screen.blit(shop_text, shop_rect)
-
-        # rules button
-        pygame.draw.rect(screen, grey, [90, 480, 140, 60])
-        rules_rect = rules_text.get_rect(center=(90 + 140 // 2, 480 + 60 // 2))  # text centered in the button
-        screen.blit(rules_text, rules_rect)
-
-        # options button
-        pygame.draw.rect(screen, grey, [90, 600, 140, 60])
-        options_rect = options_text.get_rect(center=(90 + 140 // 2, 600 + 60 // 2))  # text centered in the button
-        screen.blit(options_text, options_rect)
-
-        # quit button
-        pygame.draw.rect(screen, grey, [450, 600, 140, 60])
-        quit_rect = quit_text.get_rect(center=(450 + 140 // 2, 600 + 60 // 2))  # text centered in the button
-        screen.blit(quit_text, quit_rect)
-
-        # credits button
-        pygame.draw.rect(screen, grey, [450, 480, 140, 60])
-        credits_rect = credits_text.get_rect(center=(450 + 140 // 2, 480 + 60 // 2))  # text centered in the button
-        screen.blit(credits_text, credits_rect)
-
-        # showing the title of the project
-        screen.blit(title_text, (55, 0))
 
         # update the display so that the loop changes will appear
         pygame.display.update()
@@ -157,22 +196,25 @@ def credits_():
 
 
 def rules_():
-    # SETUP
+
     # setting up the background
     background = pygame.image.load("ui/background.png")
-    background = pygame.transform.scale(background, (width, height))  # para que o background ocupe toda a tela
+    # para que o background ocupe toda a tela
+    background = pygame.transform.scale(background, (width, height))
+
     back = pygame.image.load("ui/back.png")
     rules = pygame.image.load("ui/rules.png")
 
     # Initial back button size
     back_width, back_height = back.get_width(), back.get_height()
-    back_hover_size = (int(back_width * 1.2), int(back_height * 1.2))
+    back_hover_size = (int(back_width * 1.3), int(back_height * 1.3))
 
     # screen setup:
     screen = pygame.display.set_mode(resolution)
 
     # main loop to detect user input and display the credits
-    while True:
+    cont = True
+    while cont:
         screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
         screen.blit(rules,(100,100)) # putting rules img on the screen
 
@@ -198,7 +240,7 @@ def rules_():
             # checking if the user clicked the back button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 10 <= mouse[0] <= 100 and 10 <= mouse[1] <= 50:
-                    interface()
+                    cont = False
 
         # pygame.draw.rect(screen, dark_red, [0, 0, 90, 30])
         # updating the display
