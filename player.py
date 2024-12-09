@@ -29,6 +29,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.weapon_power = 1
         self.coins = 100
         self.shield = 0
+        self.shield_active = False
 
     def update(self, wall_group):
         # getting the keys input
