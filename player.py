@@ -89,8 +89,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             damage -= self.shield
             self.shield = 0
             self.health -= damage
-        elif self.health <= 0:
-            self.kill()
         elif self. health > 0:
             self.health -= damage
 
