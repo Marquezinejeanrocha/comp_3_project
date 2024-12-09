@@ -3,8 +3,6 @@ from config import *
 import pygame
 import random
 import math
-from bullet import Bullet
-import sounds as se
 from player import Player
 
 
@@ -56,20 +54,6 @@ class Enemy(pygame.sprite.Sprite):
 
         self.rect.x = int(self.rect.x)
         self.rect.y = int(self.rect.y)
-
-    def shoot(self, bullets: pygame.sprite.Group, player):
-        # If you're shooting
-        direction = math.atan2(
-            player.rect.y - self.rect.y, player.rect.x - self.rect.x
-        )
-        if self.bullet_cooldown <= 0:
-            bullet = Bullet(
-                self.rect.center[0], self.rect.center[1], direction
-            )
-            bullets.add(bullet)
-            se.bullet_sound.play()
-            self.bullet_cooldown = fps # Frames until the next shot
-        self.bullet_cooldown -= 1
 
     def explode(self,player):
         distance = math.sqrt((self.rect.x - player.rect.x)**2 + (self.rect.y - player.rect.y)**2)

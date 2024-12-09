@@ -122,8 +122,6 @@ def execute_game(player1, player2):
         player1.shoot(bullets1)
         player2.shoot(bullets2)
 
-        # Checking for collisions between enemies and bullets
-
         # spawning enemies every two seconds
         if enemy_cooldown <= 0:
             # todo: creating more types of enemies
