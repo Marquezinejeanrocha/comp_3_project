@@ -31,6 +31,8 @@ class Player(pygame.sprite.Sprite):
         self.coins = 100
         self.shield = 0
         self.shield_active = False
+        self.active_powerup = None  # To track the current power-up
+        self.powerup_timer = 0  # Timer to track power-up duration
 
     def update(self, wall_group):
         # getting the keys input
@@ -56,6 +58,17 @@ class Player(pygame.sprite.Sprite):
             # If collision detected, revert to the original position
             self.rect.x = original_x
             self.rect.y = original_y
+
+        # Check if the power-up duration has ended
+        if self.active_powerup and pygame.time.get_ticks() > self.powerup_timer:
+            self.remove_powerup()
+
+    def remove_powerup(self):
+        if self.active_powerup == "SpeedBoost":
+            self.speed -= 2  # Revert speed boost
+        elif self.active_powerup == "Shield":
+            self.shield_active = False  # Deactivate shield
+        self.active_powerup = None  # Clear the active power-up
 
     def shoot(self, bullets, key):
         """
@@ -105,6 +118,20 @@ class Player(pygame.sprite.Sprite):
 
     def reset(self):
         pass
+
+    def draw(self, screen):
+        # Draw the player rectangle
+        screen.blit(self.image, self.rect)
+
+        # Draw a circle if SpeedBoost is active
+        if self.active_powerup == "SpeedBoost":
+            pygame.draw.circle(
+                screen,
+                (0, 255, 0),  # Green for SpeedBoost
+                self.rect.center,  # Center of the player's rectangle
+                self.rect.width // 2 + 10,  # Radius slightly larger than the player
+                2  # Thickness of the circle outline
+            )
 
 
 

@@ -181,8 +181,8 @@ def execute_game(player1, player2):
         enemies2.update(player2)
 
         spawn_powerups(powerups, 500, 500)
-        handle_powerup_collisions(player1_group, powerups)
-        handle_powerup_collisions(player2_group, powerups)
+        handle_powerup_collisions([player1, player2], powerups)
+
         for powerup in powerups:
             powerup.draw(screen)
 
@@ -201,8 +201,8 @@ def execute_game(player1, player2):
             return "shed"
 
         # drawing the player and enemies sprites on the screen
-        player1_group.draw(screen)
-        player2_group.draw(screen)
+        player1.draw(screen)
+        player2.draw(screen)
 
         enemies1.draw(screen)
         enemies2.draw(screen)
