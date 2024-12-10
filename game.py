@@ -10,33 +10,36 @@ from wall import Wall
 from chest import Chest
 
 #creatting the player for the game
-controls_player1 = {
-    'up': pygame.K_w,
-    'down': pygame.K_s,
-    'left': pygame.K_a,
-    'right': pygame.K_d
-}
+def initiate_players():
+    controls_player1 = {
+        'up': pygame.K_w,
+        'down': pygame.K_s,
+        'left': pygame.K_a,
+        'right': pygame.K_d
+    }
 
-controls_player2 = {
-    'up': pygame.K_UP,
-    'down': pygame.K_DOWN,
-    'left': pygame.K_LEFT,
-    'right': pygame.K_RIGHT
-}
-player = Player(cute_purple, (110,106), controls_player1)
-player2 = Player(greenish, (612,601), controls_player2)
+    controls_player2 = {
+        'up': pygame.K_UP,
+        'down': pygame.K_DOWN,
+        'left': pygame.K_LEFT,
+        'right': pygame.K_RIGHT
+    }
+    player = Player(cute_purple, (110,106), controls_player1)
+    player2 = Player(greenish, (612,601), controls_player2)
+    return [player, player2]
 
-def game_loop():
+def game_loop(player, player2):
 
-    #by default, I started the player in the main area
     current_state = "main"
+    initiate = False
 
     #endless game loop 
     while True:
         if current_state == "main":
             current_state = execute_game(player, player2)
-            if current_state == "exit":
-                return
+        elif current_state == "exit":
+            initiate = True
+            return initiate
         elif current_state == "shed":
             current_state = shed(player, player2)
 
@@ -129,20 +132,20 @@ def execute_game(player1, player2):
 
             screen.blit(pause, (675,-5))
         # handling events:
-        cont = ""
+        status = ""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN or keys[pygame.K_RETURN]:
                 if 675 <= mouse[0] <= 675 + pause_w and -5 <= mouse[1] <= -5 + pause_h:
-                    cont = pause_()
+                    status = pause_()
 
             #get coordinates in screen
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print(mouse[0], mouse[1])
 
-        if cont == "exit":
+        if status == "exit":
             return "exit"
 
         # automatically shoot bullets from the player

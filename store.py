@@ -3,7 +3,7 @@ from config import *
 from game import *
 from player import *
 
-def shop():
+def shop(player, player2):
 
     # creating the screen at 720x720 pixels
     screen = pygame.display.set_mode(resolution)

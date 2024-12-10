@@ -5,7 +5,8 @@ import math
 from bullet import Bullet
  
 # making a player a child of the Sprite class
-class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
+# sprites are moving things in pygame
+class Player(pygame.sprite.Sprite):
 
     def __init__(self, color, location,  controls):
         # calling the mother classes init aka Sprite
@@ -101,6 +102,9 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.health += heal_rate * delta_time
         if self.health > 100:
             self.health = 100
+
+    def reset(self):
+        pass
 
 
 

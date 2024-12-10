@@ -6,12 +6,15 @@ from utils import under_construction
 from store import shop
 
 def interface(): 
- 
     # initiating pygame
     pygame.init() # calling pygame
     # creating the screen at the set resolution
     # show the user something
     screen = pygame.display.set_mode(resolution)
+    #by default, I started the player in the main area
+    players = initiate_players()
+    player = players[0]
+    player2 = players[1]
 
     # filling the screen
     # setting up the background
@@ -19,8 +22,6 @@ def interface():
     # para que o background ocupe toda a tela
     background = pygame.transform.scale(background, (width, height))
     game = pygame.image.load("ui/CHEST BUSTER.png")
-
-    img_scale = 1.3
 
     play = pygame.image.load("ui/play.png")
     play_w, play_h = play.get_width(), play.get_height()
@@ -129,11 +130,15 @@ def interface():
 
                 # Wilderness game button (Play button)
                 if 280 <= mouse[0] <= 280 + play_w and 275 <= mouse[1] <= 275 + play_h:
-                    wilderness_explorer()
+                    status = wilderness_explorer(player, player2)
+                    if status:
+                        players = initiate_players()
+                        player = players[0]
+                        player2 = players[1]
 
                 # Shop button
                 if 105 <= mouse[0] <= 105 + shop_w and 420 <= mouse[1] <= 420 + shop_h:
-                    shop()
+                    shop(player, player2)
 
                 # Options button
                 if 505 <= mouse[0] <= 505 + option_w and 420 <= mouse[1] <= 420 + option_h:
@@ -248,5 +253,7 @@ def rules_():
 
 
 
-def wilderness_explorer():
-    game_loop()
+def wilderness_explorer(player, player2):
+    status = game_loop(player, player2)
+    if status:
+        return True
