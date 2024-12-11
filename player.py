@@ -3,8 +3,8 @@ from config import *
 import pygame
 import math
 from bullet import Bullet
-from Powerups.powerup import PowerUp
-from Powerups.invencibility import Invencibility
+from comp_3_project.Powerups.powerup import PowerUp
+from comp_3_project.Powerups.invencibility import Invencibility
 
 
 # making a player a child of the Sprite class
@@ -29,14 +29,28 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         # GAMEPLAY VARIABLES
         self.speed = 5
-        self.health = 100
+        self.health = 20
         self.bullet_cooldown = 0
         self.weapon_power = 1
         self.coins = 100
         self.shield = 0
         self.powerup = None
+        self.original_color = color
+
+
+        self.start_location = location  # Store the initial location for respawn
+        self.respawn_timer = None  # Timer for respawn
+        self.alive = True  # Player state
 
     def update(self, wall_group):
+
+        if not self.alive:
+            # Check if it's time to respawn
+            if self.respawn_timer and pygame.time.get_ticks() >= self.respawn_timer:
+                self.respawn()  # Respawn the player
+            return  # Skip further updates if dead
+
+
         # getting the keys input
         keys = pygame.key.get_pressed()
         # Store the original position before movement
@@ -77,7 +91,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                     bullet = Bullet(self.rect.centerx, self.rect.centery, angle)
                     bullets.add(bullet)
                 # resetting the cooldown
-                self.bullet_cooldown = fps
+                self.bullet_cooldown = fps * 2
             self.bullet_cooldown -= 5
         if key == 'enter' and keys[pygame.K_RETURN]:
             if self.bullet_cooldown <= 0:
@@ -100,6 +114,10 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         elif self.health > 0:
             self.health -= damage
 
+        # Check for player death
+        if self.health <= 0:
+            self.die()
+
     def hospital(self, delta_time):
         # regains 20% helth per second, without surpassing 100%
         heal_rate = 20  # Porcentagem de cura por segundo
@@ -117,3 +135,15 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 pp.cooldown -= 1
             pp.cooldown = cooldown_reset
             self.powerup = None
+
+    def die(self):
+        self.alive = False
+        self.respawn_timer = pygame.time.get_ticks() + 3000
+        self.image.fill((128, 0, 0))  # red color for death
+
+    def respawn(self):
+        self.alive = True
+        self.respawn_timer = None
+        self.health = 100
+        self.rect.center = self.start_location  # Reset to the start location
+        self.image.fill(self.original_color)  # Reset to original color

@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import pygame
 from pygame.sprite import Sprite
 
-from config import *
+from comp_3_project.config import *
 
 class PowerUp(ABC, Sprite):
     @abstractmethod
