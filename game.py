@@ -2,7 +2,6 @@ from chest import Chest
 from config import *
 import math
 import pygame
-from powerups import SpeedBoost, Shield, spawn_powerups, handle_powerup_collisions
 from player import *
 from enemy import Enemy
 from shed import shed
@@ -50,7 +49,6 @@ def execute_game(player1, player2):
 
     # using the clock to control the time frame
     clock = pygame.time.Clock()
-    powerups = []
 
     # screen setup:
     screen = pygame.display.set_mode(resolution)
@@ -176,12 +174,6 @@ def execute_game(player1, player2):
 
         enemies1.update(player1)
         enemies2.update(player2)
-
-        spawn_powerups(powerups, 500, 500)
-        handle_powerup_collisions(player1_group, powerups)
-        handle_powerup_collisions(player2_group, powerups)
-        for powerup in powerups:
-            powerup.draw(screen)
 
         # Verificando se o jogador está no canto inferior esquerdo da tela
         if (370 <= player1.rect.x <= 430 and 600 <= player1.rect.y <= 660):

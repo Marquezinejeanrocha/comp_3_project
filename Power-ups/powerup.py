@@ -3,6 +3,7 @@ import pygame
 from config import *
 
 class PowerUp(ABC):
+    @abstractmethod
     def __init__(self, image, duration):
         self.image = pygame.image.load("images/" + image)
         self.image = pygame.transform.scale(self.image, (self.image.get_width(), self.image.get_height()))
