@@ -20,12 +20,16 @@ def initiate_players():
 
     controls_player2 = {
         'up': pygame.K_UP,
+        'up_2': pygame.K_KP8,
         'down': pygame.K_DOWN,
+        'down_2': pygame.K_KP5,
         'left': pygame.K_LEFT,
-        'right': pygame.K_RIGHT
+        'left_2': pygame.K_KP4,
+        'right': pygame.K_RIGHT,
+        'right_2': pygame.K_KP6
     }
-    player = Player(cute_purple, (110,106), controls_player1)
-    player2 = Player(greenish, (612,601), controls_player2)
+    player = Player(cute_purple, (110,106), controls_player1, 'player_1')
+    player2 = Player(greenish, (612,601), controls_player2, 'player_2')
     return [player, player2]
 
 def game_loop(player, player2):

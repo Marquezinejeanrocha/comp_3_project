@@ -8,7 +8,7 @@ from bullet import Bullet
 # sprites are moving things in pygame
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, color, location,  controls):
+    def __init__(self, color, location,  controls, number):
         # calling the mother classes init aka Sprite
         super().__init__()
 
@@ -21,7 +21,8 @@ class Player(pygame.sprite.Sprite):
         # centering the player in its rectangle
         self.rect.center = location   #(width // 2, height // 2) 
 
-        self.controls = controls  
+        self.controls = controls
+        self.number = number
 
         # GAMEPLAY VARIABLES
         self.speed = 5
@@ -43,14 +44,25 @@ class Player(pygame.sprite.Sprite):
 
         # checking which keys where pressed and moving the player accordingly
         # independent movements, independent ifs
-        if keys[self.controls['up']] and self.rect.top > 0:
-            self.rect.y -= self.speed
-        if keys[self.controls['down']] and self.rect.bottom < height:
-            self.rect.y += self.speed
-        if keys[self.controls['left']] and self.rect.left > 0:
-            self.rect.x -= self.speed
-        if keys[self.controls['right']] and self.rect.right < width:
-            self.rect.x += self.speed
+        if self.number == 'player_2':
+            if (keys[self.controls['up']] or keys[self.controls['up_2']]) and self.rect.top > 0:
+                self.rect.y -= self.speed
+            if (keys[self.controls['down']] or keys[self.controls['down_2']]) and self.rect.bottom < height:
+                self.rect.y += self.speed
+            if keys[self.controls['left']] and self.rect.left > 0:
+                self.rect.x -= self.speed
+            if keys[self.controls['right']] and self.rect.right < width:
+                self.rect.x += self.speed
+        else:
+            if keys[self.controls['up']] and self.rect.top > 0:
+                self.rect.y -= self.speed
+            if keys[self.controls['down']] and self.rect.bottom < height:
+                self.rect.y += self.speed
+            if keys[self.controls['left']] and self.rect.left > 0:
+                self.rect.x -= self.speed
+            if keys[self.controls['right']] and self.rect.right < width:
+                self.rect.x += self.speed
+
 
         # Check for wall collisions after movement
         wall_collision = pygame.sprite.spritecollide(self, wall_group, False)
