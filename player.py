@@ -1,5 +1,6 @@
 from utils import *
 from config import *
+import pygame
 import math
 from bullet import Bullet
 from Powerups.powerup import PowerUp
@@ -88,7 +89,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             self.bullet_cooldown -= 5
 
     def take_damage(self, damage):
-        if self.powerup is not None and isinstance(self.powerup,Invencibility):
+        if self.powerup is not None and isinstance(self.powerup, Invencibility):
             return
         if self.shield > 0 and damage < self.shield:
             self.shield -= damage

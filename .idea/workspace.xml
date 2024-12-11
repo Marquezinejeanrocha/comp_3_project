@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="637abe71-7d26-4adf-a88a-989a13ef63ac" name="Changes" comment="powerup improved">
-      <change afterPath="$PROJECT_DIR$/Powerups/invencibility.py" afterDir="false" />
+    <list default="true" id="637abe71-7d26-4adf-a88a-989a13ef63ac" name="Changes" comment="powerup ammend">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Powerups/powerup.py" beforeDir="false" afterPath="$PROJECT_DIR$/Powerups/powerup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Giant_Stump.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/stardew_valley.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -132,7 +127,7 @@
       <workItem from="1733750340229" duration="7366000" />
       <workItem from="1733771409155" duration="1948000" />
       <workItem from="1733926235649" duration="133000" />
-      <workItem from="1733927004380" duration="3956000" />
+      <workItem from="1733927004380" duration="5016000" />
     </task>
     <task id="LOCAL-00001" summary="added the chest with class bullet collision and image.">
       <option name="closed" value="true" />
@@ -198,7 +193,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733926290550</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="powerup ammend">
+      <option name="closed" value="true" />
+      <created>1733932722003</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1733932722003</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -212,9 +215,10 @@
     <MESSAGE value="added a function in player so it handles all the damage dealt or not dealt" />
     <MESSAGE value="added the abstract class of Power-Ups." />
     <MESSAGE value="powerup improved" />
-    <option name="LAST_COMMIT_MESSAGE" value="powerup improved" />
+    <MESSAGE value="powerup ammend" />
+    <option name="LAST_COMMIT_MESSAGE" value="powerup ammend" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/comp_3_project$main.coverage" NAME="main Coverage Results" MODIFIED="1733932278930" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/comp_3_project$main.coverage" NAME="main Coverage Results" MODIFIED="1733933024528" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
