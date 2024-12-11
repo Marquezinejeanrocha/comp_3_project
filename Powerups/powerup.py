@@ -5,21 +5,18 @@ from pygame.sprite import Sprite
 
 from config import *
 
-<<<<<<<< HEAD:Powerups/powerup.py
-
 class PowerUp(ABC, Sprite):
     @abstractmethod
     def __init__(self, name, image, duration,cooldown):
         super().__init__()
         self.name = name
-========
-class PowerUp(ABC):
-    def __init__(self, image, duration):
->>>>>>>> origin/comp_3:powerups/powerup.py
-        self.image = pygame.image.load("images/" + image)
-        self.image = pygame.transform.scale(self.image, (self.image.get_width(), self.image.get_height()))
+        self.image= pygame.image.load(image)
+        self.image = pygame.transform.scale(self.image, (int(image[0]), int(image[1])))
         self.rect = self.image.get_rect()
-        self.duration = duration * fps
+        self.duration = duration
+        self.cooldown = cooldown
+
+
 
     @abstractmethod
     def affect_game(self):

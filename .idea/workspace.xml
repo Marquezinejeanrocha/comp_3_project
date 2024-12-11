@@ -5,13 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="637abe71-7d26-4adf-a88a-989a13ef63ac" name="Changes" comment="powerup improved">
-      <change afterPath="$PROJECT_DIR$/powerups.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/powerups/powerup.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/powerups_parent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Power-ups/powerup.py" beforeDir="false" afterPath="$PROJECT_DIR$/Power-ups/powerup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Powerups/invencibility.py" beforeDir="false" afterPath="$PROJECT_DIR$/Powerups/invencibility.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Powerups/invencibility.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Powerups/powerup.py" beforeDir="false" afterPath="$PROJECT_DIR$/Powerups/powerup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/Giant_Stump.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/stardew_valley.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/player.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,20 +52,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Merging comp__3&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/souza/OneDrive/Documentos/GitHub/comp_3_project/images&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "comp__3",
+    "last_opened_file_path": "C:/Users/souza/OneDrive/Documentos/GitHub/comp_3_project/images",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\souza\OneDrive\Documentos\GitHub\comp_3_project\images" />
@@ -132,6 +132,7 @@
       <workItem from="1733750340229" duration="7366000" />
       <workItem from="1733771409155" duration="1948000" />
       <workItem from="1733926235649" duration="133000" />
+      <workItem from="1733927004380" duration="3956000" />
     </task>
     <task id="LOCAL-00001" summary="added the chest with class bullet collision and image.">
       <option name="closed" value="true" />
@@ -214,6 +215,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="powerup improved" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/comp_3_project$main.coverage" NAME="main Coverage Results" MODIFIED="1733771135419" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/comp_3_project$main.coverage" NAME="main Coverage Results" MODIFIED="1733932278930" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

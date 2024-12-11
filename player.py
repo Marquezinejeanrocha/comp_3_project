@@ -1,32 +1,30 @@
-from future.standard_library import import_
-
 from utils import *
 from config import *
-import pygame
 import math
 from bullet import Bullet
 from Powerups.powerup import PowerUp
+from Powerups.invencibility import Invencibility
 
 
 # making a player a child of the Sprite class
-class Player(pygame.sprite.Sprite): # sprites are moving things in pygame
+class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
-    pp_list=["invincebility", "despawner", "gunUpgrade"]
+    pp_list = ["invincebility", "despawner", "gunUpgrade"]
 
-    def __init__(self, color, location,  controls):
+    def __init__(self, color, location, controls):
         # calling the mother classes init aka Sprite
         super().__init__()
 
         # VISUAL VARIABLES
         self.image = pygame.Surface(player_size)  # we use surface to display any image or draw
         # drawing the image of the player
-        self.image.fill(color) 
+        self.image.fill(color)
         # area where the player will be drawn
         self.rect = self.image.get_rect()
         # centering the player in its rectangle
-        self.rect.center = location   #(width // 2, height // 2) 
+        self.rect.center = location  # (width // 2, height // 2)
 
-        self.controls = controls  
+        self.controls = controls
 
         # GAMEPLAY VARIABLES
         self.speed = 5
@@ -90,29 +88,31 @@ class Player(pygame.sprite.Sprite): # sprites are moving things in pygame
             self.bullet_cooldown -= 5
 
     def take_damage(self, damage):
+        if self.powerup is not None and isinstance(self.powerup,Invencibility):
+            return
         if self.shield > 0 and damage < self.shield:
             self.shield -= damage
         elif 0 < self.shield < damage:
             damage -= self.shield
             self.shield = 0
             self.health -= damage
-        elif self. health > 0:
+        elif self.health > 0:
             self.health -= damage
-        
-    def hospital(self , delta_time):
+
+    def hospital(self, delta_time):
         # regains 20% helth per second, without surpassing 100%
         heal_rate = 20  # Porcentagem de cura por segundo
         self.health += heal_rate * delta_time
         if self.health > 100:
             self.health = 100
 
-    def get_powerup(self, pp : PowerUp):
+    def get_powerup(self, pp: PowerUp):
         collided = pygame.sprite.spritecollide(self, pp, False)
         pp.kill()
         if collided:
             self.powerup = pp
             cooldown_reset = pp.cooldown
-            while pp.cooldown >0:
-                pp.cooldown -=1
+            while pp.cooldown > 0:
+                pp.cooldown -= 1
             pp.cooldown = cooldown_reset
             self.powerup = None
