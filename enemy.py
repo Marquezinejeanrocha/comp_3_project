@@ -28,6 +28,7 @@ class Enemy(pygame.sprite.Sprite):
         self.health = 10
 
         self.exploding_counter = 3 * fps
+        self.damage=10
 
     def update(self, player):
 
@@ -59,4 +60,4 @@ class Enemy(pygame.sprite.Sprite):
         distance = math.sqrt((self.rect.x - player.rect.x)**2 + (self.rect.y - player.rect.y)**2)
         self.kill()
         if distance<=2:
-            player.take_damage(10)
+            player.take_damage(self.damage)

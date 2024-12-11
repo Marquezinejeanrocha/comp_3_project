@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="637abe71-7d26-4adf-a88a-989a13ef63ac" name="Changes" comment="powerup improved">
+      <change afterPath="$PROJECT_DIR$/powerups.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/powerups/powerup.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/powerups_parent.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Power-ups/powerup.py" beforeDir="false" afterPath="$PROJECT_DIR$/Power-ups/powerup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Powerups/invencibility.py" beforeDir="false" afterPath="$PROJECT_DIR$/Powerups/invencibility.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Powerups/powerup.py" beforeDir="false" afterPath="$PROJECT_DIR$/Powerups/powerup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;PedroSouza004&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Marquezinejeanrocha/comp_3_project.git&quot;,
+    &quot;accountId&quot;: &quot;a3c7287f-f6ed-4582-8bb8-8b43be6d8a42&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2plBtjjRY4yZYpnXfjtrPQ230FE" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Merging comp__3&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/souza/OneDrive/Documentos/GitHub/comp_3_project/images&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\souza\OneDrive\Documentos\GitHub\comp_3_project\images" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\souza\OneDrive\Documentos\GitHub\comp_3_project\images" />
+      <recent name="C:\Users\souza\OneDrive\Documentos\GitHub\comp_3_project\Power-ups" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="comp_3_project" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-PY-242.23339.19" />
+        <option value="bundled-python-sdk-0029f7779945-399fe30bd8c1-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.23339.19" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="637abe71-7d26-4adf-a88a-989a13ef63ac" name="Changes" comment="" />
+      <created>1733330999974</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1733330999974</updated>
+      <workItem from="1733331001232" duration="3320000" />
+      <workItem from="1733334908077" duration="1982000" />
+      <workItem from="1733404586434" duration="4652000" />
+      <workItem from="1733411311799" duration="4351000" />
+      <workItem from="1733416719021" duration="1733000" />
+      <workItem from="1733502175322" duration="54000" />
+      <workItem from="1733503290529" duration="2587000" />
+      <workItem from="1733744514015" duration="1902000" />
+      <workItem from="1733750340229" duration="7366000" />
+      <workItem from="1733771409155" duration="1948000" />
+      <workItem from="1733926235649" duration="133000" />
+    </task>
+    <task id="LOCAL-00001" summary="added the chest with class bullet collision and image.">
+      <option name="closed" value="true" />
+      <created>1733337834269</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1733337834269</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added the chest with class bullet collision and image.">
+      <option name="closed" value="true" />
+      <created>1733337867721</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1733337867721</updated>
+    </task>
+    <task id="LOCAL-00003" summary="the player won't shoot after died">
+      <option name="closed" value="true" />
+      <created>1733405383091</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1733405383091</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added explode function to the enemy.py&#10;to replace the shooting function">
+      <option name="closed" value="true" />
+      <created>1733408771656</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1733408771656</updated>
+    </task>
+    <task id="LOCAL-00005" summary="readded the explosion function. without erros (ig)">
+      <option name="closed" value="true" />
+      <created>1733412873503</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1733412873503</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added a function in player so it handles all the damage dealt or not dealt">
+      <option name="closed" value="true" />
+      <created>1733415108038</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1733415108038</updated>
+    </task>
+    <task id="LOCAL-00007" summary="added the abstract class of Power-Ups.">
+      <option name="closed" value="true" />
+      <created>1733747999801</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1733747999801</updated>
+    </task>
+    <task id="LOCAL-00008" summary="powerup improved">
+      <option name="closed" value="true" />
+      <created>1733926290550</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1733926290550</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added the chest with class bullet collision and image." />
+    <MESSAGE value="the player won't shoot after died" />
+    <MESSAGE value="added explode function to the enemy.py&#10;to replace the shooting function" />
+    <MESSAGE value="readded the explosion function. without erros (ig)" />
+    <MESSAGE value="added a function in player so it handles all the damage dealt or not dealt" />
+    <MESSAGE value="added the abstract class of Power-Ups." />
+    <MESSAGE value="powerup improved" />
+    <option name="LAST_COMMIT_MESSAGE" value="powerup improved" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/comp_3_project$main.coverage" NAME="main Coverage Results" MODIFIED="1733771135419" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>

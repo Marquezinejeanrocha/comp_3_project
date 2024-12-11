@@ -1,11 +1,17 @@
+from future.standard_library import import_
+
 from utils import *
 from config import *
-import pygame 
+import pygame
 import math
 from bullet import Bullet
- 
+from Powerups.powerup import PowerUp
+
+
 # making a player a child of the Sprite class
-class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
+class Player(pygame.sprite.Sprite): # sprites are moving things in pygame
+
+    pp_list=["invincebility", "despawner", "gunUpgrade"]
 
     def __init__(self, color, location,  controls):
         # calling the mother classes init aka Sprite
@@ -29,6 +35,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.weapon_power = 1
         self.coins = 100
         self.shield = 0
+        self.powerup = None
 
     def update(self, wall_group):
         # getting the keys input
@@ -91,16 +98,21 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             self.health -= damage
         elif self. health > 0:
             self.health -= damage
-
-
         
     def hospital(self , delta_time):
-        # Recupera 20% da saúde por segundo, sem ultrapassar 100
+        # regains 20% helth per second, without surpassing 100%
         heal_rate = 20  # Porcentagem de cura por segundo
         self.health += heal_rate * delta_time
         if self.health > 100:
             self.health = 100
 
-
-
-  
+    def get_powerup(self, pp : PowerUp):
+        collided = pygame.sprite.spritecollide(self, pp, False)
+        pp.kill()
+        if collided:
+            self.powerup = pp
+            cooldown_reset = pp.cooldown
+            while pp.cooldown >0:
+                pp.cooldown -=1
+            pp.cooldown = cooldown_reset
+            self.powerup = None

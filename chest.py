@@ -18,3 +18,4 @@ class Chest(pygame.sprite.Sprite):
     def dead(self):
         if self.life >=0:
             self.image = pygame.image.load("images/chestbroken.png")
+            self.image = pygame.transform.scale(self.image, (50, 50))
