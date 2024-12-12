@@ -1,7 +1,7 @@
 import pygame
 from config import *
 from game import *
-from player import *
+
 
 def shop():
 

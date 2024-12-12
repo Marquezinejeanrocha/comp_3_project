@@ -1,4 +1,4 @@
-from comp_3_project.Powerups.powerup import PowerUp
+from Powerups.powerup import PowerUp
 
 class Invencibility(PowerUp):
     def __init__(self, name):

@@ -302,6 +302,8 @@ def pause_():
 
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 450 <= mouse[0] <= 590 and 500 <= mouse[1] <= 560:
+                    player.save_player_data("save_player_data.json")
+                    player2.save_player_data( "save_player_2_data.json")
                     return 'exit'
 
         # display my screen

@@ -6,6 +6,21 @@ from utils import under_construction
 from store import shop
 
 def interface(): 
+
+
+    save_file = "save_player_data.json"
+    save_file2 = "save_player_2_data.json"
+    try:
+        with open(save_file, 'r'):
+            player.load_player_data(save_file)
+    except FileNotFoundError:
+        player.save_player_data(save_file)
+
+    try:
+        with open(save_file2, 'r'):
+            player2.load_player_data(save_file2)
+    except FileNotFoundError:
+        player2.save_player_data(save_file2)
  
     # initiating pygame
     pygame.init() # calling pygame
@@ -104,6 +119,8 @@ def interface():
         if 280 <= mouse[0] <= 280 + quit_w and 600 <= mouse[1] <= 600 + quit_h:
             screen.blit(quit_hover, (280 - (quit_hover_size[0] - quit_w) // 2,
                                      600 - (quit_hover_size[1] - quit_h) // 2))
+            player.save_player_data("save_player_data.json")
+            player2.save_player_data( "save_player_2_data.json")
         else:
             screen.blit(quit, (280, 600))
 

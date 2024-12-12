@@ -3,8 +3,9 @@ from config import *
 import pygame
 import math
 from bullet import Bullet
-from comp_3_project.Powerups.powerup import PowerUp
-from comp_3_project.Powerups.invencibility import Invencibility
+from Powerups.powerup import PowerUp
+from Powerups.invencibility import Invencibility
+import json
 
 
 # making a player a child of the Sprite class
@@ -148,3 +149,20 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.health = 100
         self.rect.center = self.start_location  # Reset to the start location
         self.image.fill(self.original_color)  # Reset to original color
+
+    def save_player_data(self, filename):
+            player_data = {
+
+                'weapon_power': self.weapon_power,
+                'coins': self.coins,
+                'shield': self.shield,
+            }
+            with open(filename, 'w') as file:
+                json.dump(player_data, file)
+
+    def load_player_data(self, filename):
+        with open(filename, 'r') as file:
+            player_data = json.load(file)
+            self.weapon_power = player_data['weapon_power']
+            self.coins = player_data['coins']
+            self.shield = player_data['shield']
