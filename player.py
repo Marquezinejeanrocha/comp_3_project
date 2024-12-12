@@ -29,7 +29,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         # GAMEPLAY VARIABLES
         self.speed = 5
-        self.health = 20
+        self.health = 100
         self.bullet_cooldown = 0
         self.weapon_power = 1
         self.coins = 100
@@ -41,6 +41,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.start_location = location  # Store the initial location for respawn
         self.respawn_timer = None  # Timer for respawn
         self.alive = True  # Player state
+        self.has_key = False
 
     def update(self, wall_group):
 
@@ -99,7 +100,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                     bullet = Bullet(self.rect.centerx, self.rect.centery, angle)
                     bullets.add(bullet)
                 # resetting the cooldown
-                self.bullet_cooldown = fps
+                self.bullet_cooldown = fps * 2
             self.bullet_cooldown -= 5
 
     def take_damage(self, damage):

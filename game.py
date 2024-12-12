@@ -175,13 +175,13 @@ def execute_game(player1, player2):
         enemies1.update(player1)
         enemies2.update(player2)
 
-        #for powerup in powerups:
+        # for powerup in powerups:
         #    powerup.draw(screen)
 
         # Verificando se o jogador está no canto inferior esquerdo da tela
-        if (370 <= player1.rect.x <= 430 and 600 <= player1.rect.y <= 660):
+        if 370 <= player1.rect.x <= 430 and 600 <= player1.rect.y <= 660:
             player1.hospital(delta_time = clock.get_time() / 1000)
-        if (430 <= player2.rect.x <= 490 and 600 <= player2.rect.y <= 660):
+        if 430 <= player2.rect.x <= 490 and 600 <= player2.rect.y <= 660:
             player2.hospital(delta_time = clock.get_time() / 1000)
         
         # Drawing rectangles to signal the coordinates
@@ -204,6 +204,10 @@ def execute_game(player1, player2):
             bullet.draw(screen)
         for bullet in bullets2:
             bullet.draw(screen)
+
+        # overriding draw cause to make the key
+        for chest in chest_group:
+            chest.draw(screen)
 
 
         # checking for collisions between player bullets and enemies
@@ -243,6 +247,22 @@ def execute_game(player1, player2):
                 if chest.life <= 0:
                     #change the image of chest for a broken one
                     chest.dead()
+
+
+        for bullet in bullets2:
+            collided_chest= pygame.sprite.spritecollide(bullet, chest_group, False)
+            for chest in collided_chest:
+                chest.life -= 10
+                bullet.kill()
+                if chest.life <= 0:
+                    #change the image of chest for a broken one
+                    chest.dead()
+
+        for chest in chest_group:
+            # updating to check the collision
+            chest.update(player1_group)
+            chest.update(player2_group)
+
         # updates the whole screen since the frame was last drawn
         # handling events:
         pygame.display.flip()
