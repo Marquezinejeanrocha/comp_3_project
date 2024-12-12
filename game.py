@@ -10,6 +10,7 @@ from wall import Wall
 from chest import Chest
 
 #creatting the player for the game
+
 def initiate_players():
     controls_player1 = {
         'up': pygame.K_w,
@@ -52,6 +53,8 @@ def execute_game(player1, player2):
 
     # SETUP
     # setting up the background
+    idle_frames = [pygame.image.load(f"characters/enemy/idle_{i}.png").convert_alpha() for i in range(4)]
+    death_frames = [pygame.image.load(f"characters/enemy/explode_{i}.png").convert_alpha() for i in range(8)]
     background = pygame.image.load("ui/background.png")
     background = pygame.transform.scale(background, (width, height)) #para que o background ocupe toda a tela
 
@@ -159,8 +162,8 @@ def execute_game(player1, player2):
         # spawning enemies every two seconds
         if enemy_cooldown <= 0:
             # todo: creating more types of enemies
-            enemy1 = Enemy()
-            enemy2 = Enemy()
+            enemy1 = Enemy(idle_frames, death_frames)
+            enemy2 = Enemy(idle_frames, death_frames)
             # adding the enemy to the group
             enemies1.add(enemy1)
             enemies2.add(enemy2)
