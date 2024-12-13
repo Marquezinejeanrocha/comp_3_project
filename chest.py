@@ -5,7 +5,8 @@ from pygame.sprite import Sprite
 class Chest(pygame.sprite.Sprite):
     TILE_SIZE = 32
 
-    def __init__(self, x, y, life=1000):
+    def __init__(self, x, y, life=50):
+        #change the life later. short life for testing
         super().__init__()
         self.image  = pygame.image.load("images/chestfull.png")
         self.image = pygame.transform.scale(self.image, (50, 50))
