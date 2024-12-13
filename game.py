@@ -6,6 +6,7 @@ from enemy import Enemy
 from shed import shed
 from wall import Wall
 from chest import Chest
+#simple
 
 #creatting the player for the game
 controls_player1 = {
