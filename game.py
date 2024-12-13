@@ -6,7 +6,7 @@ from enemy import Enemy
 from shed import shed
 from wall import Wall
 from chest import Chest
-#simple
+
 
 #creatting the player for the game
 controls_player1 = {
@@ -99,7 +99,7 @@ def execute_game(player1, player2):
             if tile == "*":
                 chest = Chest(col, row)
                 chest_group.add(chest)
-
+    special_area = pygame.Rect(300, 250, 140, 140)
     # MAIN GAME LOOP
     running = True
     while running:
@@ -108,6 +108,7 @@ def execute_game(player1, player2):
 
         # setting up the background
         screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
+        pygame.draw.rect(screen, (255, 0, 0), special_area)
 
         # Showing the walls on the screen
         wall_group.draw(screen)
@@ -264,6 +265,14 @@ def execute_game(player1, player2):
             chest.update(player1_group)
             chest.update(player2_group)
 
+        if special_area.colliderect(player1.rect) and player1.has_key:
+            #if the player walked into the special area, we will return to the under construction screen
+            game_over("player1")
+
+        if special_area.colliderect(player2.rect) and player2.has_key:
+            #if the player walked into the special area, we will return to the under construction screen
+            game_over("player2")
+
         # updates the whole screen since the frame was last drawn
         # handling events:
         pygame.display.flip()
@@ -330,3 +339,11 @@ def pause_():
 
         # updating the display
         pygame.display.update()
+
+
+def game_over(won):
+    if won == "player1":
+        print("player1 won")
+
+    if won == "player2":
+        print("player2 won")
