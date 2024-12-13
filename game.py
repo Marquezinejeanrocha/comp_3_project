@@ -42,7 +42,7 @@ def game_loop():
 
 def execute_game(player1, player2):
 
-    sounds.background_sound.play()
+    sounds.background_sound.play(-1)
     
 
     # SETUP
