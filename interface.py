@@ -5,6 +5,7 @@ from game import *
 from utils import under_construction
 from store import shop
 
+
 def interface(): 
 
 
@@ -165,23 +166,39 @@ def interface():
 
 # Under construction screen
 def credits_():
+    # setting up the background
+    background = pygame.image.load("ui/background.png")
+    # para que o background ocupe toda a tela
+    background = pygame.transform.scale(background, (width, height))
+
+    back = pygame.image.load("ui/back.png")
+    credit = pygame.image.load("ui/credit_img.png")
+
+    # Initial back button size
+    back_width, back_height = back.get_width(), back.get_height()
+    back_hover_size = (int(back_width * 1.3), int(back_height * 1.3))
+
+    # screen setup:
     screen = pygame.display.set_mode(resolution)
 
-    # in order to print something we need to first create a font, create the text and then blit
-
-    # creating the fonts:
-    corbelfont = pygame.font.SysFont("Corbel", 50)
-    comicsansfont = pygame.font.SysFont("Comic Sans MS", 25)
-
-    # creating the rendered texts for the credits
-    augusto_text = comicsansfont.render("Augusto Santos, ajrsantos@novaims.unl.pt", True, white)
-    diogo_text = comicsansfont.render("Diogo Rastreio, drasteiro@novaims.unl.pt", True, white)
-    liah_text = comicsansfont.render("Liah Rosenfeld, lrosenfeld@novaims.unl.pt", True, white)
-
     # main loop to detect user input and display the credits
-    while True:
+    cont = True
+    while cont:
+        screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
+        screen.blit(credit, (100, 100))  # putting rules img on the screen
+
         # getting the position of the users mouse
         mouse = pygame.mouse.get_pos()
+
+        # looking for mouse hover on top of back button
+        if 10 <= mouse[0] <= 10 + back_width and 10 <= mouse[1] <= 10 + back_height:
+            # scaling the original back button
+            back_hover = pygame.transform.scale(back, back_hover_size)
+            screen.blit(back_hover, (10 - (back_hover_size[0] - back_width) // 2,
+                                     10 - (back_hover_size[1] - back_height) // 2))
+        else:
+            # if not hovering, then show the original back button
+            screen.blit(back, (10, 10))
 
         for ev in pygame.event.get():
 
@@ -191,23 +208,10 @@ def credits_():
 
             # checking if the user clicked the back button
             if ev.type == pygame.MOUSEBUTTONDOWN:
-                if 450 <= mouse[0] <= 590 and 600 <= mouse[1] <= 660:
-                    interface()
+                if 10 <= mouse[0] <= 100 and 10 <= mouse[1] <= 50:
+                    cont = False
 
-        # display my screen
-        screen.fill(deep_black) # we can fill the screen with an image instead of deep_black
-
-        # displaying our texts
-        screen.blit(augusto_text, (0,0)) # first line
-        screen.blit(diogo_text, (0, 25))
-        screen.blit(liah_text, (0, 50))
-
-        # drawing and displaying the back button
-        pygame.draw.rect(screen, dark_red, [450, 600, 140, 60])
-        back_text = corbelfont.render("back", True, white)
-        back_rect = back_text.get_rect(center=(450 + 140 // 2, 600 + 60 // 2))
-        screen.blit(back_text, back_rect)
-
+        # pygame.draw.rect(screen, dark_red, [0, 0, 90, 30])
         # updating the display
         pygame.display.update()
 

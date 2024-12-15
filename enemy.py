@@ -7,12 +7,18 @@ from player import Player
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, status):
         super().__init__()
         # creating a surface for the enemy
-        self.image = pygame.Surface(enemy_size)
-        # filling the surface with chosen enemy colour
-        self.image.fill(greenish)
+        if status == 'player1':
+
+            self.image = pygame.image.load("ui/enemy_02.png").convert_alpha()
+            self.image = pygame.transform.scale(self.image, (60,60))
+
+        if status == 'player2':
+            self.image = pygame.image.load("ui/enemy_03.png").convert_alpha()
+            self.image = pygame.transform.scale(self.image, (60,60))
+
 
         # getting rectangle for positioning
         self.rect = self.image.get_rect()

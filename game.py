@@ -152,8 +152,8 @@ def execute_game(player1, player2):
         # spawning enemies every two seconds
         if enemy_cooldown <= 0:
             # todo: creating more types of enemies
-            enemy1 = Enemy()
-            enemy2 = Enemy()
+            enemy1 = Enemy('player1')
+            enemy2 = Enemy('player2')
             # adding the enemy to the group
             enemies1.add(enemy1)
             enemies2.add(enemy2)

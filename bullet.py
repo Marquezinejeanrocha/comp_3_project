@@ -8,11 +8,12 @@ class Bullet(pygame.sprite.Sprite):
         super().__init__()
 
         self.direction = direction
-        self.radius = bullet_size
-        self.color = yellow
+        self.image = pygame.image.load("ui/bullet_1.png").convert_alpha()
+        self.image = pygame.transform.scale(self.image, (50,50))
+        # getting rectangle for positioning
 
-        # updating the x and y positions to fit the circle
-        self.rect = pygame.Rect(x - self.radius, y - self.radius, self.radius * 2, self.radius * 2)
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
         self.speed = 7  # todo: change the speed when catching a powerup
 
     def update(self, wall_group):
@@ -31,4 +32,5 @@ class Bullet(pygame.sprite.Sprite):
             self.kill()
 
     def draw(self, screen):
-        pygame.draw.circle(screen, self.color, self.rect.center, self.radius) 
+        # pygame.draw.circle(screen, self.color, self.rect.center, self.radius)
+        screen.blit(self.image, self.rect)

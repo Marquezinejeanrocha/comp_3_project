@@ -90,7 +90,9 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             if self.bullet_cooldown <= 0:
                 # these 4 directions, are in order, right, left, up and down
                 for angle in [0, math.pi, math.pi / 2, 3 * math.pi / 2]:
-                    bullet = Bullet(self.rect.centerx, self.rect.centery, angle)
+                    bullet = Bullet(self.rect.centerx, self.rect.centery, angle, )
+                    angle_degrees = -math.degrees(angle)  # Convert radians to degrees and invert
+                    bullet.image = pygame.transform.rotate(bullet.image, angle_degrees)
                     bullets.add(bullet)
                 # resetting the cooldown
                 self.bullet_cooldown = fps * 2
@@ -99,6 +101,8 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             if self.bullet_cooldown <= 0:
                 for angle in [0, math.pi, math.pi / 2, 3 * math.pi / 2]:
                     bullet = Bullet(self.rect.centerx, self.rect.centery, angle)
+                    angle_degrees = -math.degrees(angle)  # Convert radians to degrees and invert
+                    bullet.image = pygame.transform.rotate(bullet.image, angle_degrees)
                     bullets.add(bullet)
                 # resetting the cooldown
                 self.bullet_cooldown = fps * 2
