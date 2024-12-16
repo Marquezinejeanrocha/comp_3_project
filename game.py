@@ -6,6 +6,7 @@ from enemy import Enemy
 from shed import shed
 from wall import Wall
 from chest import Chest
+import sounds
 
 
 #creatting the player for the game
@@ -41,6 +42,9 @@ def game_loop():
 
 
 def execute_game(player1, player2):
+
+    #play the background sound
+    sounds.background_sound.play(-1)
 
     # SETUP
     # setting up the background
@@ -314,6 +318,7 @@ def pause_():
                 if 450 <= mouse[0] <= 590 and 500 <= mouse[1] <= 560:
                     player.save_player_data("save_player_data.json")
                     player2.save_player_data( "save_player_2_data.json")
+                    sounds.background_sound.stop()
                     return 'exit'
 
         # display my screen
