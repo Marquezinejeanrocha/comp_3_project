@@ -270,12 +270,14 @@ def execute_game(player1, player2):
             chest.update(player2_group)
 
         if special_area.colliderect(player1.rect) and player1.has_key:
-            #if the player walked into the special area, we will return to the under construction screen
+            # if the player walked into the special area, we will return to the under construction screen
             game_over("player1")
+            player1.has_key = False  # Ensure the function is called only once
 
         if special_area.colliderect(player2.rect) and player2.has_key:
             #if the player walked into the special area, we will return to the under construction screen
             game_over("player2")
+            player2.has_key = False
 
         # updates the whole screen since the frame was last drawn
         # handling events:
@@ -349,6 +351,8 @@ def pause_():
 def game_over(won):
     if won == "player1":
         print("player1 won")
+        player.coins += 100
 
     if won == "player2":
         print("player2 won")
+        player2.coins += 100
