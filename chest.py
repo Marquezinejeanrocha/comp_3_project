@@ -1,5 +1,6 @@
 import pygame.image
 from pygame.sprite import Sprite
+import random
 
 
 class Chest(pygame.sprite.Sprite):
@@ -28,16 +29,13 @@ class Chest(pygame.sprite.Sprite):
             self.image = pygame.transform.scale(self.image, (50, 50))
             self.is_exploded = True
 
-            # Key disappears once collected
-            self.key_available = True
-
 
     def draw(self, screen):
         # Draw the chest
         screen.blit(self.image, self.rect.topleft)
 
         # Draw the key if available
-        if self.key_available:
+        if self.key_available and self.is_exploded:
             screen.blit(self.key_image, self.key_rect.topleft)
 
     def collect_key(self, player_group):

@@ -7,7 +7,7 @@ from shed import shed
 from wall import Wall
 from chest import Chest
 import sounds
-
+import random  
 
 #creatting the player for the game
 controls_player1 = {
@@ -103,6 +103,15 @@ def execute_game(player1, player2):
             if tile == "*":
                 chest = Chest(col, row)
                 chest_group.add(chest)
+
+    # randomly select a chest to have the key
+    # Ensure only one chest has the key
+    for chest in chest_group:
+        chest.key_available = False
+
+    random_chest = random.choice(chest_group.sprites())
+    random_chest.key_available = True
+
     special_area = pygame.Rect(300, 250, 140, 140)
     # MAIN GAME LOOP
     running = True
@@ -184,7 +193,7 @@ def execute_game(player1, player2):
         # for powerup in powerups:
         #    powerup.draw(screen)
 
-        # Verificando se o jogador está no canto inferior esquerdo da tela
+        # hospital area
         if 370 <= player1.rect.x <= 430 and 600 <= player1.rect.y <= 660:
             player1.hospital(delta_time = clock.get_time() / 1000)
         if 430 <= player2.rect.x <= 490 and 600 <= player2.rect.y <= 660:
