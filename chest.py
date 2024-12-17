@@ -1,6 +1,6 @@
 import pygame.image
 from pygame.sprite import Sprite
-import random
+
 
 
 class Chest(pygame.sprite.Sprite):

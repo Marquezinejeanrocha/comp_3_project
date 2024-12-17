@@ -2,7 +2,7 @@ import pygame
 from utils import *  # no need to import pygame because the import is in utils
 from config import *  # importing colors and the like
 from game import *
-from utils import under_construction
+from utils import *
 from store import shop
 
 
@@ -156,7 +156,7 @@ def interface():
 
                 # Options button
                 if 505 <= mouse[0] <= 505 + option_w and 420 <= mouse[1] <= 420 + option_h:
-                    under_construction()
+                    options()
 
                 # Rules button
                 if 505 <= mouse[0] <= 505 + rules_w and 520 <= mouse[1] <= 520 + rules_h:

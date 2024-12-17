@@ -123,7 +123,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         # Check for player death
         if self.health <= 0:
             self.die()
-
+            
     def hospital(self, delta_time):
         # regains 20% helth per second, without surpassing 100%
         heal_rate = 20  # Porcentagem de cura por segundo
@@ -146,7 +146,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.alive = False
         self.respawn_timer = pygame.time.get_ticks() + 3000
         self.image.fill((128, 0, 0))  # red color for death
-
+                
     def respawn(self):
         self.alive = True
         self.respawn_timer = None

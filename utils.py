@@ -2,51 +2,13 @@ import pygame
 
 from config import dark_red, deep_black, resolution, white
 from game import dark_red, deep_black, pygame, resolution, white
+import sounds
 
   
 
-# Function to draw a stick figure with a construction hat
-def draw_stick_figure_with_hat(screen, x, y):
-    # head
-    pygame.draw.circle(screen, (255, 255, 255), (x, y), 20, 2)  # White head outline
 
-    # body
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 20), (x, y + 60), 2)  # Body
+def options():
 
-    # arms
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 40), (x - 30, y + 40), 2)  # Left arm
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 40), (x + 30, y + 40), 2)  # Right arm
-
-    # legs
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 60), (x - 20, y + 100), 2)  # Left leg
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 60), (x + 20, y + 100), 2)  # Right leg
-
-    # hat
-    hat_color = (255, 215, 0)
-
-    # drawing the construction hat
-    pygame.draw.rect(screen, hat_color, [x - 25, y - 30, 50, 10])  # Hat's brim
-    pygame.draw.rect(screen, hat_color, [x - 20, y - 40, 40, 20])  # Hat's dome
-
-
-# Function to draw a normal stick figure (without a hat)
-def draw_normal_stick_figure(screen, x, y):
-    # head
-    pygame.draw.circle(screen, (255, 255, 255), (x, y), 20, 2)  # White head outline
-
-    # body
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 20), (x, y + 60), 2)  # Body
-
-    # arms
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 40), (x - 30, y + 40), 2)  # Left arm
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 40), (x + 30, y + 40), 2)  # Right arm
-
-    # legs
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 60), (x - 20, y + 100), 2)  # Left leg
-    pygame.draw.line(screen, (255, 255, 255), (x, y + 60), (x + 20, y + 100), 2)  # Right leg
-
-
-def under_construction():
 
     # creating the screen at 720x720 pixels
     screen = pygame.display.set_mode(resolution)
@@ -57,20 +19,16 @@ def under_construction():
 
     # setting my texts:
     back_text = corbelfont.render("back", True, white)
-    construction_text = corbelfont.render("UNDER CONSTRUCTION", True, white)
-    first_speech = conversation_font.render("Can we fix it?", True, white)
-    bob_speech = conversation_font.render("Probably not...", True, white)
+    volume_text = corbelfont.render("Volume", True, white)
+    volume_up_text = corbelfont.render("+", True, white)
+    volume_down_text = corbelfont.render("-", True, white)
 
-    # setting up the "images" positions
-    bob_x_position = 460
-    bob_y_position = 450
 
-    normal_x_position = 260
-    normal_y_position = 450
 
     # same old, same old while True loop
     while True:
         # getting mouse position
+        volume = sounds.volume
         mouse = pygame.mouse.get_pos()
 
         for ev in pygame.event.get():
@@ -81,25 +39,41 @@ def under_construction():
                 # checking if the back button was clicked
                 if 450 <= mouse[0] <= 590 and 600 <= mouse[1] <= 660:
                     return
+                # checking if the volume up button was clicked
+                if 350 <= mouse[0] <= 390 and 300 <= mouse[1] <= 340:
+                        sounds.adjust_volume(0.1)
+
+                # checking if the volume down button was clicked
+                if 250 <= mouse[0] <= 290 and 300 <= mouse[1] <= 340:
+                        sounds.adjust_volume(-0.1)
 
             # display the screen:
             screen.fill(deep_black)
 
-            # displaying the main UNDER CONSTRUCTION text
-            construction_rect = construction_text.get_rect(center=(720//2, 300))
-            screen.blit(construction_text, construction_rect)
-
             # drawing the back button
-            pygame.draw.rect(screen, dark_red, [450,600,140,60])
-            back_rect = back_text.get_rect(center=(450 + 140//2, 600 + 60 // 2))
+            pygame.draw.rect(screen, dark_red, [450, 600, 140, 60])
+            back_rect = back_text.get_rect(center=(450 + 140 // 2, 600 + 60 // 2))
             screen.blit(back_text, back_rect)
 
-            # stick figures text and "images"
-            draw_normal_stick_figure(screen, normal_x_position, normal_y_position)
-            draw_stick_figure_with_hat(screen, bob_x_position, bob_y_position)
+            # drawing the volume controls
+            screen.blit(volume_text, (200, 200))
+            pygame.draw.rect(screen, dark_red, [250, 300, 40, 40])
+            pygame.draw.rect(screen, dark_red, [350, 300, 40, 40])
+            volume_down_rect = volume_down_text.get_rect(center=(250 + 40 // 2, 300 + 40 // 2))
+            volume_up_rect = volume_up_text.get_rect(center=(350 + 40 // 2, 300 + 40 // 2))
+            screen.blit(volume_down_text, volume_down_rect)
+            screen.blit(volume_up_text, volume_up_rect)
 
-            screen.blit(first_speech, (normal_x_position - 60, normal_y_position - 80))
-            screen.blit(bob_speech, (bob_x_position - 60, bob_y_position - 80))
+            # displaying the current volume level
+            current_volume_text = corbelfont.render(str(int(volume*100)), True, white)
+            screen.blit(current_volume_text, (300, 300))
 
             # finally, as always, updating our screen
             pygame.display.update()
+
+
+         
+
+            # finally, as always, updating our screen
+            pygame.display.update()
+            
