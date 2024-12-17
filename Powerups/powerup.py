@@ -2,8 +2,7 @@ from abc import ABC, abstractmethod
 
 import pygame
 from pygame.sprite import Sprite
-
-from config import *
+from player import Player
 
 class PowerUp(ABC, Sprite):
     @abstractmethod
@@ -23,5 +22,12 @@ class PowerUp(ABC, Sprite):
         pass
 
     @abstractmethod
-    def affect_player(self, player):
+    def affect_player(self, player: Player):
         pass
+
+    def couting(self):
+        cooldown = self.cooldown
+        self.cooldown -=1
+        if self.cooldown == 0:
+            self.cooldown = cooldown
+        return self.cooldown

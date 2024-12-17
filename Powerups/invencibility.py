@@ -1,5 +1,9 @@
+<<<<<<< Updated upstream
 from Powerups.powerup import PowerUp
 
+=======
+from powerup import PowerUp
+>>>>>>> Stashed changes
 class Invencibility(PowerUp):
     def __init__(self, name):
         super().__init__(name=name, duration= 5, cooldown= 20, image="invencibility.png")

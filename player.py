@@ -131,6 +131,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         if self.health > 100:
             self.health = 100
 
+<<<<<<< Updated upstream
     def get_powerup(self, pp: PowerUp):
         collided = pygame.sprite.spritecollide(self, pp, False)
         pp.kill()
@@ -170,3 +171,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             self.weapon_power = player_data['weapon_power']
             self.coins = player_data['coins']
             self.shield = player_data['shield']
+=======
+
+>>>>>>> Stashed changes

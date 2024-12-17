@@ -6,8 +6,16 @@ from enemy import Enemy
 from shed import shed
 from wall import Wall
 from chest import Chest
+<<<<<<< Updated upstream
 import sounds
 import random  
+=======
+from Powerups.gunupgrade import GunUpgrade
+from Powerups.invencibility import Invencibility
+from Powerups.despawner import Despawner
+import random
+
+>>>>>>> Stashed changes
 
 #creatting the player for the game
 controls_player1 = {
@@ -42,10 +50,13 @@ def game_loop():
 
 
 def execute_game(player1, player2):
+<<<<<<< Updated upstream
 
     #play the background sound
     sounds.background_sound.play(-1)
 
+=======
+>>>>>>> Stashed changes
     # SETUP
     # setting up the background
     background = pygame.image.load("ui/background.png")
@@ -119,6 +130,16 @@ def execute_game(player1, player2):
         # controlling the frame rate
         clock.tick(fps)
 
+        #powerups cooldown counting
+        gunupgrade= GunUpgrade()
+        gunupgrade.cooldown()
+
+        invencible = Invencibility()
+        invencible.cooldown()
+
+        despawner = Despawner()
+        despawner.cooldown()
+
         # setting up the background
         screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
         pygame.draw.rect(screen, (255, 0, 0), special_area)
@@ -136,11 +157,32 @@ def execute_game(player1, player2):
         if 675 <= mouse[0] <= 675 + pause_w and -5<= mouse[1] <= -5 + pause_h:
             # scaling the original back button
             screen.blit(pause_hover, (675 - (pause_hover_size[0] - pause_w) // 2,
-                                     -5 - (pause_hover_size[1] - pause_h) // 2))
+                                      -5 - (pause_hover_size[1] - pause_h) // 2))
         else:
             # if not hovering, then show the original play button
 
             screen.blit(pause, (675,-5))
+
+        #-------------------------------------POWERUPS DRAWING-----------------------------------------
+
+        randx = random.randint(0, len(lines))
+        randy = random.randint(0, len(lines[0]))
+        car = lines[randx][randy]
+        while car == "#":
+            randx=random.randint(0, len(lines))
+            randy=random.randint(0, len(lines[0]))
+            car = lines[randx][randy]
+        if gunupgrade.cooldown()==0:
+            screen.blit(gunupgrade, (randx,randy))
+        elif invencible.cooldown()==0:
+            screen.blit(invencible,(randx, randy))
+        else:
+            screen.blit(despawner, (randx,randy))
+
+
+
+
+
         # handling events:
         cont = ""
         for event in pygame.event.get():
@@ -198,7 +240,7 @@ def execute_game(player1, player2):
             player1.hospital(delta_time = clock.get_time() / 1000)
         if 430 <= player2.rect.x <= 490 and 600 <= player2.rect.y <= 660:
             player2.hospital(delta_time = clock.get_time() / 1000)
-        
+
         # Drawing rectangles to signal the coordinates
         pygame.draw.rect(screen, (255, 0, 0), (370, 600, 60, 60), 2)  # Player 1 hospital area
         pygame.draw.rect(screen, (0, 255, 0), (430, 600, 60, 60), 2)  # Player 2 hospital area
@@ -355,6 +397,7 @@ def pause_():
 
         # updating the display
         pygame.display.update()
+<<<<<<< Updated upstream
 
 
 def game_over(won):
@@ -365,3 +408,5 @@ def game_over(won):
     if won == "player2":
         print("player2 won")
         player2.coins += 100
+=======
+>>>>>>> Stashed changes
