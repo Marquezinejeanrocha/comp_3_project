@@ -1,5 +1,5 @@
-from comp_3_project.Powerups.powerup import PowerUp
-from comp_3_project.config import *
+from Powerups.powerup import PowerUp
+from config import *
 
 class Despawner(PowerUp):
     def __init__(self, enemies_cooldown):

@@ -9,7 +9,7 @@ class Chest(pygame.sprite.Sprite):
     def __init__(self, x, y, life=50):
         #change the life later. short life for testing
         super().__init__()
-        self.image  = pygame.image.load("images/chestfull.png")
+        self.image  = pygame.image.load("images/destroyer.png")
         self.image = pygame.transform.scale(self.image, (50, 50))
         self.life = life
         self.is_exploded = False
@@ -25,7 +25,7 @@ class Chest(pygame.sprite.Sprite):
 
     def dead(self):
         if self.life >=0:
-            self.image = pygame.image.load("images/chestbroken.png")
+            self.image = pygame.image.load("images/explosion.png")
             self.image = pygame.transform.scale(self.image, (50, 50))
             self.is_exploded = True
 

@@ -54,7 +54,7 @@ def execute_game(player1, player2):
 
     # SETUP
     # setting up the background
-    background = pygame.image.load("ui/background.png")
+    background = pygame.image.load("images/background_2.png")
     background = pygame.transform.scale(background, (width, height)) #para que o background ocupe toda a tela
 
     # using the clock to control the time frame
@@ -91,6 +91,7 @@ def execute_game(player1, player2):
     # before starting our main loop, setup the enemy cooldown
     enemy_cooldown = 0
 
+
     # reading the map file and creating sprite groups of walls
     wall_group = pygame.sprite.Group()
     chest_group = pygame.sprite.Group()
@@ -118,7 +119,10 @@ def execute_game(player1, player2):
     random_chest = random.choice(chest_group.sprites())
     random_chest.key_available = True
 
-    special_area = pygame.Rect(300, 250, 140, 140)
+
+    
+
+
     # MAIN GAME LOOP
     running = True
     while running:
@@ -137,7 +141,13 @@ def execute_game(player1, player2):
 
         # setting up the background
         screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
-        pygame.draw.rect(screen, (255, 0, 0), special_area)
+
+                    # Load the destroyer image
+        destroyer_image = pygame.image.load("images/boss.png")
+        destroyer_image = pygame.transform.scale(destroyer_image, (70, 70))
+        
+        # Draw the destroyer image 
+        screen.blit(destroyer_image, (335, 300))
 
         # Showing the walls on the screen
         wall_group.draw(screen)
@@ -233,15 +243,22 @@ def execute_game(player1, player2):
         # for powerup in powerups:
         #    powerup.draw(screen)
 
-        # hospital area
-        if 370 <= player1.rect.x <= 430 and 600 <= player1.rect.y <= 660:
-            player1.hospital(delta_time = clock.get_time() / 1000)
-        if 430 <= player2.rect.x <= 490 and 600 <= player2.rect.y <= 660:
-            player2.hospital(delta_time = clock.get_time() / 1000)
+        red_planet = pygame.image.load("images/red_planet.png")
+        blue_planet = pygame.image.load("images/blue_planet.png")
 
-        # Drawing rectangles to signal the coordinates
-        pygame.draw.rect(screen, (255, 0, 0), (370, 600, 60, 60), 2)  # Player 1 hospital area
-        pygame.draw.rect(screen, (0, 255, 0), (430, 600, 60, 60), 2)  # Player 2 hospital area
+        # Scale the planet images
+        red_planet = pygame.transform.scale(red_planet, (60, 60))
+        blue_planet = pygame.transform.scale(blue_planet, (60, 60))
+
+        # Draw the planet images
+        screen.blit(red_planet, (width - 200, 200))  # Top right corner with some padding
+        screen.blit(blue_planet, (80, height - 200))  # Bottom left corner with some padding
+
+        # Check if players are on the planets for healing
+        if red_planet.get_rect(topleft=(width - 200, 200)).colliderect(player1.rect):
+            player1.hospital(delta_time=clock.get_time() / 1000)
+        if blue_planet.get_rect(topleft=(80, height - 200)).colliderect(player2.rect):
+            player2.hospital(delta_time=clock.get_time() / 1000)
 
         #checking if the player moved off-screen from thwe right to the next area
         if player1.rect.right >= width and player2.rect.right >= width:
@@ -318,13 +335,15 @@ def execute_game(player1, player2):
             chest.update(player1_group)
             chest.update(player2_group)
 
-        if special_area.colliderect(player1.rect) and player1.has_key:
-            # if the player walked into the special area, we will return to the under construction screen
+        destroyer_rect = destroyer_image.get_rect(topleft=(335, 300))
+
+        if destroyer_rect.colliderect(player1.rect) and player1.has_key:
+            # if the player collided with the boss, we will return to the game over screen
             game_over("player1")
             player1.has_key = False  # Ensure the function is called only once
 
-        if special_area.colliderect(player2.rect) and player2.has_key:
-            #if the player walked into the special area, we will return to the under construction screen
+        if destroyer_rect.colliderect(player2.rect) and player2.has_key:
+            # if the player collided with the boss, we will return to the game over screen
             game_over("player2")
             player2.has_key = False
 

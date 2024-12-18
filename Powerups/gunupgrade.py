@@ -1,5 +1,5 @@
-from comp_3_project.Powerups.powerup import PowerUp
-from comp_3_project.player import Player
+from Powerups.powerup import PowerUp
+from player import Player
 
 class GunUpgrade(PowerUp):
     def __init__(self):
