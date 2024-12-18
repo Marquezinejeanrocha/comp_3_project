@@ -18,9 +18,8 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         super().__init__()
 
         # VISUAL VARIABLES
-        self.image = pygame.Surface(player_size)  # we use surface to display any image or draw
-        # drawing the image of the player
-        self.image.fill(color)
+        self.image = pygame.image.load("ui/player_1_up.png")  # we use surface to display any image or draw
+        self.image = pygame.transform.scale(self.image, (30, 30))
         # area where the player will be drawn
         self.rect = self.image.get_rect()
         # centering the player in its rectangle
@@ -36,7 +35,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.coins = 100
         self.shield = 0
         self.powerup = None
-        self.original_color = color
+        self.original_color = self.image
 
 
         self.start_location = location  # Store the initial location for respawn
@@ -62,12 +61,24 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         # checking which keys where pressed and moving the player accordingly
         # independent movements, independent ifs
         if keys[self.controls['up']] and self.rect.top > 0:
+            self.image = pygame.image.load("ui/player_1_up.png")  # we use surface to display any image or draw
+            self.image = pygame.transform.scale(self.image, (30, 30))
+
             self.rect.y -= self.speed
         if keys[self.controls['down']] and self.rect.bottom < height:
+            self.image = pygame.image.load("ui/player_1_down.png")  # we use surface to display any image or draw
+            self.image = pygame.transform.scale(self.image, (30, 30))
+
             self.rect.y += self.speed
         if keys[self.controls['left']] and self.rect.left > 0:
+            self.image = pygame.image.load("ui/player_1_left.png")  # we use surface to display any image or draw
+            self.image = pygame.transform.scale(self.image, (30, 30))
+
             self.rect.x -= self.speed
         if keys[self.controls['right']] and self.rect.right < width:
+            self.image = pygame.image.load("ui/player_1_right.png")  # we use surface to display any image or draw
+            self.image = pygame.transform.scale(self.image, (30, 30))
+
             self.rect.x += self.speed
 
         # Check for wall collisions after movement
@@ -131,7 +142,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         if self.health > 100:
             self.health = 100
 
-<<<<<<< Updated upstream
     def get_powerup(self, pp: PowerUp):
         collided = pygame.sprite.spritecollide(self, pp, False)
         pp.kill()
@@ -153,7 +163,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.respawn_timer = None
         self.health = 100
         self.rect.center = self.start_location  # Reset to the start location
-        self.image.fill(self.original_color)  # Reset to original color
+        self.image = self.original_color
 
     def save_player_data(self, filename):
             player_data = {
@@ -171,6 +181,4 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             self.weapon_power = player_data['weapon_power']
             self.coins = player_data['coins']
             self.shield = player_data['shield']
-=======
 
->>>>>>> Stashed changes

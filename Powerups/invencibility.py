@@ -1,12 +1,10 @@
-<<<<<<< Updated upstream
-from Powerups.powerup import PowerUp
 
-=======
-from powerup import PowerUp
->>>>>>> Stashed changes
+from comp_3_project.Powerups.powerup import PowerUp
+
+
 class Invencibility(PowerUp):
-    def __init__(self, name):
-        super().__init__(name=name, duration= 5, cooldown= 20, image="invencibility.png")
+    def __init__(self):
+        super().__init__(name='invencibility', duration= 5, cooldown= 20, image="ui/invisible.png")
 
     def affect_game(self,enemies):
         while self.duration >=0 :

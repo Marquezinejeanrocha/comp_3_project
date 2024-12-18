@@ -6,16 +6,13 @@ from enemy import Enemy
 from shed import shed
 from wall import Wall
 from chest import Chest
-<<<<<<< Updated upstream
 import sounds
-import random  
-=======
+import random
 from Powerups.gunupgrade import GunUpgrade
 from Powerups.invencibility import Invencibility
 from Powerups.despawner import Despawner
 import random
 
->>>>>>> Stashed changes
 
 #creatting the player for the game
 controls_player1 = {
@@ -50,13 +47,11 @@ def game_loop():
 
 
 def execute_game(player1, player2):
-<<<<<<< Updated upstream
 
     #play the background sound
     sounds.background_sound.play(-1)
 
-=======
->>>>>>> Stashed changes
+
     # SETUP
     # setting up the background
     background = pygame.image.load("ui/background.png")
@@ -132,13 +127,13 @@ def execute_game(player1, player2):
 
         #powerups cooldown counting
         gunupgrade= GunUpgrade()
-        gunupgrade.cooldown()
+        gunupgrade.couting()
 
         invencible = Invencibility()
-        invencible.cooldown()
+        invencible.couting()
 
-        despawner = Despawner()
-        despawner.cooldown()
+        despawner = Despawner(10)
+        despawner.couting()
 
         # setting up the background
         screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
@@ -165,19 +160,22 @@ def execute_game(player1, player2):
 
         #-------------------------------------POWERUPS DRAWING-----------------------------------------
 
-        randx = random.randint(0, len(lines))
-        randy = random.randint(0, len(lines[0]))
+        randx = random.randint(0, len(lines) - 1)  # Ensure row index is within range
+        randy = random.randint(0, len(lines[randx]) - 1)  # Ensure column index is within range for the selected row
+
         car = lines[randx][randy]
+
+        # Ensure the random position is valid
         while car == "#":
-            randx=random.randint(0, len(lines))
-            randy=random.randint(0, len(lines[0]))
+            randx = random.randint(0, len(lines) - 1)
+            randy = random.randint(0, len(lines[randx]) - 1)  # Use the correct row length
             car = lines[randx][randy]
-        if gunupgrade.cooldown()==0:
-            screen.blit(gunupgrade, (randx,randy))
-        elif invencible.cooldown()==0:
-            screen.blit(invencible,(randx, randy))
+        if gunupgrade.couting()==0:
+            screen.blit(gunupgrade.image, (20,20))
+        elif invencible.couting()==0:
+            screen.blit(invencible.image,(30, 30))
         else:
-            screen.blit(despawner, (randx,randy))
+            screen.blit(despawner.image, (40,40))
 
 
 
@@ -397,7 +395,7 @@ def pause_():
 
         # updating the display
         pygame.display.update()
-<<<<<<< Updated upstream
+
 
 
 def game_over(won):
@@ -408,5 +406,3 @@ def game_over(won):
     if won == "player2":
         print("player2 won")
         player2.coins += 100
-=======
->>>>>>> Stashed changes
