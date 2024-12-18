@@ -156,7 +156,8 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     def die(self):
         self.alive = False
         self.respawn_timer = pygame.time.get_ticks() + 3000
-        self.image.fill((128, 0, 0))  # red color for death
+        self.image = pygame.image.load("images/explosion.png")
+        self.image = pygame.transform.scale(self.image, (30, 30))
                 
     def respawn(self):
         self.alive = True

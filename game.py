@@ -96,10 +96,10 @@ def execute_game(player1, player2):
     wall_group = pygame.sprite.Group()
     chest_group = pygame.sprite.Group()
     lines = []
-    with open("maps/mapa.txt", 'r') as file:
+    with open("maps/mapa3.txt", 'r') as file:
         for line in file:
             if line.strip() == "":
-                break
+                continue
             lines.append(line)
     # adding a position to each tile and adding each tile to the sprite group
     for row, tiles in enumerate(lines):
@@ -110,6 +110,7 @@ def execute_game(player1, player2):
             if tile == "*":
                 chest = Chest(col, row)
                 chest_group.add(chest)
+
 
     # randomly select a chest to have the key
     # Ensure only one chest has the key
