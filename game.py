@@ -1,7 +1,7 @@
 from config import *
 import math
 import pygame
-from player import *
+from player import Player
 from enemy import Enemy
 from shed import shed
 from wall import Wall
@@ -14,24 +14,7 @@ from Powerups.despawner import Despawner
 import random
 
 
-#creatting the player for the game
-controls_player1 = {
-    'up': pygame.K_w,
-    'down': pygame.K_s,
-    'left': pygame.K_a,
-    'right': pygame.K_d
-}
-
-controls_player2 = {
-    'up': pygame.K_UP,
-    'down': pygame.K_DOWN,
-    'left': pygame.K_LEFT,
-    'right': pygame.K_RIGHT
-}
-player = Player(cute_purple, (110,106), controls_player1)
-player2 = Player(greenish, (612,601), controls_player2)
-
-def game_loop():
+def game_loop(player, player2):
 
     #by default, I started the player in the main area
     current_state = "main"
@@ -200,7 +183,7 @@ def execute_game(player1, player2):
 
             if event.type == pygame.MOUSEBUTTONDOWN or keys[pygame.K_RETURN]:
                 if 675 <= mouse[0] <= 675 + pause_w and -5 <= mouse[1] <= -5 + pause_h:
-                    cont = pause_()
+                    cont = pause_(player1,player2)
 
             #get coordinates in screen
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -340,12 +323,12 @@ def execute_game(player1, player2):
 
         if destroyer_rect.colliderect(player1.rect) and player1.has_key:
             # if the player collided with the boss, we will return to the game over screen
-            game_over("player1")
+            game_over("player1", player1, player2)
             player1.has_key = False  # Ensure the function is called only once
 
         if destroyer_rect.colliderect(player2.rect) and player2.has_key:
             # if the player collided with the boss, we will return to the game over screen
-            game_over("player2")
+            game_over("player2", player1, player2)
             player2.has_key = False
 
         # updates the whole screen since the frame was last drawn
@@ -355,7 +338,7 @@ def execute_game(player1, player2):
     pygame.quit()
 
 
-def pause_():
+def pause_(player,player2):
     screen = pygame.display.set_mode(resolution)
 
     # in order to print something we need to first create a font, create the text and then blit
@@ -418,7 +401,7 @@ def pause_():
 
 
 
-def game_over(won):
+def game_over(won, player, player2):
     if won == "player1":
         print("player1 won")
         player.coins += 100

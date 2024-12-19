@@ -6,7 +6,24 @@ from utils import *
 from store import shop
 
 
-def interface(): 
+#creatting the player for the game
+controls_player1 = {
+    'up': pygame.K_w,
+    'down': pygame.K_s,
+    'left': pygame.K_a,
+    'right': pygame.K_d
+}
+
+controls_player2 = {
+    'up': pygame.K_UP,
+    'down': pygame.K_DOWN,
+    'left': pygame.K_LEFT,
+    'right': pygame.K_RIGHT
+}
+player = Player(cute_purple, (110,106), controls_player1)
+player2 = Player(greenish, (612,601), controls_player2)
+
+def interface():
 
 
 
@@ -148,11 +165,11 @@ def interface():
 
                 # Wilderness game button (Play button)
                 if 280 <= mouse[0] <= 280 + play_w and 275 <= mouse[1] <= 275 + play_h:
-                    wilderness_explorer()
+                    wilderness_explorer(player, player2)
 
                 # Shop button
                 if 105 <= mouse[0] <= 105 + shop_w and 420 <= mouse[1] <= 420 + shop_h:
-                    shop()
+                    shop(player, player2)
 
                 # Options button
                 if 505 <= mouse[0] <= 505 + option_w and 420 <= mouse[1] <= 420 + option_h:
@@ -270,5 +287,5 @@ def rules_():
 
 
 
-def wilderness_explorer():
-    game_loop()
+def wilderness_explorer(player, player2):
+    game_loop(player, player2)

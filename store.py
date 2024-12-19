@@ -1,9 +1,9 @@
 import pygame
 from config import *
-from game import *
 
 
-def shop():
+
+def shop(player, player2):
 
     # creating the screen at 720x720 pixels
     screen = pygame.display.set_mode(resolution)
@@ -17,8 +17,8 @@ def shop():
     # Initializing costs outside the loop
     upgrade_cost_1 = 10
     upgrade_cost_2 = 10
-    shield_cost_1 = 15
-    shield_cost_2 = 15
+    skin_cost_1 = 15
+    skin_cost_2 = 15
 
     # same old, same old while True loop
     while True:
@@ -51,17 +51,17 @@ def shop():
 
                 # Checking if the shield button for player 1 was clicked
                 if 100 <= mouse[0] <= 340 and 600 <= mouse[1] <= 660:
-                    if player.coins >= shield_cost_1:
-                        player.coins -= shield_cost_1
-                        player.shield += 1
-                        shield_cost_1 += 15  # Increase the cost for the next shield
+                    if player.coins >= skin_cost_1:
+                        player.coins -= skin_cost_1
+                        player.skin += 1
+                        skin_cost_1 += 15  # Increase the cost for the next shield
 
                 # Checking if the shield button for player 2 was clicked
                 if 380 <= mouse[0] <= 620 and 600 <= mouse[1] <= 660:
-                    if player2.coins >= shield_cost_2:
-                        player2.coins -= shield_cost_2
-                        player2.shield += 1
-                        shield_cost_2 += 15  # Increase the cost for the next shield
+                    if player2.coins >= skin_cost_2:
+                        player2.coins -= skin_cost_2
+                        player2.skin += 1
+                        skin_cost_2 += 15  # Increase the cost for the next shield
 
         # display the screen:
         screen.fill(deep_black)
@@ -84,16 +84,16 @@ def shop():
         screen.blit(upgrade_text_2, upgrade_rect_2)
 
         # Drawing the shield button for player 1
-        shield_text = corbelfont.render("Shield 1", True, white)
+        skin_text = corbelfont.render("skin 1", True, white)
         pygame.draw.rect(screen, blue, [50, 600, 300, 60])
-        shield_rect = shield_text.get_rect(center=(50 + 300//2, 600 + 60 // 2))
-        screen.blit(shield_text, shield_rect)
+        skin_rect = skin_text.get_rect(center=(50 + 300//2, 600 + 60 // 2))
+        screen.blit(skin_text, skin_rect)
 
         # Drawing the shield button for player 2
-        shield_text_2 = corbelfont.render("Shield 2", True, white)
+        skin_text_2 = corbelfont.render("skin 2", True, white)
         pygame.draw.rect(screen, blue, [370, 600, 300, 60])
-        shield_rect_2 = shield_text_2.get_rect(center=(370 + 300//2, 600 + 60 // 2))
-        screen.blit(shield_text_2, shield_rect_2)
+        skin_rect_2 = skin_text_2.get_rect(center=(370 + 300//2, 600 + 60 // 2))
+        screen.blit(skin_text_2, skin_rect_2)
 
         # Displaying the player's current weapon power
         weapon_power_text = conversation_font.render(f"Player 1 Weapon Power: {player.weapon_power}", True, white)
@@ -106,14 +106,14 @@ def shop():
         screen.blit(weapon_power_text_2, weapon_power_rect_2)
 
         # Displaying the player's current shield
-        shield_text = conversation_font.render(f"Player 1 Shield: {player.shield}", True, white)
-        shield_rect = shield_text.get_rect(center=(720//2, 200))
-        screen.blit(shield_text, shield_rect)
+        skin_text = conversation_font.render(f"Player 1 skin: {player.skin}", True, white)
+        skin_rect = skin_text.get_rect(center=(720//2, 200))
+        screen.blit(skin_text, skin_rect)
 
         # Displaying player 2's current shield
-        shield_text_2 = conversation_font.render(f"Player 2 Shield: {player2.shield}", True, white)
-        shield_rect_2 = shield_text_2.get_rect(center=(720//2, 250))
-        screen.blit(shield_text_2, shield_rect_2)
+        skin_text_2 = conversation_font.render(f"Player 2 skin: {player2.skin}", True, white)
+        skin_rect_2 = skin_text_2.get_rect(center=(720//2, 250))
+        screen.blit(skin_text_2, skin_rect_2)
 
         # Displaying the player's current coins
         coins_text = conversation_font.render(f"Player 1 Coins: {player.coins}", True, white)

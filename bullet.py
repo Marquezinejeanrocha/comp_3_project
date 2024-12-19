@@ -8,16 +8,26 @@ class Bullet(pygame.sprite.Sprite):
         super().__init__()
 
         self.direction = direction
-        self.image = pygame.image.load("ui/bullet_1.png").convert_alpha()
-        self.image = pygame.transform.scale(self.image, (50,50))
+        #self.image = pygame.image.load("ui/bullet_1.png").convert_alpha()
+        #self.image = pygame.transform.scale(self.image, (50,50))
         # getting rectangle for positioning
 
+        self.speed = 7  # todo: change the speed when catching a powerup
+        self.weapon_power = 0
+        self.image = pygame.image.load(f"ui/skins/bullet_{self.weapon_power}.png").convert_alpha()
+        self.image = pygame.transform.scale(self.image, (20,20))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
-        self.speed = 7  # todo: change the speed when catching a powerup
+
+    def update_image_based_on_shield(self):
+        """Update the player's image dynamically based on the shield state."""
+        self.image = pygame.image.load(f"ui/skins/bullet_{self.weapon_power}.png")
+        self.image = pygame.transform.scale(self.image, (20, 20))
+        if self.weapon_power == 1:
+            self.speed = 10
 
     def update(self, wall_group):
-
+        self.update_image_based_on_shield()
         # updating the bullets position based in the speed and direction
         # (x, y) --> (cos, sin)
         self.rect.x += int(self.speed * math.cos(self.direction))
