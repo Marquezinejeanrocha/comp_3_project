@@ -373,6 +373,8 @@ def pause_(player,player2):
                     player.save_player_data("save_player_data.json")
                     player2.save_player_data( "save_player_2_data.json")
                     sounds.background_sound.stop()
+                    player.reset()
+                    player2.reset()
                     return 'exit'
 
         # display my screen

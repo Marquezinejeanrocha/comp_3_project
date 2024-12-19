@@ -200,3 +200,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             self.coins = player_data['coins']
             self.skin = player_data['skin']
 
+    def reset(self):
+        self.health = 100
+        self.rect.center = self.start_location  
+       

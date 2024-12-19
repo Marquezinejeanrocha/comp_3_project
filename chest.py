@@ -41,7 +41,7 @@ class Chest(pygame.sprite.Sprite):
     def collect_key(self, player_group):
 
         for player in player_group:
-            if player.rect.colliderect(self.key_rect):
+            if player.rect.colliderect(self.key_rect) and self.is_exploded:
                 print("Key collected by player!")
                 self.key_available = False
 
