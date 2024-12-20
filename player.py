@@ -17,7 +17,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         # GAMEPLAY VARIABLES
         self.ship_direction = 'up'
-        self.speed = 5
+        self.speed = 3
         self.health = 100
         self.bullet_cooldown = 0
         self.weapon_power = 0
@@ -41,11 +41,13 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.respawn_timer = None  # Timer for respawn
         self.has_key = False
 
-    def update_image_based_on_shield(self):
+    def update_image_skin(self):
         """Update the player's image dynamically based on the shield state."""
         self.image = pygame.image.load(f"ui/skins/skin_{self.skin}_up.png")
         self.image = pygame.transform.scale(self.image, (30, 30))
         if self.skin == 1:
+            self.speed = 4
+        if self.skin == 2:
             self.speed = 7
 
     def update(self, wall_group):
@@ -56,7 +58,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 self.respawn()  # Respawn the player
             return  # Skip further updates if dead
 
-        self.update_image_based_on_shield()
+        self.update_image_skin()
 
         # getting the keys input
         keys = pygame.key.get_pressed()
@@ -103,7 +105,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
     def remove_powerup(self):
         if self.active_powerup == "SpeedBoost":
-            self.speed -= 10  # Revert speed boost
+            self.speed -= 2  # Revert speed boost
         elif self.active_powerup == "Shield":
             self.shield_active = False  # Deactivate shield
         elif self.active_powerup == "Invisible":
@@ -126,38 +128,41 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 for angle in [0, math.pi, math.pi / 2, 3 * math.pi / 2]:
                     bullet = Bullet(self.rect.centerx, self.rect.centery, angle)
                     bullet.weapon_power = self.weapon_power
-                    # angle_degrees = -math.degrees(angle)  # Convert radians to degrees and invert
-                    # bullet.image = pygame.transform.rotate(bullet.image, angle_degrees)
                     bullet.image = pygame.transform.scale(bullet.image, (10, 10))
                     bullets.add(bullet)
                 # resetting the cooldown
                 self.bullet_cooldown = fps * 2
 
             if self.skin == 1:
-                self.bullet_cooldown -= 30
+                self.bullet_cooldown -= 10
+
+            elif self.skin == 2:
+                self.bullet_cooldown -= 20
+
             else:
-                self.bullet_cooldown -= 5
+                self.bullet_cooldown -= 3
 
         if key == 'enter' and keys[pygame.K_RETURN]:
             if self.bullet_cooldown <= 0:
                 for angle in [0, math.pi, math.pi / 2, 3 * math.pi / 2]:
                     bullet = Bullet(self.rect.centerx, self.rect.centery, angle)
-                    angle_degrees = -math.degrees(angle)  # Convert radians to degrees and invert
-                    bullet.image = pygame.transform.rotate(bullet.image, angle_degrees)
+                    bullet.weapon_power = self.weapon_power
+                    bullet.image = pygame.transform.scale(bullet.image, (10, 10))
                     bullets.add(bullet)
                 # resetting the cooldown
                 self.bullet_cooldown = fps * 2
-            self.bullet_cooldown -= 5
+
+            if self.skin == 1:
+                self.bullet_cooldown -= 10
+
+            elif self.skin == 2:
+                self.bullet_cooldown -= 20
+
+            else:
+                self.bullet_cooldown -= 3
 
     def take_damage(self, damage):
-        '''if self.powerup is not None and isinstance(self.powerup, Invencibility):
-            return
-        if self.shield > 0 and damage < self.shield:
-            self.shield -= damage
-        elif 0 < self.shield < damage:
-            damage -= self.shield
-            self.shield = 0
-            self.health -= damage'''
+
         if self.health > 0:
             if self.invisible:
                 pass
@@ -214,6 +219,15 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             pygame.draw.circle(
                 screen,
                 (0, 255, 0),  # Green for SpeedBoost
+                self.rect.center,  # Center of the player's rectangle
+                self.rect.width // 2 + 10,  # Radius slightly larger than the player
+                2  # Thickness of the circle outline
+            )
+
+        elif self.active_powerup == "Invisible":
+            pygame.draw.circle(
+                screen,
+                (0, 0, 255),  # Green for SpeedBoost
                 self.rect.center,  # Center of the player's rectangle
                 self.rect.width // 2 + 10,  # Radius slightly larger than the player
                 2  # Thickness of the circle outline

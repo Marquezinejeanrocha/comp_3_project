@@ -10,7 +10,7 @@ class SpeedBoost(PowerUp):
 
     def affect_player(self, player):
         if not player.active_powerup:  # Only apply if no power-up is active
-            player.speed += 10  # Increase player speed
+            player.speed += 2  # Increase player speed
             player.active_powerup = "SpeedBoost"
             player.powerup_timer = pygame.time.get_ticks() + 3000  # Set a 3-second timer
             print("Speed Boost Activated!")
