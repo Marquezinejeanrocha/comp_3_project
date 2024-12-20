@@ -198,6 +198,21 @@ def execute_game(player1, player2):
         spawn_powerups(powerups, 500, 500)
         handle_powerup_collisions([player1, player2], powerups, [enemies1, enemies2])
 
+                 # Draw health bar above the chests
+        for chest in chest_group:
+            health_bar_height = 6
+            health_percentage = chest.life / 50
+            health_bar_fill = 40 * health_percentage
+
+            health_bar_rect = pygame.Rect(
+                chest.rect.x ,
+                chest.rect.y - health_bar_height - 2,
+                health_bar_fill,
+                health_bar_height
+            )
+
+            pygame.draw.rect(screen, red, health_bar_rect)
+
         for powerup in powerups:
             powerup.draw(screen)
 
