@@ -8,18 +8,15 @@ from wall import Wall
 from chest import Chest
 import sounds
 import random
-from Powerups.gunupgrade import GunUpgrade
-from Powerups.invencibility import Invencibility
-from Powerups.despawner import Despawner
+from powerup import SpeedBoost, Shield, spawn_powerups, handle_powerup_collisions
 import random
 
 
 def game_loop(player, player2):
-
-    #by default, I started the player in the main area
+    # by default, I started the player in the main area
     current_state = "main"
 
-    #endless game loop 
+    # endless game loop
     while True:
         if current_state == "main":
             current_state = execute_game(player, player2)
@@ -30,24 +27,22 @@ def game_loop(player, player2):
 
 
 def execute_game(player1, player2):
-
-    #play the background sound
+    # play the background sound
     sounds.background_sound.play(-1)
-
 
     # SETUP
     # setting up the background
     background = pygame.image.load("images/background_2.png")
-    background = pygame.transform.scale(background, (width, height)) #para que o background ocupe toda a tela
+    background = pygame.transform.scale(background, (width, height))  # para que o background ocupe toda a tela
 
     # using the clock to control the time frame
     clock = pygame.time.Clock()
-    powerups = pygame.sprite.Group()
+    powerups = []
 
     # screen setup:
     screen = pygame.display.set_mode(resolution)
 
-    #pause button
+    # pause button
     pause = pygame.image.load("ui/pause.png")
     pause_w, pause_h = pause.get_width(), pause.get_height()
     pause_hover_size = (pause_w * 1.2, pause_h * 1.2)
@@ -74,7 +69,6 @@ def execute_game(player1, player2):
     # before starting our main loop, setup the enemy cooldown
     enemy_cooldown = 0
 
-
     # reading the map file and creating sprite groups of walls
     wall_group = pygame.sprite.Group()
     chest_group = pygame.sprite.Group()
@@ -94,7 +88,6 @@ def execute_game(player1, player2):
                 chest = Chest(col, row)
                 chest_group.add(chest)
 
-
     # randomly select a chest to have the key
     # Ensure only one chest has the key
     for chest in chest_group:
@@ -103,77 +96,56 @@ def execute_game(player1, player2):
     random_chest = random.choice(chest_group.sprites())
     random_chest.key_available = True
 
-
-    
-
-
     # MAIN GAME LOOP
     running = True
     while running:
         # controlling the frame rate
         clock.tick(fps)
 
-        #powerups cooldown counting
-        gunupgrade= GunUpgrade()
-        gunupgrade.couting()
-
-        invencible = Invencibility()
-        invencible.couting()
-
-        despawner = Despawner(10)
-        despawner.couting()
-
         # setting up the background
         screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
 
-                    # Load the destroyer image
+        # Load the destroyer image
         destroyer_image = pygame.image.load("images/boss.png")
         destroyer_image = pygame.transform.scale(destroyer_image, (70, 70))
-        
-        # Draw the destroyer image 
+
+        # Draw the destroyer image
         screen.blit(destroyer_image, (335, 300))
 
         # Showing the walls on the screen
         wall_group.draw(screen)
         # Drawing the chest
         chest_group.draw(screen)
-        #health bar for players
-        pygame.draw.rect(screen, dark_red, [50, 0, player1.health, 30])
-        pygame.draw.rect(screen, dark_red, [720 -50 - player2.health, 0, player2.health, 30])
+        # health bar for players
+        pygame.draw.rect(screen, grey, [50, 0, 100, 20], border_radius=5)
+        pygame.draw.rect(screen, dark_red, [50, 0, player1.health, 20], border_radius=5)
+        pygame.draw.rect(screen, grey, [720 - 100 - 50, 0, 100, 20], border_radius=5)
+        pygame.draw.rect(screen, dark_red, [720 - 50 - player2.health, 0, player2.health, 20], border_radius=5)
 
-        mouse= pygame.mouse.get_pos()
+        if player1.active_powerup in ['SpeedBoost', 'Shield', 'Despawner', 'Invisible']:
+            pygame.draw.circle(screen, yellow, [170, 10], 10)
+            powerup_image = pygame.image.load(f'ui/powerups/{player1.active_powerup}.png')
+            powerup_image = pygame.transform.scale(powerup_image, (20, 20))
+            # Blit the image on top of the circle
+            screen.blit(powerup_image, (160, 0))
+
+        if player2.active_powerup in ['SpeedBoost', 'Shield', 'Despawner', 'Invisible']:
+            pygame.draw.circle(screen, yellow, [720 - 170, 10], 10)
+            powerup_image2 = pygame.image.load(f'ui/powerups/{player2.active_powerup}.png')
+            powerup_image2 = pygame.transform.scale(powerup_image2, (20, 20))
+            # Blit the image on top of the circle
+            screen.blit(powerup_image2, (720 - 180, 0))
+
+        mouse = pygame.mouse.get_pos()
         keys = pygame.key.get_pressed()
-        if 675 <= mouse[0] <= 675 + pause_w and -5<= mouse[1] <= -5 + pause_h:
+        if 675 <= mouse[0] <= 675 + pause_w and -5 <= mouse[1] <= -5 + pause_h:
             # scaling the original back button
             screen.blit(pause_hover, (675 - (pause_hover_size[0] - pause_w) // 2,
                                       -5 - (pause_hover_size[1] - pause_h) // 2))
         else:
             # if not hovering, then show the original play button
 
-            screen.blit(pause, (675,-5))
-
-        #-------------------------------------POWERUPS DRAWING-----------------------------------------
-
-        randx = random.randint(0, len(lines) - 1)  # Ensure row index is within range
-        randy = random.randint(0, len(lines[randx]) - 1)  # Ensure column index is within range for the selected row
-
-        car = lines[randx][randy]
-
-        # Ensure the random position is valid
-        while car == "#":
-            randx = random.randint(0, len(lines) - 1)
-            randy = random.randint(0, len(lines[randx]) - 1)  # Use the correct row length
-            car = lines[randx][randy]
-        if gunupgrade.couting()==0:
-            screen.blit(gunupgrade.image, (20,20))
-        elif invencible.couting()==0:
-            screen.blit(invencible.image,(30, 30))
-        else:
-            screen.blit(despawner.image, (40,40))
-
-
-
-
+            screen.blit(pause, (675, -5))
 
         # handling events:
         cont = ""
@@ -183,9 +155,9 @@ def execute_game(player1, player2):
 
             if event.type == pygame.MOUSEBUTTONDOWN or keys[pygame.K_RETURN]:
                 if 675 <= mouse[0] <= 675 + pause_w and -5 <= mouse[1] <= -5 + pause_h:
-                    cont = pause_(player1,player2)
+                    cont = pause_(player1, player2)
 
-            #get coordinates in screen
+            # get coordinates in screen
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print(mouse[0], mouse[1])
 
@@ -205,7 +177,6 @@ def execute_game(player1, player2):
             enemies1.add(enemy1)
             enemies2.add(enemy2)
 
-
             # in bullets, we use fps to spawn every second. Here we double that, to spawn every two seconds
             #  o inimigo vai espawnar em 2 seconds
             enemy_cooldown = fps * 2
@@ -224,8 +195,11 @@ def execute_game(player1, player2):
         enemies1.update(player1)
         enemies2.update(player2)
 
-        # for powerup in powerups:
-        #    powerup.draw(screen)
+        spawn_powerups(powerups, 500, 500)
+        handle_powerup_collisions([player1, player2], powerups, [enemies1, enemies2])
+
+        for powerup in powerups:
+            powerup.draw(screen)
 
         red_planet = pygame.image.load("images/red_planet.png")
         blue_planet = pygame.image.load("images/blue_planet.png")
@@ -244,13 +218,13 @@ def execute_game(player1, player2):
         if blue_planet.get_rect(topleft=(80, height - 200)).colliderect(player2.rect):
             player2.hospital(delta_time=clock.get_time() / 1000)
 
-        #checking if the player moved off-screen from thwe right to the next area
+        # checking if the player moved off-screen from thwe right to the next area
         if player1.rect.right >= width and player2.rect.right >= width:
-            return "shed"
+            pass
 
         # drawing the player and enemies sprites on the screen
-        player1_group.draw(screen)
-        player2_group.draw(screen)
+        player1.draw(screen)
+        player2.draw(screen)
 
         enemies1.draw(screen)
         enemies2.draw(screen)
@@ -264,7 +238,6 @@ def execute_game(player1, player2):
         # overriding draw cause to make the key
         for chest in chest_group:
             chest.draw(screen)
-
 
         # checking for collisions between player bullets and enemies
         for bullet in bullets1:
@@ -296,22 +269,21 @@ def execute_game(player1, player2):
 
         # checking for collisions between player bullets and chest
         for bullet in bullets1:
-            collided_chest= pygame.sprite.spritecollide(bullet, chest_group, False)
+            collided_chest = pygame.sprite.spritecollide(bullet, chest_group, False)
             for chest in collided_chest:
                 chest.life -= 10
                 bullet.kill()
                 if chest.life <= 0:
-                    #change the image of chest for a broken one
+                    # change the image of chest for a broken one
                     chest.dead()
 
-
         for bullet in bullets2:
-            collided_chest= pygame.sprite.spritecollide(bullet, chest_group, False)
+            collided_chest = pygame.sprite.spritecollide(bullet, chest_group, False)
             for chest in collided_chest:
                 chest.life -= 10
                 bullet.kill()
                 if chest.life <= 0:
-                    #change the image of chest for a broken one
+                    # change the image of chest for a broken one
                     chest.dead()
 
         for chest in chest_group:
@@ -338,7 +310,7 @@ def execute_game(player1, player2):
     pygame.quit()
 
 
-def pause_(player,player2):
+def pause_(player, player2):
     screen = pygame.display.set_mode(resolution)
 
     # in order to print something we need to first create a font, create the text and then blit
@@ -371,10 +343,8 @@ def pause_(player,player2):
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 450 <= mouse[0] <= 590 and 500 <= mouse[1] <= 560:
                     player.save_player_data("save_player_data.json")
-                    player2.save_player_data( "save_player_2_data.json")
+                    player2.save_player_data("save_player_2_data.json")
                     sounds.background_sound.stop()
-                    player.reset()
-                    player2.reset()
                     return 'exit'
 
         # display my screen
@@ -382,25 +352,22 @@ def pause_(player,player2):
         screen.fill(deep_black)
 
         # displaying our texts
-        screen.blit(pause_text, (720//2,720//2))
-
+        screen.blit(pause_text, (720 // 2, 720 // 2))
 
         # drawing and displaying the back button
         pygame.draw.rect(screen, dark_red, [450, 600, 140, 60])
         pygame.draw.rect(screen, dark_red, [450, 500, 140, 60])
 
-
         back_text = corbelfont.render("back", True, white)
         exit_text = corbelfont.render("exit", True, white)
 
         back_rect = back_text.get_rect(center=(450 + 140 // 2, 600 + 60 // 2))
-        exit_rect = exit_text.get_rect(center = (450 + 140 //2, 500 + 60 // 2))
+        exit_rect = exit_text.get_rect(center=(450 + 140 // 2, 500 + 60 // 2))
         screen.blit(back_text, back_rect)
         screen.blit(exit_text, exit_rect)
 
         # updating the display
         pygame.display.update()
-
 
 
 def game_over(won, player, player2):

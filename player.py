@@ -11,12 +11,9 @@ import json
 # making a player a child of the Sprite class
 class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
-    pp_list = ["invincebility", "despawner", "gunUpgrade"]
-
     def __init__(self, color, location, controls):
         # calling the mother classes init aka Sprite
         super().__init__()
-
 
         # GAMEPLAY VARIABLES
         self.ship_direction = 'up'
@@ -28,6 +25,9 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.shield = 0
         self.skin = 0
         self.powerup = None
+        self.active_powerup = None  # To track the current power-up
+        self.powerup_timer = 0  # Timer to track power-up duration
+        self.invisible = False
 
         # VISUAL VARIABLES
         self.image = pygame.image.load(f"ui/skins/skin_{self.skin}_up.png")
@@ -46,7 +46,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.image = pygame.image.load(f"ui/skins/skin_{self.skin}_up.png")
         self.image = pygame.transform.scale(self.image, (30, 30))
         if self.skin == 1:
-            self.speed = 10
+            self.speed = 7
 
     def update(self, wall_group):
 
@@ -58,7 +58,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
         self.update_image_based_on_shield()
 
-
         # getting the keys input
         keys = pygame.key.get_pressed()
         # Store the original position before movement
@@ -68,23 +67,26 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         # checking which keys where pressed and moving the player accordingly
         # independent movements, independent ifs
         if keys[self.controls['up']] and self.rect.top > 0:
-            self.image = pygame.image.load(f"ui/skins/skin_{self.skin}_up.png")  # we use surface to display any image or draw
+            self.image = pygame.image.load(
+                f"ui/skins/skin_{self.skin}_up.png")  # we use surface to display any image or draw
             self.image = pygame.transform.scale(self.image, (30, 30))
 
             self.rect.y -= self.speed
         if keys[self.controls['down']] and self.rect.bottom < height:
-            self.image = pygame.image.load(f"ui/skins/skin_{self.skin}_down.png")  # we use surface to display any image or draw
+            self.image = pygame.image.load(
+                f"ui/skins/skin_{self.skin}_down.png")  # we use surface to display any image or draw
             self.image = pygame.transform.scale(self.image, (30, 30))
 
             self.rect.y += self.speed
         if keys[self.controls['left']] and self.rect.left > 0:
-
-            self.image = pygame.image.load(f"ui/skins/skin_{self.skin}_left.png")  # we use surface to display any image or draw
+            self.image = pygame.image.load(
+                f"ui/skins/skin_{self.skin}_left.png")  # we use surface to display any image or draw
             self.image = pygame.transform.scale(self.image, (30, 30))
 
             self.rect.x -= self.speed
         if keys[self.controls['right']] and self.rect.right < width:
-            self.image = pygame.image.load(f"ui/skins/skin_{self.skin}_right.png")  # we use surface to display any image or draw
+            self.image = pygame.image.load(
+                f"ui/skins/skin_{self.skin}_right.png")  # we use surface to display any image or draw
             self.image = pygame.transform.scale(self.image, (30, 30))
 
             self.rect.x += self.speed
@@ -95,6 +97,18 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             # If collision detected, revert to the original position
             self.rect.x = original_x
             self.rect.y = original_y
+
+        if self.active_powerup and pygame.time.get_ticks() > self.powerup_timer:
+            self.remove_powerup()
+
+    def remove_powerup(self):
+        if self.active_powerup == "SpeedBoost":
+            self.speed -= 10  # Revert speed boost
+        elif self.active_powerup == "Shield":
+            self.shield_active = False  # Deactivate shield
+        elif self.active_powerup == "Invisible":
+            self.invisible = False
+        self.active_powerup = None  # Clear the active power-up
 
     def shoot(self, bullets, key):
         """
@@ -112,9 +126,9 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 for angle in [0, math.pi, math.pi / 2, 3 * math.pi / 2]:
                     bullet = Bullet(self.rect.centerx, self.rect.centery, angle)
                     bullet.weapon_power = self.weapon_power
-                    #angle_degrees = -math.degrees(angle)  # Convert radians to degrees and invert
-                    #bullet.image = pygame.transform.rotate(bullet.image, angle_degrees)
-                    bullet.image = pygame.transform.scale(bullet.image, (10,10))
+                    # angle_degrees = -math.degrees(angle)  # Convert radians to degrees and invert
+                    # bullet.image = pygame.transform.rotate(bullet.image, angle_degrees)
+                    bullet.image = pygame.transform.scale(bullet.image, (10, 10))
                     bullets.add(bullet)
                 # resetting the cooldown
                 self.bullet_cooldown = fps * 2
@@ -123,7 +137,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 self.bullet_cooldown -= 30
             else:
                 self.bullet_cooldown -= 5
-
 
         if key == 'enter' and keys[pygame.K_RETURN]:
             if self.bullet_cooldown <= 0:
@@ -146,12 +159,15 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             self.shield = 0
             self.health -= damage'''
         if self.health > 0:
-            self.health -= damage
+            if self.invisible:
+                pass
+            else:
+                self.health -= damage
 
         # Check for player death
         elif self.health <= 0:
             self.die()
-            
+
     def hospital(self, delta_time):
         # regains 20% helth per second, without surpassing 100%
         heal_rate = 20  # Porcentagem de cura por segundo
@@ -159,23 +175,12 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         if self.health > 100:
             self.health = 100
 
-    def get_powerup(self, pp: PowerUp):
-        collided = pygame.sprite.spritecollide(self, pp, False)
-        pp.kill()
-        if collided:
-            self.powerup = pp
-            cooldown_reset = pp.cooldown
-            while pp.cooldown > 0:
-                pp.cooldown -= 1
-            pp.cooldown = cooldown_reset
-            self.powerup = None
-
     def die(self):
         self.alive = False
         self.respawn_timer = pygame.time.get_ticks() + 3000
         self.image = pygame.image.load("images/explosion.png")
         self.image = pygame.transform.scale(self.image, (30, 30))
-                
+
     def respawn(self):
         self.alive = True
         self.respawn_timer = None
@@ -184,14 +189,14 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.image = self.original_color
 
     def save_player_data(self, filename):
-            player_data = {
+        player_data = {
 
-                'weapon_power': self.weapon_power,
-                'coins': self.coins,
-                'skin': self.skin
-            }
-            with open(filename, 'w') as file:
-                json.dump(player_data, file)
+            'weapon_power': self.weapon_power,
+            'coins': self.coins,
+            'skin': self.skin
+        }
+        with open(filename, 'w') as file:
+            json.dump(player_data, file)
 
     def load_player_data(self, filename):
         with open(filename, 'r') as file:
@@ -200,7 +205,16 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
             self.coins = player_data['coins']
             self.skin = player_data['skin']
 
-    def reset(self):
-        self.health = 100
-        self.rect.center = self.start_location  
-       
+    def draw(self, screen):
+        # Draw the player rectangle
+        screen.blit(self.image, self.rect)
+
+        # Draw a circle if SpeedBoost is active
+        if self.active_powerup == "SpeedBoost":
+            pygame.draw.circle(
+                screen,
+                (0, 255, 0),  # Green for SpeedBoost
+                self.rect.center,  # Center of the player's rectangle
+                self.rect.width // 2 + 10,  # Radius slightly larger than the player
+                2  # Thickness of the circle outline
+            )
