@@ -255,7 +255,7 @@ def rules_():
     cont = True
     while cont:
         screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
-        screen.blit(rules,(100,100)) # putting rules img on the screen
+        screen.blit(rules,(60,70)) # putting rules img on the screen
 
         # getting the position of the users mouse
         mouse = pygame.mouse.get_pos()

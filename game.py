@@ -327,22 +327,41 @@ def execute_game(player1, player2):
 
 def pause_(player, player2):
     screen = pygame.display.set_mode(resolution)
+    background = pygame.image.load("ui/background_2.png")
+    background = pygame.transform.scale(background, (width, height))
 
-    # in order to print something we need to first create a font, create the text and then blit
+    paused = pygame.image.load("ui/paused.png")
 
-    # creating the fonts:
-    corbelfont = pygame.font.SysFont("Corbel", 50)
-    comicsansfont = pygame.font.SysFont("Comic Sans MS", 25)
+    resume = pygame.image.load("ui/resume.png")
+    resume_w, resume_h = resume.get_width(), resume.get_height()
+    resume_hover = pygame.image.load("ui/resume_hover.png")
 
-    # creating the rendered texts for the credits
-    pause_text = comicsansfont.render("PAUSED", True, white)
-    exit_text = comicsansfont.render("exit", True, white)
+    exit_btn = pygame.image.load("ui/exit.png")
+    exit_btn_w, exit_btn_h = exit_btn.get_width(), exit_btn.get_height()
+    exit_btn_hover = pygame.image.load("ui/exit_hover.png")
 
-    # main loop to detect user input and display the credits
     # pause = True
     while True:
         # getting the position of the users mouse
+        screen.blit(background, (0,0))
+        screen.blit(paused, (250, 110))
         mouse = pygame.mouse.get_pos()
+
+        if 270 <= mouse[0] <= 270 + resume_w and 280 <= mouse[1] <= 280 + resume_h:
+
+            screen.blit(resume_hover, (270 - (resume_hover.get_width() - resume_w) // 2,
+                                       280 - (resume_hover.get_height() - resume_h) // 2))
+        else:
+
+            screen.blit(resume, (270, 280))
+
+        if 270 <= mouse[0] <= 270 + exit_btn_w and 390 <= mouse[1] <= 390 + exit_btn_h:
+
+            screen.blit(exit_btn_hover, (270 - (exit_btn_hover.get_width() - exit_btn_w) // 2,
+                                       390 - (exit_btn_hover.get_height() - exit_btn_h) // 2))
+        else:
+
+            screen.blit(exit_btn, (270, 390))
 
         for ev in pygame.event.get():
 
@@ -352,34 +371,17 @@ def pause_(player, player2):
 
             # checking if the user clicked the back button
             if ev.type == pygame.MOUSEBUTTONDOWN:
-                if 450 <= mouse[0] <= 590 and 600 <= mouse[1] <= 660:
+                if 270 <= mouse[0] <= 270 + resume_w and 280 <= mouse[1] <= 280 + resume_h:
                     return
 
             if ev.type == pygame.MOUSEBUTTONDOWN:
-                if 450 <= mouse[0] <= 590 and 500 <= mouse[1] <= 560:
+                if 270 <= mouse[0] <= 270 + exit_btn_w and 390 <= mouse[1] <= 390 + exit_btn_h:
                     player.save_player_data("save_player_data.json")
                     player2.save_player_data("save_player_2_data.json")
                     sounds.background_sound.stop()
                     return 'exit'
 
-        # display my screen
-        # we can fill the screen with an image instead of deep_black
-        screen.fill(deep_black)
 
-        # displaying our texts
-        screen.blit(pause_text, (720 // 2, 720 // 2))
-
-        # drawing and displaying the back button
-        pygame.draw.rect(screen, dark_red, [450, 600, 140, 60])
-        pygame.draw.rect(screen, dark_red, [450, 500, 140, 60])
-
-        back_text = corbelfont.render("back", True, white)
-        exit_text = corbelfont.render("exit", True, white)
-
-        back_rect = back_text.get_rect(center=(450 + 140 // 2, 600 + 60 // 2))
-        exit_rect = exit_text.get_rect(center=(450 + 140 // 2, 500 + 60 // 2))
-        screen.blit(back_text, back_rect)
-        screen.blit(exit_text, exit_rect)
 
         # updating the display
         pygame.display.update()
