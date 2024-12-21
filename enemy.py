@@ -46,13 +46,17 @@ class Enemy(pygame.sprite.Sprite):
 
         # if the player is close enough, the enemy will explode
         if distance <= 2:
-            if self.exploding_counter == 3 * fps:
-                self.image = pygame.transform.scale(pygame.image.load("images/explosion.png").convert_alpha(), (15, 15))   # change to explosion image
-            self.exploding_counter -= 1
+            if self.exploding_counter == 3*fps:
+                self.image = pygame.transform.scale(pygame.image.load("images/explosion.png").convert_alpha(),
+                                                    (15, 15))  # change to explosion image
+            self.exploding_counter -= fps/2
             if self.exploding_counter == 0:
                 self.explode(player)
+
         else:
             self.move(direction)
+
+
 
     def move(self, direction):
         # moving the enemy towards the player --> like bullet
