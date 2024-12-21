@@ -379,6 +379,8 @@ def pause_(player, player2):
 
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 270 <= mouse[0] <= 270 + exit_btn_w and 390 <= mouse[1] <= 390 + exit_btn_h:
+                    player.respawn()
+                    player2.respawn()
                     player.save_player_data("save_player_data.json")
                     player2.save_player_data("save_player_2_data.json")
                     sounds.background_sound.stop()
