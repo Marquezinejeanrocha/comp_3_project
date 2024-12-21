@@ -7,7 +7,6 @@ from Powerups.powerup import PowerUp
 from Powerups.invencibility import Invencibility
 import json
 
-
 # making a player a child of the Sprite class
 class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
 
@@ -28,6 +27,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.active_powerup = None  # To track the current power-up
         self.powerup_timer = 0  # Timer to track power-up duration
         self.invisible = False
+        self.has_key = False
 
         # VISUAL VARIABLES
         self.image = pygame.image.load(f"ui/skins/skin_{self.skin}_up.png")
@@ -39,7 +39,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.alive = True
         self.original_color = self.image
         self.respawn_timer = None  # Timer for respawn
-        self.has_key = False
+
 
     def update_image_skin(self):
         """Update the player's image dynamically based on the shield state."""
@@ -192,6 +192,9 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.health = 100
         self.rect.center = self.start_location  # Reset to the start location
         self.image = self.original_color
+        self.has_key = False
+
+
 
     def save_player_data(self, filename):
         player_data = {

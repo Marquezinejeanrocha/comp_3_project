@@ -90,6 +90,8 @@ def interface():
     quit_w, quit_h = quit.get_width(), quit.get_height()
     quit_hover_size = (int(quit_w * 1.2), int(quit_h * 1.2))
     quit_hover = pygame.transform.scale(quit, quit_hover_size)
+
+    game_over.video_shown = False
     while True:
 
         # 0,0 will fill the entire screen
@@ -167,7 +169,7 @@ def interface():
 
                 # Wilderness game button (Play button)
                 if 280 <= mouse[0] <= 280 + play_w and 275 <= mouse[1] <= 275 + play_h:
-                    wilderness_explorer(player, player2)
+                    game_loop(player, player2)
 
                 # Shop button
                 if 105 <= mouse[0] <= 105 + shop_w and 420 <= mouse[1] <= 420 + shop_h:
@@ -292,6 +294,3 @@ def rules_():
         pygame.display.update()
 
 
-
-def wilderness_explorer(player, player2):
-    game_loop(player, player2)

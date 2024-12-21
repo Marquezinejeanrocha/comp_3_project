@@ -10,7 +10,7 @@ import sounds
 import random
 from powerup import SpeedBoost, Shield, spawn_powerups, handle_powerup_collisions
 import random
-import interface
+import game_over
 
 
 def game_loop(player, player2):
@@ -313,12 +313,12 @@ def execute_game(player1, player2):
 
         if destroyer_rect.colliderect(player1.rect) and player1.has_key:
             # if the player collided with the boss, we will return to the game over screen
-            game_over("player1", player1, player2)
+            game_over.game_over( player1, player2)
             player1.has_key = False  # Ensure the function is called only once
 
         if destroyer_rect.colliderect(player2.rect) and player2.has_key:
             # if the player collided with the boss, we will return to the game over screen
-            game_over("player2", player1, player2)
+            game_over.game_over(player1, player2)
             player2.has_key = False
 
         # updates the whole screen since the frame was last drawn
@@ -391,7 +391,7 @@ def pause_(player, player2):
         # updating the display
         pygame.display.update()
 
-
+'''
 def game_over(won, player, player2):
     if won == "player1":
         print("player1 won")
@@ -399,4 +399,4 @@ def game_over(won, player, player2):
 
     if won == "player2":
         print("player2 won")
-        player2.coins += 100
+        player2.coins += 100'''
