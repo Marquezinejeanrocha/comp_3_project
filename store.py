@@ -94,15 +94,13 @@ def shop(player, player2):
 
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT:
+                player.save_player_data("save_player_data.json")
+                player2.save_player_data( "save_player_2_data.json")
                 pygame.quit()
 
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 # checking if the back button was clicked
                 if 10 <= mouse[0] <= 100 and 10 <= mouse[1] <= 50:
-                    save_file = "save_player_data.json"
-                    save_file2 = "save_player_2_data.json"
-                    player.save_player_data(save_file)
-                    player2.save_player_data(save_file2)
                     return
 
                 # Checking if the upgrade button for player 1 was clicked

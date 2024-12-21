@@ -232,3 +232,10 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
                 self.rect.width // 2 + 10,  # Radius slightly larger than the player
                 2  # Thickness of the circle outline
             )
+
+    def reset_player(self):
+        self.weapon_power = 0
+        self.coins = 0
+        self.skin = 0
+
+

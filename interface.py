@@ -138,8 +138,6 @@ def interface():
         if 280 <= mouse[0] <= 280 + quit_w and 600 <= mouse[1] <= 600 + quit_h:
             screen.blit(quit_hover, (280 - (quit_hover_size[0] - quit_w) // 2,
                                      600 - (quit_hover_size[1] - quit_h) // 2))
-            player.save_player_data("save_player_data.json")
-            player2.save_player_data( "save_player_2_data.json")
         else:
             screen.blit(quit, (280, 600))
 
@@ -152,11 +150,15 @@ def interface():
                 print(mouse[0], mouse[1])
             # seeing if the user hits the red x button
             if ev.type == pygame.QUIT:
+                player.save_player_data("save_player_data.json")
+                player2.save_player_data( "save_player_2_data.json")
                 pygame.quit()
 
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 # Quit button
                 if 280 <= mouse[0] <= 280 + quit_w and 600 <= mouse[1] <= 600 + quit_h:
+                    player.save_player_data("save_player_data.json")
+                    player2.save_player_data( "save_player_2_data.json")
                     pygame.quit()
 
                 # Credits button
@@ -222,6 +224,8 @@ def credits_():
 
             # allow the user to quit on (x)
             if ev.type == pygame.QUIT:
+                player.save_player_data("save_player_data.json")
+                player2.save_player_data( "save_player_2_data.json")
                 pygame.quit()
 
             # checking if the user clicked the back button
@@ -274,6 +278,8 @@ def rules_():
 
             # allow the user to quit on (x)
             if ev.type == pygame.QUIT:
+                player.save_player_data("save_player_data.json")
+                player2.save_player_data( "save_player_2_data.json")
                 pygame.quit()
 
             # checking if the user clicked the back button

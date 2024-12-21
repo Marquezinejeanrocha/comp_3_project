@@ -10,6 +10,7 @@ import sounds
 import random
 from powerup import SpeedBoost, Shield, spawn_powerups, handle_powerup_collisions
 import random
+import interface
 
 
 def game_loop(player, player2):
@@ -151,6 +152,8 @@ def execute_game(player1, player2):
         cont = ""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                player1.save_player_data("save_player_data.json")
+                player2.save_player_data( "save_player_2_data.json")
                 pygame.quit()
 
             if event.type == pygame.MOUSEBUTTONDOWN or keys[pygame.K_RETURN]:

@@ -18,8 +18,8 @@ class Chest(pygame.sprite.Sprite):
         self.rect.y = y * self.TILE_SIZE
 
         # Add a key representation
-        self.key_image = pygame.Surface((30, 30), pygame.SRCALPHA)
-        pygame.draw.circle(self.key_image, (255, 255, 0), (15, 15), 15)  # Yellow circle
+        self.key_image = pygame.image.load("images/bomb.png")
+        self.key_image = pygame.transform.scale(self.key_image, (50, 24))
         self.key_rect = self.key_image.get_rect(center=self.rect.center)
         self.key_available = False  # Key is initially unavailable
 
@@ -36,6 +36,10 @@ class Chest(pygame.sprite.Sprite):
 
         # Draw the key if available
         if self.key_available and self.is_exploded:
+            #Undraw the chest
+            self.image = pygame.Surface((50, 50), pygame.SRCALPHA)
+            self.image.fill((0, 0, 0, 0)) 
+            # Draw the key
             screen.blit(self.key_image, self.key_rect.topleft)
 
     def collect_key(self, player_group):
