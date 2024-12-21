@@ -15,19 +15,24 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         super().__init__()
 
         # GAMEPLAY VARIABLES
-        self.ship_direction = 'up'
-        self.speed = 3
         self.health = 100
         self.bullet_cooldown = 0
         self.weapon_power = 0
         self.coins = 100
-        self.shield = 0
         self.skin = 0
+        if self.skin == 1:
+            self.speed = 4
+        elif self.skin == 2:
+            self.speed = 7
+        else:
+            self.speed = 3
         self.powerup = None
         self.active_powerup = None  # To track the current power-up
         self.powerup_timer = 0  # Timer to track power-up duration
         self.invisible = False
         self.has_key = False
+        self.alive = True
+        self.respawn_timer = None  # Timer for respawn
 
         # VISUAL VARIABLES
         self.image = pygame.image.load(f"ui/skins/skin_{self.skin}_up.png")
@@ -36,19 +41,15 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.rect.center = location
         self.controls = controls
         self.start_location = location  # Store the initial location for respawn
-        self.alive = True
-        self.original_color = self.image
-        self.respawn_timer = None  # Timer for respawn
+        self.original_image = self.image
 
 
     def update_image_skin(self):
         """Update the player's image dynamically based on the shield state."""
+
         self.image = pygame.image.load(f"ui/skins/skin_{self.skin}_up.png")
         self.image = pygame.transform.scale(self.image, (30, 30))
-        if self.skin == 1:
-            self.speed = 4
-        if self.skin == 2:
-            self.speed = 7
+
 
     def update(self, wall_group):
 
@@ -106,8 +107,6 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
     def remove_powerup(self):
         if self.active_powerup == "SpeedBoost":
             self.speed -= 2  # Revert speed boost
-        elif self.active_powerup == "Shield":
-            self.shield_active = False  # Deactivate shield
         elif self.active_powerup == "Invisible":
             self.invisible = False
         self.active_powerup = None  # Clear the active power-up
@@ -191,8 +190,7 @@ class Player(pygame.sprite.Sprite):  # sprites are moving things in pygame
         self.respawn_timer = None
         self.health = 100
         self.rect.center = self.start_location  # Reset to the start location
-        self.image = self.original_color
-        self.has_key = False
+        self.image = self.original_image
 
 
 

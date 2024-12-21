@@ -32,10 +32,9 @@ class Shield(PowerUp):
         pass
 
 class Despawner(PowerUp):
-    def __init__(self, x, y, despawn_count):
+    def __init__(self, x, y):
         super().__init__(x, y, 30, 30, "ui/powerups/Despawner.png")
         self.color = (255, 0, 0)  # Red for Despawner
-        self.despawn_count = despawn_count
 
     def affect_player(self, player):
         pass
@@ -80,10 +79,7 @@ def spawn_powerups(powerups, screen_width, screen_height):
         y = random.randint(0, screen_height - 20)
         powerup_type = random.choice([SpeedBoost, Shield, Despawner, Invisible])
         if len(powerups) < 3:
-            if powerup_type == Despawner:
-                powerups.append(Despawner(x, y, despawn_count=random.randint(1, 5)))
-            else:
-                powerups.append(powerup_type(x, y))
+            powerups.append(powerup_type(x, y))
 
 
 

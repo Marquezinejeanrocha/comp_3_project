@@ -3,12 +3,13 @@ from config import *
 import cv2
 import sys
 import sounds
-import interface
 
 # Global variable to control if the video has already been shown
 video_shown = False
 
 def game_over(player, player2):
+    player.save_player_data("save_player_data.json")
+    player2.save_player_data("save_player_2_data.json")
     global video_shown
     sounds.background_sound.stop()
     # Creating the screen
@@ -35,8 +36,7 @@ def game_over(player, player2):
 
             for ev in pygame.event.get():
                 if ev.type == pygame.QUIT:
-                    player.save_player_data("save_player_data.json")
-                    player2.save_player_data("save_player_2_data.json")
+
                     pygame.quit()
                     sys.exit()
 
@@ -59,8 +59,8 @@ def game_over(player, player2):
                 player.respawn()
                 player2.respawn()
                 video_shown = True  # Update the variable to indicate that the video has been shown
-                interface.interface()
-                return
+                #interface.interface()
+                return "exit"
 
             # Convert the frame from BGR (OpenCV) to RGB (Pygame)
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)

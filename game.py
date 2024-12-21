@@ -313,14 +313,19 @@ def execute_game(player1, player2):
 
         if destroyer_rect.colliderect(player1.rect) and player1.has_key:
             # if the player collided with the boss, we will return to the game over screen
-            game_over.game_over( player1, player2)
+            player1.coins += 200
+            player2.coins += 50
             player1.has_key = False  # Ensure the function is called only once
+            cont = game_over.game_over( player1, player2)
 
         if destroyer_rect.colliderect(player2.rect) and player2.has_key:
             # if the player collided with the boss, we will return to the game over screen
-            game_over.game_over(player1, player2)
+            player2.coins += 200
+            player1.coins += 50
             player2.has_key = False
-
+            cont = game_over.game_over(player1, player2)
+        if cont == "exit":
+            return "exit"
         # updates the whole screen since the frame was last drawn
         # handling events:
         pygame.display.flip()
