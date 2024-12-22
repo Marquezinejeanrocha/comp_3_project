@@ -8,7 +8,7 @@ import player
 
 def options(player, player2):
     # creating the screen at 720x720 pixels
-    background = pygame.image.load("ui/background_2.png")
+    background = pygame.image.load("ui/background.png")
     background = pygame.transform.scale(background, (width, height))
 
 

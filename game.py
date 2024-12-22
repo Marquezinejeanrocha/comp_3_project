@@ -5,7 +5,7 @@ from wall import Wall
 from chest import Chest
 import sounds
 import random
-from powerup import SpeedBoost, Shield, spawn_powerups, handle_powerup_collisions
+from powerup import spawn_powerups, handle_powerup_collisions
 import random
 import game_over
 

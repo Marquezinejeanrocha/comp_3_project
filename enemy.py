@@ -2,13 +2,39 @@ from config import *
 import pygame
 import random
 import math
-from player import Player
 
 
 class Enemy(pygame.sprite.Sprite):
+    """
+    A class to represent an enemy in the game.
+
+    Attributes
+    ----------
+    image : pygame.Surface
+        The image representing the enemy.
+    rect : pygame.Rect
+        The rectangle representing the position and size of the enemy.
+    speed : int
+        The speed at which the enemy moves.
+    health : int
+        The health of the enemy.
+    exploding_counter : int
+        The counter for the explosion animation.
+    damage : int
+        The damage the enemy deals when it explodes.
+
+    Methods
+    -------
+    update(player):
+        Updates the enemy's position and checks for explosion.
+    move(direction):
+        Moves the enemy towards the player.
+    explode(player):
+        Handles the explosion of the enemy and deals damage to the player.
+    """
     def __init__(self, status):
         super().__init__()
-        # creating a surface for the enemy
+        # creating a skin for the enemy
         if status == 'player1':
             self.image = pygame.image.load("ui/enemy_2.png").convert_alpha()
             self.image = pygame.transform.scale(self.image, (40, 40))
@@ -17,13 +43,11 @@ class Enemy(pygame.sprite.Sprite):
             self.image = pygame.image.load("ui/enemy_3.png").convert_alpha()
             self.image = pygame.transform.scale(self.image, (50, 50))
 
-
-
         # getting rectangle for positioning
         self.rect = self.image.get_rect()
 
         # starting the enemy at random valid location on the screen
-        self.rect.x = random.randint(0, width - enemy_size[0])  # para o inimigo nao espawnar fora da tela
+        self.rect.x = random.randint(0, width - enemy_size[0]) 
         self.rect.y = random.randint(0, height - enemy_size[-1])
 
         # setting a random initial speed for the enemy
@@ -32,10 +56,18 @@ class Enemy(pygame.sprite.Sprite):
         # setting the health bar
         self.health = 10
 
+        # setting the counter for the explosion animation
         self.exploding_counter = 3 * fps
+        # setting the damage the enemy deals when it explodes
         self.damage = 10
 
     def update(self, player):
+        """
+        Updates the enemy's state based on the player's position.
+
+        Args:
+            player (Player): The player object to track and interact with.
+        """
         # determining the direction of the movement based on the player location
         dx = player.rect.x - self.rect.x
         dy = player.rect.y - self.rect.y
@@ -59,7 +91,14 @@ class Enemy(pygame.sprite.Sprite):
 
 
     def move(self, direction):
-        # moving the enemy towards the player --> like bullet
+        """
+        Move the enemy in a specified direction.
+
+        Parameters:
+        direction (float): The angle in radians representing the direction 
+                           in which the enemy should move.
+        """
+        # moving the enemy towards the player
         self.rect.x += self.speed * math.cos(direction)
         self.rect.y += self.speed * math.sin(direction)
 
@@ -67,6 +106,11 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.y = int(self.rect.y)
 
     def explode(self, player):
+        """
+        Causes the enemy to explode and potentially damage the player.
+        Args:
+            player (Player): The player object that may take damage from the explosion.
+        """
         distance = math.sqrt((self.rect.x - player.rect.x) ** 2 + (self.rect.y - player.rect.y) ** 2)
         self.kill()
         if distance <= 2:
