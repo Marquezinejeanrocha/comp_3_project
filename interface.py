@@ -1,10 +1,10 @@
 import pygame
-from utils import *  # no need to import pygame because the import is in utils
-from config import *  # importing colors and the like
+from utils import *  
+from config import *  
 from game import *
 from utils import *
 from store import shop
-
+from player import Player
 
 #creatting the player for the game
 controls_player1 = {
@@ -24,11 +24,25 @@ player = Player(cute_purple, (110,106), controls_player1)
 player2 = Player(greenish, (612,601), controls_player2)
 
 def interface():
+    """
+    Initializes the game interface and handles the main menu interactions.
+    This function performs the following tasks:
+    - Loads player data from JSON files or creates new save files if they do not exist.
+    - Initializes the Pygame library and sets up the game screen.
+    - Loads and scales various UI elements such as background, buttons, and game title.
+    - Displays the main menu with hover effects for buttons.
+    - Handles user interactions with the main menu, including button clicks for starting the game, opening the shop, viewing credits, options, and rules, and quitting the game.
+    - Saves player data upon quitting the game.
+    Raises:
+        FileNotFoundError: If the save files for player data do not exist and need to be created.
+    """
 
 
-
+    # Define save file names for player data
     save_file = "save_player_data.json"
     save_file2 = "save_player_2_data.json"
+
+    # Attempt to load player data from save files, create new save files if they do not exist
     try:
         with open(save_file, 'r'):
             player.load_player_data(save_file)
@@ -40,25 +54,24 @@ def interface():
             player2.load_player_data(save_file2)
     except FileNotFoundError:
         player2.save_player_data(save_file2)
- 
-    # initiating pygame
-    pygame.init() # calling pygame
-    # creating the screen at the set resolution
-    # show the user something
+
+    # Initialize Pygame
+    pygame.init()
+
+    # Create the game screen with the specified resolution
     screen = pygame.display.set_mode(resolution)
 
-    # filling the screen
-    # setting up the background
+    # Load and scale the background image to fill the entire screen
     background = pygame.image.load("ui/background.png")
-    # para que o background ocupe toda a tela
     background = pygame.transform.scale(background, (width, height))
+
+    # Load the game title image
     game = pygame.image.load("ui/CHEST BUSTER.png")
 
-    img_scale = 1.3
-
+    # Load and scale the buttons and their hover effects
     play = pygame.image.load("ui/play.png")
     play_w, play_h = play.get_width(), play.get_height()
-    play_hover_size = (play_w * 1.2, play_h*1.2)
+    play_hover_size = (play_w * 1.2, play_h * 1.2)
     play_hover = pygame.transform.scale(play, play_hover_size)
 
     shops = pygame.image.load("ui/shop.png")
@@ -91,66 +104,62 @@ def interface():
     quit_hover_size = (int(quit_w * 1.2), int(quit_h * 1.2))
     quit_hover = pygame.transform.scale(quit, quit_hover_size)
 
+    # Ensure the game over video is not shown initially
     game_over.video_shown = False
-    while True:
 
-        # 0,0 will fill the entire screen
+    while True:
+        # Fill the screen with the background image
         screen.blit(background, (0, 0))
-        screen.blit(game, (160,120))
+        screen.blit(game, (160, 120))
         mouse = pygame.mouse.get_pos()
 
+        # Buttons with hover effect
         if 280 <= mouse[0] <= 280 + play_w and 275 <= mouse[1] <= 275 + play_h:
-            # scaling the original back button
             screen.blit(play_hover, (280 - (play_hover_size[0] - play_w) // 2,
-                                     275 - (play_hover_size[1] - play_h) // 2))
+                         275 - (play_hover_size[1] - play_h) // 2))
         else:
-            # if not hovering, then show the original play button
-
-            screen.blit(play, (280,275))
-
-        # Shop button with hover effect
+            screen.blit(play, (280, 275))
+        # Shop button
         if 105 <= mouse[0] <= 105 + shop_w and 420 <= mouse[1] <= 420 + shop_h:
             screen.blit(shop_hover, (105 - (shop_hover_size[0] - shop_w) // 2,
-                                     420 - (shop_hover_size[1] - shop_h) // 2))
+                         420 - (shop_hover_size[1] - shop_h) // 2))
         else:
             screen.blit(shops, (105, 420))
 
-        # Credit button with hover effect
+        # Credits button
         if 105 <= mouse[0] <= 105 + credit_w and 520 <= mouse[1] <= 520 + credit_h:
             screen.blit(credit_hover, (105 - (credit_hover_size[0] - credit_w) // 2,
-                                       520 - (credit_hover_size[1] - credit_h) // 2))
+                           520 - (credit_hover_size[1] - credit_h) // 2))
         else:
             screen.blit(credit, (105, 520))
 
-        # Option button with hover effect
+        # Options button
         if 505 <= mouse[0] <= 505 + option_w and 420 <= mouse[1] <= 420 + option_h:
             screen.blit(option_hover, (505 - (option_hover_size[0] - option_w) // 2,
-                                       420 - (option_hover_size[1] - option_h) // 2))
+                           420 - (option_hover_size[1] - option_h) // 2))
         else:
             screen.blit(option, (505, 420))
 
-        # Rules button with hover effect
+        # Rules button
         if 505 <= mouse[0] <= 505 + rules_w and 520 <= mouse[1] <= 520 + rules_h:
             screen.blit(rules_hover, (505 - (rules_hover_size[0] - rules_w) // 2,
-                                      520 - (rules_hover_size[1] - rules_h) // 2))
+                          520 - (rules_hover_size[1] - rules_h) // 2))
         else:
             screen.blit(rules, (505, 520))
 
-        # Quit button with hover effect
+        # Quit button
         if 280 <= mouse[0] <= 280 + quit_w and 600 <= mouse[1] <= 600 + quit_h:
             screen.blit(quit_hover, (280 - (quit_hover_size[0] - quit_w) // 2,
-                                     600 - (quit_hover_size[1] - quit_h) // 2))
+                         600 - (quit_hover_size[1] - quit_h) // 2))
         else:
             screen.blit(quit, (280, 600))
 
-
+        # Event loop to handle user input
         for ev in pygame.event.get():
-
-            # getting the mouse position (future need)
             mouse = pygame.mouse.get_pos()
-            if ev.type == pygame.MOUSEBUTTONDOWN:
-                print(mouse[0], mouse[1])
-            # seeing if the user hits the red x button
+            '''if ev.type == pygame.MOUSEBUTTONDOWN:
+                print(mouse[0], mouse[1])'''
+            # Exit button
             if ev.type == pygame.QUIT:
                 player.save_player_data("save_player_data.json")
                 player2.save_player_data( "save_player_2_data.json")
@@ -186,13 +195,19 @@ def interface():
         # update the display so that the loop changes will appear
         pygame.display.update()
 
-# Under construction screen
 def credits_():
+    """
+    Display the credits screen with the names of the group.
+
+    Handles:
+    - Mouse hover and click on the back button.
+    - Quitting the game and saving player data.
+    """
     # setting up the background
     background = pygame.image.load("ui/background.png")
-    # para que o background ocupe toda a tela
     background = pygame.transform.scale(background, (width, height))
 
+    # loading the credits image
     back = pygame.image.load("ui/back.png")
     credit = pygame.image.load("ui/credit_img.png")
 
@@ -203,10 +218,10 @@ def credits_():
     # screen setup:
     screen = pygame.display.set_mode(resolution)
 
-    # main loop to detect user input and display the credits
+
     cont = True
     while cont:
-        screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
+        screen.blit(background, (0, 0))  
         screen.blit(credit, (100, 100))  # putting rules img on the screen
 
         # getting the position of the users mouse
@@ -224,29 +239,32 @@ def credits_():
 
         for ev in pygame.event.get():
 
-            # allow the user to quit on (x)
+            # Exit button
             if ev.type == pygame.QUIT:
                 player.save_player_data("save_player_data.json")
                 player2.save_player_data( "save_player_2_data.json")
                 pygame.quit()
 
-            # checking if the user clicked the back button
+            # Back button
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 if 10 <= mouse[0] <= 100 and 10 <= mouse[1] <= 50:
                     cont = False
 
-        # pygame.draw.rect(screen, dark_red, [0, 0, 90, 30])
         # updating the display
         pygame.display.update()
 
 
 def rules_():
+    """
+    Displays the rules screen with the rules of the game.
+    Handles user input and updates the display accordingly.
+    """
 
     # setting up the background
     background = pygame.image.load("ui/background.png")
-    # para que o background ocupe toda a tela
     background = pygame.transform.scale(background, (width, height))
 
+    # loading the rules image
     back = pygame.image.load("ui/back.png")
     rules = pygame.image.load("ui/rules.png")
 
@@ -257,11 +275,10 @@ def rules_():
     # screen setup:
     screen = pygame.display.set_mode(resolution)
 
-    # main loop to detect user input and display the credits
     cont = True
     while cont:
-        screen.blit(background, (0, 0))  # 0,0 will fill the entire screen
-        screen.blit(rules,(60,70)) # putting rules img on the screen
+        screen.blit(background, (0, 0))
+        screen.blit(rules,(60,70)) # putting rules image on the screen
 
         # getting the position of the users mouse
         mouse = pygame.mouse.get_pos()
@@ -278,7 +295,7 @@ def rules_():
 
         for ev in pygame.event.get():
 
-            # allow the user to quit on (x)
+            # Exit button
             if ev.type == pygame.QUIT:
                 player.save_player_data("save_player_data.json")
                 player2.save_player_data( "save_player_2_data.json")
@@ -289,7 +306,6 @@ def rules_():
                 if 10 <= mouse[0] <= 100 and 10 <= mouse[1] <= 50:
                     cont = False
 
-        # pygame.draw.rect(screen, dark_red, [0, 0, 90, 30])
         # updating the display
         pygame.display.update()
 
