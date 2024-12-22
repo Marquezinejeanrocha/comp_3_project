@@ -26,7 +26,7 @@ def options(player, player2):
     The function updates the display with the current volume level and other UI elements, and it exits when the back button is clicked.
     """
     # creating the screen
-    background = pygame.image.load("ui/background_4.png")
+    background = pygame.image.load("ui/background.png")
     background = pygame.transform.scale(background, (width, height))
 
     # loading the images

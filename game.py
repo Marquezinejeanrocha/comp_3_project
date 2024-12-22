@@ -5,10 +5,10 @@ from wall import Wall
 from chest import Chest
 import sounds
 import random
-from powerup import spawn_powerups, handle_powerup_collisions
+from powerup import SpeedBoost, Shield, Invisible, Despawner
 import random
 import game_over
-
+# loc_list = []
 
 def game_loop(player, player2):
     """
@@ -84,7 +84,7 @@ def execute_game(player1, player2):
     enemies1 = pygame.sprite.Group()
     enemies2 = pygame.sprite.Group()
 
-    # before starting our main loop, setup the enemy cooldown
+    # before starting our main loop, set up the enemy cooldown
     enemy_cooldown = 0
 
     # reading the map file and creating sprite groups of walls
@@ -159,6 +159,7 @@ def execute_game(player1, player2):
 
         # getting the position of the users mouse
         mouse = pygame.mouse.get_pos()
+
         # getting the keys pressed by the user
         keys = pygame.key.get_pressed()
 
@@ -186,7 +187,9 @@ def execute_game(player1, player2):
 
             # get coordinates in screen
             if event.type == pygame.MOUSEBUTTONDOWN:
+                # loc_list.append(mouse)
                 print(mouse[0], mouse[1])
+                # print(loc_list)
 
         # checking if the user wants to exit the game
         if cont == "exit":
@@ -423,4 +426,59 @@ def pause_(player, player2):
 
         # updating the display
         pygame.display.update()
+
+
+def spawn_powerups(powerups, screen_width, screen_height, chance):
+    """
+    Spawns power-ups randomly on the screen with a 2% chance each frame.
+
+    Parameters:
+    powerups (list): The list to which new power-ups will be appended.
+    screen_width (int): The width of the screen where power-ups can spawn.
+    screen_height (int): The height of the screen where power-ups can spawn.
+    """
+
+    if chance == 1:
+        if random.randint(0, 100) < 1:  # 1% chance to spawn a power-up each frame
+            powerup_type = random.choice([SpeedBoost, Shield])
+            a = random.choice(powerup_loc)
+            x = a[0]
+            y = a[1]
+            if len(powerups) < 3:
+                powerups.append(powerup_type(x, y))
+    elif chance == 2:
+        if random.randint(0, 200) < 1:  # 0,5% chance to spawn a power-up each frame
+            a = random.choice(powerup_loc)
+            x = a[0]
+            y = a[1]
+            powerup_type = random.choice([Despawner, Invisible])
+            if len(powerups) < 3:
+                powerups.append(powerup_type(x, y))
+
+
+def handle_powerup_collisions(players, powerups, enemy_groups):
+    """
+    Handle collisions between players and power-ups, applying the power-up effects
+    and removing the power-up from the game once it has been used.
+
+    Args:
+        players (list): A list of player objects, each with a 'rect' attribute for collision detection.
+        powerups (list): A list of power-up objects, each with 'active' and 'rect' attributes, and
+                         'affect_game' or 'affect_player' methods.
+        enemy_groups (list): A list of enemy group objects, corresponding to each player.
+    """
+    # Iterate over a copy of the power-ups list to safely remove power-ups
+    for powerup in powerups[:]:
+        if powerup.active:
+            # Check for collisions between players and power-ups
+            for player, enemy_group in zip(players, enemy_groups):
+                if player.rect.colliderect(powerup.rect):  # Ensure the right player gets the effect
+                    # Apply the power-up effect and remove the power-up from the game
+                    if isinstance(powerup, Despawner):
+                        powerup.affect_game(player, enemy_group)
+                    else:
+                        powerup.affect_player(player)
+                    powerup.active = False
+                    powerups.remove(powerup)
+                    break  # Exit loop once the power-up is handled
 

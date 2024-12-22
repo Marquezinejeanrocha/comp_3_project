@@ -67,7 +67,7 @@ def interface():
     interface_sound.play()
 
     # Load the background image
-    background = pygame.image.load("ui/background_4.png")
+    background = pygame.image.load("ui/background.png")
     background = pygame.transform.scale(background, (width, height))
 
     # Load the game title image
@@ -213,7 +213,7 @@ def credits_():
     - Quitting the game and saving player data.
     """
     # setting up the background
-    background = pygame.image.load("ui/background_4.png")
+    background = pygame.image.load("ui/background.png")
     background = pygame.transform.scale(background, (width, height))
 
     # loading the credits image
@@ -270,7 +270,7 @@ def rules_():
     """
 
     # setting up the background
-    background = pygame.image.load("ui/background_4.png")
+    background = pygame.image.load("ui/background.png")
     background = pygame.transform.scale(background, (width, height))
 
     # loading the rules image

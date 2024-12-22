@@ -3,8 +3,6 @@ from config import *
 import pygame
 import math
 from bullet import Bullet
-#from Powerups.powerup import PowerUp
-#from Powerups.invencibility import Invencibility
 import json
 
 

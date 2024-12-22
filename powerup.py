@@ -133,56 +133,7 @@ class Invisible(PowerUp):
 
 
 
-def spawn_powerups(powerups, screen_width, screen_height, chance):
-    """
-    Spawns power-ups randomly on the screen with a 2% chance each frame.
-
-    Parameters:
-    powerups (list): The list to which new power-ups will be appended.
-    screen_width (int): The width of the screen where power-ups can spawn.
-    screen_height (int): The height of the screen where power-ups can spawn.
-    """
-
-    if chance == 1:
-        if random.randint(0, 100) < 1:  # 1% chance to spawn a power-up each frame
-            x = random.randint(0, screen_width - 20)
-            y = random.randint(0, screen_height - 20)
-            powerup_type = random.choice([SpeedBoost, Shield])
-            if len(powerups) < 3:
-                powerups.append(powerup_type(x, y))
-    elif chance == 2:
-        if random.randint(0, 200) < 1:  # 0,5% chance to spawn a power-up each frame
-            x = random.randint(0, screen_width - 20)
-            y = random.randint(0, screen_height - 20)
-            powerup_type = random.choice([ Despawner, Invisible])
-            if len(powerups) < 3:
-                powerups.append(powerup_type(x, y))
-        
 
 
 
-def handle_powerup_collisions(players, powerups, enemy_groups):
-    """
-    Handle collisions between players and power-ups, applying the power-up effects
-    and removing the power-up from the game once it has been used.
 
-    Args:
-        players (list): A list of player objects, each with a 'rect' attribute for collision detection.
-        powerups (list): A list of power-up objects, each with 'active' and 'rect' attributes, and
-                         'affect_game' or 'affect_player' methods.
-        enemy_groups (list): A list of enemy group objects, corresponding to each player.
-    """
-    # Iterate over a copy of the power-ups list to safely remove power-ups
-    for powerup in powerups[:]: 
-        if powerup.active:
-            # Check for collisions between players and power-ups
-            for player, enemy_group in zip(players, enemy_groups):
-                if player.rect.colliderect(powerup.rect):  # Ensure the right player gets the effect
-                    # Apply the power-up effect and remove the power-up from the game
-                    if isinstance(powerup, Despawner):
-                        powerup.affect_game(player, enemy_group)
-                    else:
-                        powerup.affect_player(player)
-                    powerup.active = False
-                    powerups.remove(powerup)
-                    break  # Exit loop once the power-up is handled

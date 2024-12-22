@@ -81,7 +81,7 @@ class Enemy(pygame.sprite.Sprite):
             if self.exploding_counter == 3*fps:
                 self.image = pygame.transform.scale(pygame.image.load("images/explosion.png").convert_alpha(),
                                                     (15, 15))  # change to explosion image
-            self.exploding_counter -= fps/2
+            self.exploding_counter -= fps
             if self.exploding_counter == 0:
                 self.explode(player)
 
