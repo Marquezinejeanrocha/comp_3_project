@@ -3,11 +3,33 @@ from config import *
 
 
 def shop(player, player2):
-    # creating the screen at 720x720 pixels
+    """
+    Displays the shop interface where players can upgrade their weapons and skins.
+
+    Args:
+        player (Player): The first player object.
+        player2 (Player): The second player object.
+
+    The shop interface allows players to:
+        - Upgrade their weapon power if they have enough coins.
+        - Upgrade their skin if they have enough coins.
+        - Return to the previous screen by clicking the back button.
+
+    The function handles:
+        - Displaying the shop UI elements such as background, buttons, and text.
+        - Detecting mouse hover and click events on the buttons.
+        - Updating player attributes based on their actions in the shop.
+        - Saving player data and quitting the game when the window is closed.
+
+    Note:
+        This function runs an infinite loop to keep the shop interface active until the player decides to return.
+    """
+    # creating the screen and setting the background
     screen = pygame.display.set_mode(resolution)
     background = pygame.image.load("ui/background.png")
     background = pygame.transform.scale(background, (width, height))
 
+    # loading the images
     store = pygame.image.load("ui/store.png")
 
     back = pygame.image.load("ui/back.png")
@@ -25,73 +47,60 @@ def shop(player, player2):
 
 
     # setting up the fonts
-    corbelfont = pygame.font.SysFont("Corbel", 50)
     conversation_font = pygame.font.SysFont("Arial", 30)
 
-    # setting my texts:
-    back_text = corbelfont.render("back", True, white)
+
     # Initializing costs outside the loop
     upgrade_cost_1 = 250
     upgrade_cost_2 = 250
     skin_cost_1 = 1000
     skin_cost_2 = 1000
 
-    # same old, same old while True loop
     while True:
 
+        # setting the background and the store image
         screen.blit(background, (0, 0))
         screen.blit(store, (115,95))
-
-        # screen.blit(weapon, (130, 540))
-        # screen.blit(weapon, (450, 540))
-
-        #screen.blit(skin, (230, 540))
-        #screen.blit(skin, (550, 540))
 
         # getting mouse position
         mouse = pygame.mouse.get_pos()
 
-        # print(mouse[0], mouse[1]) 155,310
-
+        # checking if the mouse is hovering over the buttons
+        #back button
         if 10 <= mouse[0] <= 10 + back_w and 10 <= mouse[1] <= 10 + back_h:
             # scaling the original back button
             screen.blit(back_hover, (10 - (back_hover_size[0] - back_w) // 2,
                                      10 - (back_hover_size[1] - back_h) // 2))
         else:
-            # if not hovering, then show the original back button
             screen.blit(back, (10, 10))
 
+        # weapon upgrade buttons
         if 130 <= mouse[0] <= 130 + weapon_w and 540 <= mouse[1] <= 540 + weapon_h:
-
             screen.blit(weapon_hover, (130 - (weapon_hover.get_width() - weapon_w) // 2,
                                      540 - (weapon_hover.get_height() - weapon_h) // 2))
         else:
-
             screen.blit(weapon, (130, 540))
 
         if 450 <= mouse[0] <= 450 + weapon_w and 540 <= mouse[1] <= 540 + weapon_h:
             screen.blit(weapon_hover, (450 - (weapon_hover.get_width() - weapon_w) // 2,
                                      540 - (weapon_hover.get_height() - weapon_h) // 2))
         else:
-            # if not hovering, then show the original back button
             screen.blit(weapon, (450, 540))
 
+        # skin upgrade buttons
         if 230 <= mouse[0] <= 230 + skin_w and 540 <= mouse[1] <= 540 + skin_h:
-
             screen.blit(skin_hover, (230 - (skin_hover.get_width() - skin_w) // 2,
                                        540 - (skin_hover.get_height() - skin_h) // 2))
         else:
-
             screen.blit(skin, (230, 540))
 
         if 550 <= mouse[0] <= 550 + skin_w and 540 <= mouse[1] <= 540 + skin_h:
-
             screen.blit(skin_hover, (550 - (skin_hover.get_width() - skin_w) // 2,
                                        540 - (skin_hover.get_height() - skin_h) // 2))
         else:
-
             screen.blit(skin, (550, 540))
 
+        # handling events
         for ev in pygame.event.get():
             if ev.type == pygame.QUIT:
                 player.save_player_data("save_player_data.json")
@@ -105,38 +114,39 @@ def shop(player, player2):
 
                 # Checking if the upgrade button for player 1 was clicked
                 if 130 <= mouse[0] <= 130+weapon_w and 540 <= mouse[1] <= 540+weapon_h:
+       
                     if player.coins >= upgrade_cost_1 and player.weapon_power <2:
                         player.coins -= upgrade_cost_1
                         player.weapon_power += 1
                         upgrade_cost_1 += 250  # Increase the cost for the next upgrade
 
-                # Checking if the upgrade button for player 2 was clicked
+                # Same for player 2
                 if 450 <= mouse[0] <= 450+weapon_w and 540 <= mouse[1] <= 540+weapon_h:
                     if player2.coins >= upgrade_cost_2 and player2.weapon_power < 2:
                         player2.coins -= upgrade_cost_2
                         player2.weapon_power += 1
                         upgrade_cost_2 += 250  # Increase the cost for the next upgrade
 
-                # Checking if the shield button for player 1 was clicked
+                # Checking if the skin button for player 1 was clicked
                 if 230 <= mouse[0] <= 230+skin_w and 540 <= mouse[1] <= 540+skin_h:
                     if player.coins >= skin_cost_1 and player.skin < 2:
                         player.coins -= skin_cost_1
                         player.skin += 1
-                        skin_cost_1 += 1000  # Increase the cost for the next shield
+                        skin_cost_1 += 1000  # Increase the cost for the next skin
 
-                # Checking if the shield button for player 2 was clicked
+                # Same for player 2
                 if 550 <= mouse[0] <= 550+skin_w and 540 <= mouse[1] <= 540+skin_h:
                     if player2.coins >= skin_cost_2 and player2.skin < 2:
                         player2.coins -= skin_cost_2
                         player2.skin += 1
-                        skin_cost_2 += 1000  # Increase the cost for the next shield
+                        skin_cost_2 += 1000  # Increase the cost for the next skin
 
 
         # Displaying the player's current weapon power
         weapon_power_text = conversation_font.render(f"Weapon: {player.weapon_power}", True, white)
         screen.blit(weapon_power_text, (155,300))
 
-        # Displaying the player's current shield
+        # Displaying the player's current skin
         skin_text = conversation_font.render(f"Skin: {player.skin}", True, white)
         screen.blit(skin_text, (155, 350))
 

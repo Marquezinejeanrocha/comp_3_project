@@ -2,6 +2,9 @@ import pygame
 
 
 class Wall(pygame.sprite.Sprite):
+    """
+    A class to represent the walls.
+    """
     TILE_SIZE = 36  # Define the size of each wall tile
 
     def __init__(self, x, y):
