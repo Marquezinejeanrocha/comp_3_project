@@ -177,7 +177,7 @@ def interface():
 
                 # Options button
                 if 505 <= mouse[0] <= 505 + option_w and 420 <= mouse[1] <= 420 + option_h:
-                    options()
+                    options(player, player2)
 
                 # Rules button
                 if 505 <= mouse[0] <= 505 + rules_w and 520 <= mouse[1] <= 520 + rules_h:
