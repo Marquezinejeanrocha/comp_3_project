@@ -5,6 +5,7 @@ from game import *
 from utils import *
 from store import shop
 from player import Player
+from sounds import interface_sound
 
 #creatting the player for the game
 controls_player1 = {
@@ -57,6 +58,9 @@ def interface():
 
     # Initialize Pygame
     pygame.init()
+
+    # Play the interface sound
+    interface_sound.play()
 
     # Create the game screen with the specified resolution
     screen = pygame.display.set_mode(resolution)
@@ -176,8 +180,9 @@ def interface():
                 if 105 <= mouse[0] <= 105 + credit_w and 520 <= mouse[1] <= 520 + credit_h:
                     credits_()
 
-                # Wilderness game button (Play button)
+                # Play button
                 if 280 <= mouse[0] <= 280 + play_w and 275 <= mouse[1] <= 275 + play_h:
+                    interface_sound.stop()
                     game_loop(player, player2)
 
                 # Shop button

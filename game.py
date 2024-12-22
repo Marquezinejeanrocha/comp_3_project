@@ -412,6 +412,7 @@ def pause_(player, player2):
                     return
                 # checking if the user clicked the exit button
                 if 270 <= mouse[0] <= 270 + exit_btn_w and 390 <= mouse[1] <= 390 + exit_btn_h:
+                    sounds.interface_sound.play()
                     player.respawn()
                     player2.respawn()
                     player.save_player_data("save_player_data.json")

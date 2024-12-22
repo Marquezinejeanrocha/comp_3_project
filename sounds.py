@@ -4,11 +4,13 @@ pygame.mixer.init()
 
 bullet_sound = pygame.mixer.Sound('sounds/singlebullet1.wav')
 background_sound = pygame.mixer.Sound('sounds/audio_comp.wav')
+interface_sound = pygame.mixer.Sound('sounds/interface_music.wav')
 
 
 volume = 0.5
 bullet_sound.set_volume(volume)
 background_sound.set_volume(volume)
+interface_sound.set_volume(volume)
 
 def adjust_volume(change):
     """

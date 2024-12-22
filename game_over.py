@@ -74,6 +74,7 @@ def game_over(player, player2):
                 player.respawn()
                 player2.respawn()
                 video_shown = True  # Update the variable to indicate that the video has been shown
+                sounds.interface_sound.play()
                 return "exit"
 
             # Convert the frame from BGR (OpenCV) to RGB (Pygame)
