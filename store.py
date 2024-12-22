@@ -26,7 +26,7 @@ def shop(player, player2):
     """
     # creating the screen and setting the background
     screen = pygame.display.set_mode(resolution)
-    background = pygame.image.load("ui/background.png")
+    background = pygame.image.load("ui/background_4.png")
     background = pygame.transform.scale(background, (width, height))
 
     # loading the images

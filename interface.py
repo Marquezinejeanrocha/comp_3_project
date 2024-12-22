@@ -66,11 +66,12 @@ def interface():
     screen = pygame.display.set_mode(resolution)
 
     # Load and scale the background image to fill the entire screen
-    background = pygame.image.load("ui/background.png")
+    background = pygame.image.load("ui/background_4.png")
     background = pygame.transform.scale(background, (width, height))
 
     # Load the game title image
-    game = pygame.image.load("ui/CHEST BUSTER.png")
+    game = pygame.image.load("ui/code_wars_3.png")
+
 
     # Load and scale the buttons and their hover effects
     play = pygame.image.load("ui/play.png")
@@ -114,15 +115,17 @@ def interface():
     while True:
         # Fill the screen with the background image
         screen.blit(background, (0, 0))
-        screen.blit(game, (160, 120))
+        screen.blit(game, (140, 30))
         mouse = pygame.mouse.get_pos()
 
         # Buttons with hover effect
-        if 280 <= mouse[0] <= 280 + play_w and 275 <= mouse[1] <= 275 + play_h:
-            screen.blit(play_hover, (280 - (play_hover_size[0] - play_w) // 2,
-                         275 - (play_hover_size[1] - play_h) // 2))
+        # Play button
+        if (width // 2 - play_w // 2) <= mouse[0] <= (width // 2 - play_w // 2) + play_w and (height // 2 + height // 6 - play_h // 2) <= mouse[1] <= (height // 2 + height // 6 - play_h // 2) + play_h:
+            screen.blit(play_hover, ((width // 2 - play_hover_size[0] // 2),
+             (height // 2 + height // 6 - play_hover_size[1] // 2)))
         else:
-            screen.blit(play, (280, 275))
+            screen.blit(play, (width // 2 - play_w // 2, height // 2 + height // 6 - play_h // 2))
+
         # Shop button
         if 105 <= mouse[0] <= 105 + shop_w and 420 <= mouse[1] <= 420 + shop_h:
             screen.blit(shop_hover, (105 - (shop_hover_size[0] - shop_w) // 2,
@@ -181,7 +184,7 @@ def interface():
                     credits_()
 
                 # Play button
-                if 280 <= mouse[0] <= 280 + play_w and 275 <= mouse[1] <= 275 + play_h:
+                if (width // 2 - play_w // 2) <= mouse[0] <= (width // 2 - play_w // 2) + play_w and (height // 2 + height // 6 - play_h // 2) <= mouse[1] <= (height // 2 + height // 6 - play_h // 2) + play_h:
                     interface_sound.stop()
                     game_loop(player, player2)
 
@@ -209,7 +212,7 @@ def credits_():
     - Quitting the game and saving player data.
     """
     # setting up the background
-    background = pygame.image.load("ui/background.png")
+    background = pygame.image.load("ui/background_4.png")
     background = pygame.transform.scale(background, (width, height))
 
     # loading the credits image
@@ -266,7 +269,7 @@ def rules_():
     """
 
     # setting up the background
-    background = pygame.image.load("ui/background.png")
+    background = pygame.image.load("ui/background_4.png")
     background = pygame.transform.scale(background, (width, height))
 
     # loading the rules image
