@@ -6,7 +6,7 @@ from pygame.sprite import Sprite
 class Chest(pygame.sprite.Sprite):
     TILE_SIZE = 32
 
-    def __init__(self, x, y, life=50):
+    def __init__(self, x, y, life=150):
         '''
         Initializes a chest object with specified position and life.
 

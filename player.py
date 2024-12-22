@@ -3,8 +3,8 @@ from config import *
 import pygame
 import math
 from bullet import Bullet
-from Powerups.powerup import PowerUp
-from Powerups.invencibility import Invencibility
+#from Powerups.powerup import PowerUp
+#from Powerups.invencibility import Invencibility
 import json
 
 
@@ -337,5 +337,6 @@ class Player(pygame.sprite.Sprite):
         self.weapon_power = 0
         self.coins = 0
         self.skin = 0
+        self.save_player_data("save_player_data.json")
 
 

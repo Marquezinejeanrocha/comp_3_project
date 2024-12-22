@@ -53,8 +53,8 @@ class Enemy(pygame.sprite.Sprite):
         # setting a random initial speed for the enemy
         self.speed = random.randint(1, 3)
 
-        # setting the health bar
-        self.health = 10
+        # setting the health of the enemy
+        self.health = 25
 
         # setting the counter for the explosion animation
         self.exploding_counter = 3 * fps

@@ -59,13 +59,14 @@ def interface():
     # Initialize Pygame
     pygame.init()
 
-    # Play the interface sound
-    interface_sound.play()
-
     # Create the game screen with the specified resolution
     screen = pygame.display.set_mode(resolution)
 
-    # Load and scale the background image to fill the entire screen
+
+    # Play the interface sound
+    interface_sound.play()
+
+    # Load the background image
     background = pygame.image.load("ui/background_4.png")
     background = pygame.transform.scale(background, (width, height))
 

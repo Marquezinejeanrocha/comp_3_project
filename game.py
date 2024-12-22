@@ -125,10 +125,10 @@ def execute_game(player1, player2):
 
         # Load the destroyer image
         destroyer_image = pygame.image.load("images/boss.png")
-        destroyer_image = pygame.transform.scale(destroyer_image, (70, 70))
+        destroyer_image = pygame.transform.scale(destroyer_image, (80, 80))
 
         # Draw the destroyer image
-        screen.blit(destroyer_image, (335, 300))
+        screen.blit(destroyer_image, (335, 340))
 
         # Showing the walls on the screen
         wall_group.draw(screen)
@@ -224,17 +224,18 @@ def execute_game(player1, player2):
         enemies2.update(player2)
 
         # powerup handling
-        spawn_powerups(powerups, 500, 500)
+        spawn_powerups(powerups, 500, 500, 1)
+        spawn_powerups(powerups, 500, 500, 2)
         handle_powerup_collisions([player1, player2], powerups, [enemies1, enemies2])
 
          # Draw health bar above the chests (destroyers)
         for chest in chest_group:
             health_bar_height = 6
-            health_percentage = chest.life / 50
-            health_bar_fill = 40 * health_percentage
+            health_percentage = chest.life / 150
+            health_bar_fill = chest.rect.width * health_percentage
 
             health_bar_rect = pygame.Rect(
-                chest.rect.x ,
+                chest.rect.x,
                 chest.rect.y - health_bar_height - 2,
                 health_bar_fill,
                 health_bar_height
@@ -322,7 +323,7 @@ def execute_game(player1, player2):
             chest.update(player1_group)
             chest.update(player2_group)
 
-        destroyer_rect = destroyer_image.get_rect(topleft=(335, 300))
+        destroyer_rect = destroyer_image.get_rect(topleft=(335, 340))
 
         if destroyer_rect.colliderect(player1.rect) and player1.has_key:
             # if the player collided with the boss, we will return to the game over screen
@@ -362,7 +363,7 @@ def pause_(player, player2):
     screen = pygame.display.set_mode(resolution)
 
     # setting up the background
-    background = pygame.image.load("ui/background_2.png")
+    background = pygame.image.load("ui/background_4.png")
     background = pygame.transform.scale(background, (width, height))
 
     # loading the pause image

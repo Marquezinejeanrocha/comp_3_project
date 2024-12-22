@@ -48,6 +48,7 @@ def shop(player, player2):
 
     # setting up the fonts
     conversation_font = pygame.font.SysFont("Arial", 30)
+    small_font = pygame.font.SysFont("Arial", 15)
 
 
     # Initializing costs outside the loop
@@ -144,27 +145,55 @@ def shop(player, player2):
 
         # Displaying the player's current weapon power
         weapon_power_text = conversation_font.render(f"Weapon: {player.weapon_power}", True, white)
-        screen.blit(weapon_power_text, (155,300))
+        screen.blit(weapon_power_text, (155, 300))
+
+        # Displaying the cost of the next upgrade for player 1
+        if player.weapon_power < 2:
+            upgrade_cost_text = small_font.render(f"Price: {upgrade_cost_1} $", True, white)
+        else:
+            upgrade_cost_text = small_font.render("Fully upgraded", True, white)
+        screen.blit(upgrade_cost_text, (155, 340))
 
         # Displaying the player's current skin
         skin_text = conversation_font.render(f"Skin: {player.skin}", True, white)
-        screen.blit(skin_text, (155, 350))
+        screen.blit(skin_text, (155, 370))
+
+        # Displaying the cost of the next skin upgrade for player 1
+        if player.skin < 2:
+            skin_cost_text = small_font.render(f"Price: {skin_cost_1} $", True, white)
+        else:
+            skin_cost_text = small_font.render("Fully upgraded", True, white)
+        screen.blit(skin_cost_text, (155, 415))
 
         # Displaying the player's current coins
         coins_text = conversation_font.render(f"Coins: {player.coins}", True, white)
-        screen.blit(coins_text, (155, 400))
+        screen.blit(coins_text, (155, 440))
 
         # Displaying player 2's current weapon power
         weapon_power_text_2 = conversation_font.render(f"Weapon: {player2.weapon_power}", True, white)
-        screen.blit(weapon_power_text_2, (480,300))
+        screen.blit(weapon_power_text_2, (480, 300))
 
-        # Displaying player 2's current shield
+        # Displaying the cost of the next upgrade for player 2
+        if player2.weapon_power < 2:
+            upgrade_cost_text_2 = small_font.render(f"Price: {upgrade_cost_2} $", True, white)
+        else:
+            upgrade_cost_text_2 = small_font.render("Fully upgraded", True, white)
+        screen.blit(upgrade_cost_text_2, (480, 340))
+
+        # Displaying player 2's current skin
         skin_text_2 = conversation_font.render(f"Skin: {player2.skin}", True, white)
-        screen.blit(skin_text_2, (480, 350))
+        screen.blit(skin_text_2, (480, 370))
+
+        # Displaying the cost of the next skin upgrade for player 2
+        if player2.skin < 2:
+            skin_cost_text_2 = small_font.render(f"Price: {skin_cost_2} $", True, white)
+        else:
+            skin_cost_text_2 = small_font.render("Fully upgraded", True, white)
+        screen.blit(skin_cost_text_2, (480, 415))
 
         # Displaying player 2's current coins
         coins_text_2 = conversation_font.render(f"Coins: {player2.coins}", True, white)
-        screen.blit(coins_text_2, (480, 400))
+        screen.blit(coins_text_2, (480, 440))
 
         # finally, as always, updating our screen
         pygame.display.update()

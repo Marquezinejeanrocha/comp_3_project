@@ -29,3 +29,4 @@ def adjust_volume(change):
         
     bullet_sound.set_volume(volume)
     background_sound.set_volume(volume)
+    interface_sound.set_volume(volume)

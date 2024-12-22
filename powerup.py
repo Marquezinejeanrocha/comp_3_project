@@ -133,7 +133,7 @@ class Invisible(PowerUp):
 
 
 
-def spawn_powerups(powerups, screen_width, screen_height):
+def spawn_powerups(powerups, screen_width, screen_height, chance):
     """
     Spawns power-ups randomly on the screen with a 2% chance each frame.
 
@@ -142,12 +142,22 @@ def spawn_powerups(powerups, screen_width, screen_height):
     screen_width (int): The width of the screen where power-ups can spawn.
     screen_height (int): The height of the screen where power-ups can spawn.
     """
-    if random.randint(0, 200) < 1:  # 2% chance to spawn a power-up each frame
-        x = random.randint(0, screen_width - 20)
-        y = random.randint(0, screen_height - 20)
-        powerup_type = random.choice([SpeedBoost, Shield, Despawner, Invisible])
-        if len(powerups) < 3:
-            powerups.append(powerup_type(x, y))
+
+    if chance == 1:
+        if random.randint(0, 100) < 1:  # 1% chance to spawn a power-up each frame
+            x = random.randint(0, screen_width - 20)
+            y = random.randint(0, screen_height - 20)
+            powerup_type = random.choice([SpeedBoost, Shield])
+            if len(powerups) < 3:
+                powerups.append(powerup_type(x, y))
+    elif chance == 2:
+        if random.randint(0, 200) < 1:  # 0,5% chance to spawn a power-up each frame
+            x = random.randint(0, screen_width - 20)
+            y = random.randint(0, screen_height - 20)
+            powerup_type = random.choice([ Despawner, Invisible])
+            if len(powerups) < 3:
+                powerups.append(powerup_type(x, y))
+        
 
 
 
@@ -176,5 +186,3 @@ def handle_powerup_collisions(players, powerups, enemy_groups):
                     powerup.active = False
                     powerups.remove(powerup)
                     break  # Exit loop once the power-up is handled
-
-
