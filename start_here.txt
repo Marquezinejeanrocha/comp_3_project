@@ -1,0 +1,24 @@
+THE GAME:
+
+The galaxy is being governed by the empire, which has several destroyers and a mother-ship, which is in the center. The only way to destroy this ship is to find a bomb, which is randomly on one of the destroyers. The objective of the game is to find this bomb and destroy the mother-ship, saving the galaxy.
+
+This game is multiplayer, so two ships compete to see who will gain control over the galaxy. 
+
+Be careful with enemy ships and take advantage of the power-ups, using planets, if necessary, to repair your ship.
+
+
+CLARIFICATION:
+
+In this game there is a video, which requires the OpenCV library to work. To do this, import OpenCV using the command:
+pip install pygame opencv-python
+
+As previously mentioned (several times) with Professor Diogo, the treasure chests mentioned in the project description were changed, in our game, to several chests (destroyers) that randomly have a key (bomb) to win the game. As was made clear from the beginning, through the conversations we had with the professor, we would not suffer a penalty for this change, so if we did the task (which we did), we would meet all the necessary requirements to fulfill the “Treasure Chests” topic.
+
+Due to lack of space, the work without images and video will be made available in Moodle. As advised by professors, the full version can be found in the GitHub repository
+
+
+GITHUB REPOSITORY:
+ Our GitHub repository can be find on this link: 
+
+ https://github.com/Marquezinejeanrocha/comp_3_project.git
+
